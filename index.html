@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Base Real Estate" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="theme-color" content="#1B2A41" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <!-- Local SEO geo tags -->
+  <meta name="geo.region" content="US-CA" />
+  <meta name="geo.placename" content="Orange County, California" />
+  <meta name="geo.position" content="33.7175;-117.8311" />
+  <meta name="ICBM" content="33.7175, -117.8311" />
+
+  <!--
+    Google Search Console verification is injected at build time from the
+    GOOGLE_SITE_VERIFICATION environment variable (see vite.config.ts).
+    Don't hard-code it here.
+  -->
+
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <!--
+    Bodoni Moda carries the display voice — it is the closest widely-available
+    match to the high-contrast didone in the BASE wordmark. Jost handles body
+    copy and the wide-tracked uppercase labels. Only the weights actually used
+    are requested; adding more costs render-blocking bytes for nothing.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
+
+  <meta property="og:site_name" content="Base Real Estate" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!--
+    Site-wide entity graph. Page-level metadata (title, description, canonical,
+    OG/Twitter, Article/FAQ/Breadcrumb schema) is owned by src/hooks/useSEO.tsx
+    and injected into the app-head placeholder below during prerendering. Do
+    not duplicate page-level tags here.
+
+    Pre-launch items for this file — aggregateRating, hasCredential,
+    parentOrganization, and the domain in every @id — are tracked in
+    docs/PRODUCTION_SEO_CHECKLIST.md and src/config/site.ts. Kept out of this
+    comment because it is served to every visitor.
+  -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://www.baserealestate.com/#website",
+          "url": "https://www.baserealestate.com/",
+          "name": "Base Real Estate",
+          "inLanguage": "en-US",
+          "publisher": { "@id": "https://www.baserealestate.com/#real-estate-agent" }
+        },
+        {
+          "@type": ["RealEstateAgent", "LocalBusiness"],
+          "@id": "https://www.baserealestate.com/#real-estate-agent",
+          "name": "Base Real Estate",
+          "alternateName": "Base Real Estate — Sam Elsherif",
+          "description": "Orange County real estate advisor. Bassam \"Sam\" Elsherif helps buyers, sellers, and investors across Orange County, California, starting every relationship by making sure the client understands the decision in front of them. Knowledge transfer, real estate consulting, home purchase and sale, and investor assistance.",
+          "url": "https://www.baserealestate.com/",
+          "telephone": "+1-949-945-8225",
+          "email": "sam.elsherif@gmail.com",
+          "image": "https://www.baserealestate.com/og/base-og.jpg",
+          "logo": "https://www.baserealestate.com/base/wordmark-navy.png",
+          "slogan": "Where the right move begins.",
+          "address": {
+            "@type": "PostalAddress",
+            "addressRegion": "CA",
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.7175,
+            "longitude": -117.8311
+          },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "08:00",
+              "closes": "19:00"
+            }
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Real Estate Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Knowledge Transfer",
+                  "description": "A plain-language walkthrough of how a real estate transaction actually works — financing, contingencies, timelines, and cost — so the client can make the decision themselves. No obligation to transact."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Real Estate Consulting",
+                  "description": "Property-specific strategy analysis: hold, sell, refinance, or wait, worked through against current Orange County market data."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Home Purchase Representation",
+                  "description": "Buyer representation through search, offer strategy, negotiation, inspection, and close across Orange County."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Home Sale Representation",
+                  "description": "Listing representation with pricing built from comparable sales evidence, property preparation, and negotiation held through appraisal and inspection."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Investor Assistance",
+                  "description": "Investment property underwriting — cash-flow and carrying-cost modelling, neighbourhood rent context, and exit strategy — before any property tour."
+                }
+              }
+            ]
+          },
+          "areaServed": [
+            { "@type": "AdministrativeArea", "name": "Orange County, CA" },
+            { "@type": "City", "name": "Newport Beach", "containedInPlace": { "@type": "State", "name": "California" } },
+            { "@type": "City", "name": "Irvine" },
+            { "@type": "City", "name": "Costa Mesa" },
+            { "@type": "City", "name": "Huntington Beach" },
+            { "@type": "City", "name": "North Tustin" },
+            { "@type": "City", "name": "Orange" },
+            { "@type": "City", "name": "Santa Ana" },
+            { "@type": "City", "name": "Anaheim" },
+            { "@type": "City", "name": "Corona Del Mar" },
+            { "@type": "City", "name": "Laguna Beach" }
+          ],
+          "employee": [{ "@id": "https://www.baserealestate.com/#sam-elsherif" }]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://www.baserealestate.com/#sam-elsherif",
+          "name": "Bassam Elsherif",
+          "alternateName": "Sam Elsherif",
+          "givenName": "Bassam",
+          "familyName": "Elsherif",
+          "jobTitle": "REALTOR®",
+          "description": "Orange County REALTOR® and founder of Base Real Estate, working with buyers, sellers, and investors across Orange County, California.",
+          "image": "https://www.baserealestate.com/base/sam-portrait.jpg",
+          "url": "https://www.baserealestate.com/",
+          "telephone": "+1-949-945-8225",
+          "email": "sam.elsherif@gmail.com",
+          "knowsAbout": [
+            "Orange County real estate",
+            "First-time home buyer education",
+            "Residential home sales",
+            "Real estate consulting",
+            "Investment property analysis"
+          ],
+          "worksFor": { "@id": "https://www.baserealestate.com/#real-estate-agent" },
+          "areaServed": { "@type": "AdministrativeArea", "name": "Orange County, CA" }
+        }
+      ]
+    }
+  </script>
+  <!--app-head-->
+</head>
+<body>
+  <div id="root"><!--app-html--></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

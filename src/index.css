@@ -1,0 +1,594 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* Motion tokens. Kept as custom properties so the reduced-motion block
+       can neutralise every one of them in a single place. */
+    --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+    --dur-feedback: 140ms;
+    --dur-state: 260ms;
+    --dur-view: 440ms;
+    --dur-focal: 760ms;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* The fixed bar is 68–92px; anchors land under it without this. */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    @apply bg-white text-ink font-sans text-body;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+    font-weight: 400;
+    /* Keeps two-line display headings from dropping one orphaned word. */
+    text-wrap: balance;
+  }
+
+  h4, h5, h6 {
+    @apply font-sans;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /*
+   * Bodoni's hairlines shimmer under subpixel rendering at display sizes.
+   * Grayscale smoothing keeps the thin strokes even.
+   */
+  .font-display {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- Browser surfaces -------------------------------------------------
+     The parts we did not draw still carry the design. Every one of these
+     ships with a default that belongs to no design system.
+  --------------------------------------------------------------------- */
+
+  ::selection {
+    background-color: #1b2a41;
+    color: #faf7f0;
+  }
+
+  html {
+    caret-color: #b08d57;
+    scrollbar-color: #c3ccda #ffffff;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #c3ccda;
+    border: 3px solid #ffffff;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7386a3;
+  }
+
+  /* One focus ring for the whole surface, in the brand's gold, visible on
+     both the white and the navy grounds. */
+  :focus-visible {
+    outline: 2px solid #b08d57;
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+  .on-navy :focus-visible {
+    outline-color: #d6bc9b;
+  }
+
+  /* Figures line up in the market table and the stat rows. */
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+}
+
+@layer components {
+  /* --- Layout shell ---------------------------------------------------- */
+  .shell {
+    @apply mx-auto w-full max-w-shell px-gutter;
+  }
+
+  /* --- The gold hairline. The brand's one signature device. ------------
+     Used as a structural mark — under a figure, beside a quote, closing a
+     section — never as decoration above a heading.
+  --------------------------------------------------------------------- */
+  .rule {
+    @apply block h-px w-10 bg-gold;
+    transform-origin: left center;
+  }
+  .rule-center {
+    transform-origin: center;
+  }
+
+  /* --- Tracked label. Controls, table headers, form labels, metadata.
+     Never a kicker above a heading — the heading carries its own weight.
+  --------------------------------------------------------------------- */
+  .label {
+    @apply font-sans text-label uppercase;
+    font-weight: 500;
+  }
+
+  /* --- Actions --------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-3 px-9 py-[1.15rem]
+           font-sans text-label uppercase transition-all;
+    font-weight: 500;
+    transition-duration: var(--dur-state);
+    transition-timing-function: var(--ease-brand);
+  }
+
+  .btn-primary {
+    @apply btn bg-navy text-cream;
+  }
+  .btn-primary:hover {
+    @apply bg-navy-900;
+    box-shadow: inset 0 0 0 1px rgba(176, 141, 87, 0.55);
+  }
+
+  .btn-outline {
+    @apply btn text-ink;
+    box-shadow: inset 0 0 0 1px rgba(27, 42, 65, 0.22);
+  }
+  .btn-outline:hover {
+    @apply bg-navy text-cream;
+    box-shadow: inset 0 0 0 1px rgba(27, 42, 65, 1);
+  }
+
+  .btn-cream {
+    @apply btn bg-cream text-navy;
+  }
+  .btn-cream:hover {
+    @apply bg-white;
+  }
+
+  .btn-outline-light {
+    @apply btn text-cream;
+    box-shadow: inset 0 0 0 1px rgba(250, 247, 240, 0.35);
+  }
+  .btn-outline-light:hover {
+    @apply bg-cream text-navy;
+    box-shadow: inset 0 0 0 1px rgba(250, 247, 240, 1);
+  }
+
+  /* --- Text link with a gold underline that grows from the left --------- */
+  .link-rule {
+    @apply relative inline-flex items-center gap-3 text-ink;
+    font-weight: 400;
+  }
+  .link-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.35em;
+    height: 1px;
+    width: 100%;
+    background: #b08d57;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--dur-state) var(--ease-brand);
+  }
+  .link-rule:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* --- Form fields. Hairline underline, not a box. --------------------- */
+  .field {
+    @apply w-full border-0 border-b border-navy/20 bg-transparent pb-3 pt-1
+           font-sans text-[1rem] text-ink transition-colors
+           placeholder:text-navy-400/70 focus:border-gold focus:outline-none;
+    font-weight: 300;
+    transition-duration: var(--dur-state);
+  }
+  /* The underline is the field; a ring around it would double-mark focus. */
+  .field:focus-visible {
+    outline: none;
+    box-shadow: 0 1px 0 0 #b08d57;
+  }
+  .field-error {
+    @apply border-b-red-400/70;
+  }
+
+  .field-select {
+    @apply cursor-pointer appearance-none pr-8;
+  }
+  .field-select option {
+    @apply bg-white text-ink;
+  }
+}
+
+@layer utilities {
+  /* Fine cream weave, for breaking up large flat panels without adding noise. */
+  .texture-linen {
+    background-image:
+      linear-gradient(rgba(27, 42, 65, 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(27, 42, 65, 0.022) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Hairline separators that read as drawn rules rather than borders. */
+  .hairline-t {
+    border-top: 1px solid rgba(27, 42, 65, 0.12);
+  }
+  .hairline-b {
+    border-bottom: 1px solid rgba(27, 42, 65, 0.12);
+  }
+  .hairline-t-light {
+    border-top: 1px solid rgba(250, 247, 240, 0.14);
+  }
+}
+
+/* --- Article prose ---------------------------------------------------------
+   Editorial styling for Markdown-rendered article bodies. Deliberately plain,
+   fully-visible HTML (no reveal animations) so prerendered output is directly
+   readable by crawlers and answer engines that never execute JavaScript.
+--------------------------------------------------------------------------- */
+.prose-base {
+  @apply font-sans text-navy-600;
+  font-size: 1.0625rem;
+  font-weight: 300;
+  line-height: 1.85;
+}
+
+.prose-base > * + * {
+  margin-top: 1.6rem;
+}
+
+.prose-base h2 {
+  @apply font-display text-d-block text-ink;
+  font-weight: 500;
+  margin-top: 3.75rem;
+  margin-bottom: 1.25rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid rgba(27, 42, 65, 0.1);
+  scroll-margin-top: 6rem;
+}
+
+.prose-base h3 {
+  @apply font-display text-d-item text-ink;
+  font-weight: 500;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  scroll-margin-top: 6rem;
+}
+
+.prose-base h4 {
+  @apply label text-ink;
+  margin-top: 2rem;
+  margin-bottom: 0.6rem;
+  scroll-margin-top: 6rem;
+}
+
+.prose-base p {
+  margin-bottom: 1.6rem;
+}
+
+.prose-base strong {
+  @apply text-ink;
+  font-weight: 500;
+}
+
+.prose-base a {
+  @apply text-ink;
+  font-weight: 400;
+  text-decoration: underline;
+  text-decoration-color: #b08d57;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color var(--dur-state) ease;
+}
+
+.prose-base a:hover {
+  @apply text-gold-600;
+}
+
+.prose-base ul,
+.prose-base ol {
+  margin: 1.75rem 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose-base ul > li,
+.prose-base ol > li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.9rem;
+}
+
+.prose-base ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.78em;
+  width: 14px;
+  height: 1px;
+  background-color: #b08d57;
+}
+
+.prose-base ol {
+  counter-reset: prose-counter;
+}
+
+.prose-base ol > li {
+  counter-increment: prose-counter;
+}
+
+.prose-base ol > li::before {
+  content: counter(prose-counter, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  @apply font-display text-gold;
+  font-weight: 500;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.prose-base li > ul,
+.prose-base li > ol {
+  margin: 0.75rem 0 0;
+}
+
+.prose-base blockquote {
+  @apply bg-cream;
+  margin: 2.75rem 0;
+  padding: 2rem 2.25rem;
+  border-left: 1px solid #b08d57;
+}
+
+.prose-base blockquote p {
+  @apply font-display text-d-block italic text-ink;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.prose-base blockquote p + p {
+  @apply label not-italic font-sans text-navy-400;
+  margin-top: 1rem;
+}
+
+.prose-table-wrap {
+  margin: 2.75rem 0;
+  overflow-x: auto;
+  border: 1px solid rgba(27, 42, 65, 0.1);
+}
+
+.prose-base table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  min-width: 34rem;
+}
+
+.prose-base thead {
+  @apply bg-navy text-cream;
+}
+
+.prose-base th {
+  @apply label text-left;
+  padding: 1rem;
+  white-space: nowrap;
+}
+
+.prose-base td {
+  padding: 0.9rem 1rem;
+  border-top: 1px solid rgba(27, 42, 65, 0.08);
+  vertical-align: top;
+}
+
+.prose-base tbody tr:nth-child(even) {
+  @apply bg-cream/60;
+}
+
+.prose-base td:first-child {
+  @apply text-ink;
+  font-weight: 500;
+}
+
+.prose-base hr {
+  margin: 3.25rem 0;
+  border: 0;
+  border-top: 1px solid rgba(27, 42, 65, 0.1);
+}
+
+.prose-base img {
+  width: 100%;
+  height: auto;
+  margin: 2.75rem 0;
+}
+
+.prose-base code {
+  @apply bg-cream font-sans text-ink;
+  font-weight: 400;
+  padding: 0.15em 0.45em;
+  font-size: 0.9em;
+}
+
+/* The FAQ block closing each post — visually separated, schema-mirrored. */
+.prose-base h2#frequently-asked-questions {
+  @apply bg-navy text-cream;
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  padding: 2.25rem 1.5rem;
+  border-top: 0;
+}
+
+@media (min-width: 768px) {
+  .prose-base h2#frequently-asked-questions {
+    margin-left: -2.5rem;
+    margin-right: -2.5rem;
+    padding: 2.5rem;
+  }
+}
+
+/* --- Scroll-entry motion ----------------------------------------------------
+   Driven by data attributes that src/components/Reveal.tsx sets at runtime.
+   Nothing here applies to server-rendered markup, so the prerendered document
+   is fully visible to crawlers that never execute JavaScript.
+
+   Four variants, because one identical entrance on every section is what made
+   the previous build read flat. Each is matched to what the element is.
+--------------------------------------------------------------------------- */
+
+[data-reveal="pending"] {
+  opacity: 0;
+}
+
+/* Already on screen when the script ran — visible, and never animated. */
+[data-reveal="shown"] {
+  opacity: 1;
+}
+
+[data-reveal="in"] {
+  opacity: 1;
+  transition:
+    opacity var(--dur-view) var(--ease-brand) var(--reveal-delay, 0ms),
+    transform var(--dur-view) var(--ease-brand) var(--reveal-delay, 0ms),
+    filter var(--dur-view) var(--ease-brand) var(--reveal-delay, 0ms);
+}
+
+/*
+ * IMPORTANT: a hidden state must never collapse the element's own box.
+ *
+ * The first version hid rows with `clip-path: inset(0 0 100% 0)`. Intersection
+ * observation accounts for clipping, so those elements reported
+ * `isIntersecting: false` while sitting in the middle of the viewport, and the
+ * observer that was supposed to reveal them could never fire. A reveal that
+ * prevents its own trigger.
+ *
+ * So every hidden state below uses opacity, transform, and filter only — none
+ * of which change the box used for intersection. `frame` is the one exception,
+ * and it transforms a child rather than the observed element.
+ */
+
+/* Prose and supporting blocks — the quiet default. */
+[data-reveal-variant="settle"][data-reveal="pending"] {
+  transform: translateY(14px);
+}
+[data-reveal-variant="settle"][data-reveal="in"] {
+  transform: none;
+}
+
+/* Editorial list rows — resolve into focus, staggered down the list. */
+[data-reveal-variant="row"][data-reveal="pending"] {
+  transform: translateY(10px);
+  filter: blur(4px);
+}
+[data-reveal-variant="row"][data-reveal="in"] {
+  transform: none;
+  filter: blur(0);
+}
+
+/* Framed photography — opens from a slight overscale inside a fixed frame, so
+   the crop stays put and only the image settles. The transform is on the child,
+   which leaves the observed element's own box untouched. */
+[data-reveal-variant="frame"] > * {
+  transition: transform var(--dur-focal) var(--ease-brand);
+}
+[data-reveal-variant="frame"][data-reveal="pending"] > * {
+  transform: scale(1.06);
+}
+[data-reveal-variant="frame"][data-reveal="in"] > * {
+  transform: scale(1);
+}
+
+/* --- The authored moment ----------------------------------------------------
+   A gold hairline sweeps across the headline and the words resolve behind it.
+   The same hairline that underlines the BASE wordmark, drawing the sentence.
+   Used once, on the hero, above the fold.
+--------------------------------------------------------------------------- */
+
+.headline-draw {
+  position: relative;
+  display: inline-block;
+}
+
+.headline-draw[data-draw="pending"] {
+  clip-path: inset(0 100% 0 0);
+}
+
+.headline-draw[data-draw="in"] {
+  clip-path: inset(0 -0.12em 0 0);
+  transition: clip-path var(--dur-focal) var(--ease-brand) var(--draw-delay, 0ms);
+}
+
+/* The hairline riding the leading edge of the wipe. */
+.headline-draw::after {
+  content: "";
+  position: absolute;
+  top: -0.06em;
+  bottom: -0.06em;
+  width: 1px;
+  background: #b08d57;
+  opacity: 0;
+}
+
+.headline-draw[data-draw="pending"]::after {
+  left: 0;
+  opacity: 1;
+}
+
+.headline-draw[data-draw="in"]::after {
+  left: 100%;
+  opacity: 0;
+  transition:
+    left var(--dur-focal) var(--ease-brand) var(--draw-delay, 0ms),
+    opacity 200ms linear calc(var(--draw-delay, 0ms) + var(--dur-focal) - 180ms);
+}
+
+/* --- Reduced motion --------------------------------------------------------
+   Movement is removed; opacity, colour, and state feedback are preserved so
+   an action still visibly registers.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-focal: 1ms;
+    --dur-view: 1ms;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-marquee,
+  .animate-rule-draw {
+    animation: none;
+  }
+
+  /* Anything that reveals by clipping must end fully open. Reduced motion
+     means less movement, not hidden content. */
+  [data-reveal],
+  [data-reveal-variant="frame"] > *,
+  .headline-draw {
+    clip-path: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  .headline-draw::after {
+    display: none;
+  }
+}

@@ -22,20 +22,51 @@ const CREAM = { r: 0xfa, g: 0xf7, b: 0xf0 };
 
 const brandSrc = (name) => path.join(SRC, "base logo and branding", name);
 
-/** Must stay in sync with AREA.cities in src/config/site.ts. */
-const CITY_SLUGS = [
-    "newport-beach",
-    "irvine",
-    "costa-mesa",
-    "huntington-beach",
-    "north-tustin",
-    "orange",
-    "santa-ana",
-    "anaheim",
+/**
+ * Cities with a licensed photograph of that actual place.
+ *
+ * Must stay in sync with the non-null `photo` entries in AREA.cities
+ * (src/config/site.ts). A slug only belongs here once a real photograph of
+ * that city exists — see the note on City.photo for why a stand-in is not an
+ * acceptable substitute.
+ */
+const CITY_SLUGS = ["newport-beach", "laguna-beach", "dana-point", "huntington-beach"];
+
+/** Base names of the property photography in assets/renders/photography/services. */
+const PROPERTY_PHOTOS = ["hero", "buy", "sell", "cta", "aerial"];
+
+/**
+ * Interior and architectural detail shots used as section imagery.
+ *
+ * Keep in sync with EDITORIAL in src/config/site.ts.
+ */
+const EDITORIAL_PHOTOS = [
+    "entry",
+    "living",
+    "kitchen",
+    "facade",
+    "bluff",
+    "terrace",
+    "water",
+    "coastline",
 ];
 
-/** Base names of the property renders in assets/renders/services-source. */
-const PROPERTY_PHOTOS = ["hero", "buy", "sell", "cta", "aerial"];
+const PHOTO_SRC = path.join(RENDERS, "photography");
+
+/**
+ * Resolves a source photograph regardless of the extension it arrived with.
+ *
+ * Stock originals come down as JPEG, earlier renders were PNG, and curated
+ * exports were WebP. The pipeline does not care which — it re-encodes
+ * everything — so it should not force the source to be renamed.
+ */
+const findSource = (dir, name) => {
+    for (const ext of [".jpg", ".jpeg", ".png", ".webp"]) {
+        const candidate = path.join(dir, `${name}${ext}`);
+        if (existsSync(candidate)) return candidate;
+    }
+    return null;
+};
 
 const kb = (bytes) => `${(bytes / 1024).toFixed(0)}KB`;
 const mb = (bytes) => `${(bytes / 1048576).toFixed(1)}MB`;
@@ -139,27 +170,75 @@ async function portrait(srcFile, base, size) {
  * public/: they used to sit under public/neighborhoods/ beside the derived
  * files, which put ~100 MB of source imagery into the production deploy.
  */
+/**
+ * Full-bleed 16:9 slides for the homepage hero rotation.
+ *
+ * Cropped to an explicit aspect rather than resized to a width, because the
+ * sources are a mix of portrait and landscape frames. Resizing by width alone
+ * let a portrait original become a 2560x3800 slide — several megabytes to
+ * deliver a band the layout crops to 16:9 anyway.
+ *
+ * Cropping is per-slug, because the automatic strategies both fail here in
+ * opposite ways. `attention` chases visual busyness — on the Dana Point
+ * frame it picked a wall of moored hulls with no horizon, which reads as
+ * clutter rather than a harbour. `centre` on the same portrait frame lands in
+ * empty sky. So a slug may instead give `focus`, the fraction of the source
+ * height the crop band should be centred on, and the band is extracted
+ * explicitly before resizing.
+ */
+const HERO_CROP = {
+    "newport-beach": { position: sharp.strategy.attention },
+    // Horizon sits at ~0.62 in this frame; centring there keeps the
+    // breakwater and open water above the marina.
+    "dana-point": { focus: 0.72 },
+};
+
+/**
+ * Crops `source` to `width`x`height`, honouring an explicit vertical focus.
+ *
+ * With `focus`, a full-width band of the target aspect is extracted around
+ * that fraction of the source height (clamped to the image) and then resized.
+ * Without it this is an ordinary cover resize.
+ */
+async function cropTo(source, width, height, crop = {}) {
+    const pipeline = sharp(source);
+
+    if (typeof crop.focus === "number") {
+        const meta = await pipeline.metadata();
+        const bandHeight = Math.min(meta.height, Math.round((meta.width * height) / width));
+        const top = Math.max(0, Math.min(meta.height - bandHeight, Math.round(meta.height * crop.focus - bandHeight / 2)));
+        pipeline.extract({ left: 0, top, width: meta.width, height: bandHeight });
+    }
+
+    return pipeline.resize(width, height, {
+        fit: "cover",
+        position: crop.position ?? "centre",
+        kernel: sharp.kernel.lanczos3,
+    });
+}
+
 async function heroPhotos() {
-    const sourceDir = path.join(RENDERS, "neighborhoods-curated");
+    const sourceDir = path.join(PHOTO_SRC, "cities");
     const outDir = path.join(PUBLIC, "neighborhoods/hero");
     await mkdir(outDir, { recursive: true });
 
     let total = 0;
 
     for (const slug of CITY_SLUGS) {
-        const source = path.join(sourceDir, `${slug}.webp`);
-        if (!existsSync(source)) {
-            console.warn(`  ${slug}: no curated photograph — skipped`);
+        const source = findSource(sourceDir, slug);
+        if (!source) {
+            console.warn(`  ${slug}: no photograph — skipped`);
             continue;
         }
 
         const sizes = [];
-        for (const width of [1600, 2560]) {
+        for (const [width, height] of [
+            [1600, 900],
+            [2560, 1440],
+        ]) {
             const out = path.join(outDir, `${slug}-${width}.webp`);
-            await sharp(source)
-                .resize({ width, kernel: sharp.kernel.lanczos3 })
-                .webp({ quality: 78, effort: 5 })
-                .toFile(out);
+            const cropped = await cropTo(source, width, height, HERO_CROP[slug]);
+            await cropped.webp({ quality: 78, effort: 5 }).toFile(out);
             const { size } = await stat(out);
             sizes.push(size);
             total += size;
@@ -171,16 +250,21 @@ async function heroPhotos() {
     console.log(`  hero total ${mb(total)}`);
 }
 
-/** Tiles for the 4:5 neighbourhood grid cells. */
+/**
+ * Tiles for the 4:5 neighbourhood grid cells.
+ *
+ * Same originals as the heroes — one photograph per city, cropped two ways —
+ * so there is a single file to replace when better photography arrives.
+ */
 async function heroTiles() {
-    const sourceDir = path.join(RENDERS, "tiles-curated");
+    const sourceDir = path.join(PHOTO_SRC, "cities");
     const outDir = path.join(PUBLIC, "neighborhoods/tiles");
     await mkdir(outDir, { recursive: true });
 
     let total = 0;
     for (const slug of CITY_SLUGS) {
-        const source = path.join(sourceDir, `${slug}.webp`);
-        if (!existsSync(source)) continue;
+        const source = findSource(sourceDir, slug);
+        if (!source) continue;
 
         const out = path.join(outDir, `${slug}.webp`);
         await sharp(source)
@@ -193,22 +277,59 @@ async function heroTiles() {
 }
 
 /**
- * Re-encodes the property renders as responsive WebP.
+ * Interior and architectural detail photography used as section imagery.
  *
- * The originals are 2816x1536 PNGs — 9 MB across five files, of which the
- * services page alone loaded all five. WebP at two widths costs about 5% of
- * that with no visible difference at these display sizes.
+ * Two widths, no fixed aspect: these are placed in varied slots (a tall
+ * portrait cell, a wide band, a square detail) and each call site crops with
+ * object-fit. Forcing an aspect here would crop twice.
+ */
+async function editorialPhotos() {
+    const sourceDir = path.join(PHOTO_SRC, "editorial");
+    const outDir = path.join(PUBLIC, "editorial");
+    await mkdir(outDir, { recursive: true });
+
+    let total = 0;
+    for (const name of EDITORIAL_PHOTOS) {
+        const source = findSource(sourceDir, name);
+        if (!source) {
+            console.warn(`  ${name}: no source photograph — skipped`);
+            continue;
+        }
+
+        const sizes = [];
+        for (const width of [1200, 2000]) {
+            const out = path.join(outDir, `${name}-${width}.webp`);
+            await sharp(source)
+                .resize({ width, withoutEnlargement: true, kernel: sharp.kernel.lanczos3 })
+                .webp({ quality: 78, effort: 5 })
+                .toFile(out);
+            const { size } = await stat(out);
+            sizes.push(size);
+            total += size;
+        }
+
+        console.log(`  ${name.padEnd(20)} ${sizes.map(kb).join(" / ")}`);
+    }
+    console.log(`  editorial total ${mb(total)}`);
+}
+
+/**
+ * Re-encodes the property photography as responsive WebP.
+ *
+ * The services page loads all five at once, so both widths are kept lean —
+ * WebP at these display sizes costs a fraction of the originals with no
+ * visible difference.
  */
 async function propertyPhotos() {
-    const sourceDir = path.join(RENDERS, "services-source");
+    const sourceDir = path.join(PHOTO_SRC, "services");
     const outDir = path.join(PUBLIC, "services");
     await mkdir(outDir, { recursive: true });
 
     let total = 0;
     for (const name of PROPERTY_PHOTOS) {
-        const source = path.join(sourceDir, `${name}.png`);
-        if (!existsSync(source)) {
-            console.warn(`  ${name}: no source render — skipped`);
+        const source = findSource(sourceDir, name);
+        if (!source) {
+            console.warn(`  ${name}: no source photograph — skipped`);
             continue;
         }
 
@@ -344,6 +465,9 @@ async function main() {
 
     console.log("Property photography");
     await propertyPhotos();
+
+    console.log("Editorial photography");
+    await editorialPhotos();
 
     console.log("Social card");
     await ogCard();

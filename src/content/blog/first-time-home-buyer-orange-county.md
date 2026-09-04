@@ -6,8 +6,8 @@ category: "Buying"
 datePublished: "2026-08-04"
 dateModified: "2026-09-02"
 readingTime: "10 min read"
-image: "/neighborhoods/hero/costa-mesa-1600.webp"
-imageAlt: "Residential street with single-family homes in Costa Mesa, Orange County, California"
+image: "/neighborhoods/hero/huntington-beach-1600.webp"
+imageAlt: "Huntington Beach Pier and surfers on a clear day, Orange County, California"
 ctaPrompt: "Still unsure what a contingency period is, or what happens if the appraisal comes in low?"
 featured: false
 tags:

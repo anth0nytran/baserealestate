@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import SEO from "../hooks/useSEO";
+import { Plate } from "@/components/Plate";
 import Reveal, { HeadlineDraw } from "../components/Reveal";
 import { Band, BandHead, Cell, CellGrid, Seam } from "../components/Section";
 import { cn } from "../lib/utils";
@@ -116,8 +117,35 @@ const Hero = () => {
                 </motion.div>
             </AnimatePresence>
 
-            <div className="absolute inset-0 z-[1] bg-gradient-to-r from-navy/92 via-navy/60 to-navy/20" />
-            <div className="absolute inset-0 z-[1] bg-gradient-to-t from-navy/90 via-transparent to-navy/40" />
+            {/*
+             * Every opacity here is a multiple of five, and that is a hard
+             * constraint rather than a preference. Tailwind emits only the
+             * opacity steps in its scale, so `from-navy/96` compiles to
+             * nothing at all — and a gradient whose `from` stop is missing
+             * resolves to `background-image: none`, removing the entire scrim
+             * rather than merely weakening it. Nothing warns you; the text
+             * simply ends up sitting on bare photograph.
+             *
+             * Stop *positions* follow the same scale (`via-40%`, not
+             * `via-42%`) but fail more gently — an invalid position drops
+             * just that stop and leaves the gradient standing, which is
+             * exactly why it is easy to miss.
+             */
+            /*
+             * The scrim carries the headline, so it is tuned to the darkest
+             * thing behind the text rather than to the photograph as a whole.
+             *
+             * These stops were originally set against dusk photography, where
+             * the frames were already dark and a light veil was enough. The
+             * photography is now shot in daylight — bright sky, pale sand, a
+             * white resort directly behind the second line — and the old
+             * values left the gold line sitting on near-white at the middle of
+             * the ramp. The `via` stop is held high and pushed past the
+             * headline's right edge for that reason; anything softer reads as
+             * elegant right up until a slide with a bright centre arrives.
+             */}
+            <div className="absolute inset-0 z-[1] bg-gradient-to-r from-navy/95 via-navy/80 via-55% to-navy/25" />
+            <div className="absolute inset-0 z-[1] bg-gradient-to-t from-navy/90 via-navy/10 to-navy/45" />
 
             <div className="relative z-10 mx-auto w-full max-w-shell px-gutter pb-sec-sm pt-40">
                 <div className="max-w-3xl">
@@ -252,6 +280,7 @@ export default function Home() {
                             A consultation that <em className="italic text-gold-600">teaches</em>, not sells.
                         </>
                     }
+                    aside={<Plate name="entry" />}
                 >
                     <p className="max-w-measure-lg text-lead font-light text-navy-600">
                         Most people make the largest financial decision of their life having never been taught how it
@@ -514,6 +543,7 @@ export default function Home() {
                     tone="cream"
                     heading="How does working together actually go?"
                     lede="Five stages, in order. Nothing is decided in the first meeting, and nothing is rushed in the last."
+                    aside={<Plate name="terrace" />}
                     foot={
                         <p className="text-body-sm font-light text-navy-500">
                             Stage one is the consultation, and it is free. Most people are six to eighteen months from
@@ -574,13 +604,13 @@ export default function Home() {
                                     <>
                                         <img
                                             src={`/neighborhoods/tiles/${city.photo}.webp`}
-                                            alt={`Residential street in ${city.name}, California`}
+                                            alt={city.photoAlt}
                                             loading="lazy"
                                             className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-brand group-hover:scale-105"
                                         />
                                         <span
                                             aria-hidden="true"
-                                            className="absolute inset-0 bg-gradient-to-t from-navy/85 via-navy/15 to-transparent transition-opacity duration-view group-hover:from-navy/90"
+                                            className="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/60 via-40% to-navy/10 transition-opacity duration-view group-hover:from-navy/100"
                                         />
                                     </>
                                 ) : (
@@ -604,7 +634,7 @@ export default function Home() {
                                         aria-hidden="true"
                                     />
                                     <span className="block font-display text-d-item text-cream">{city.name}</span>
-                                    <span className="mt-1.5 block text-micro font-light text-cream/45">
+                                    <span className="mt-1.5 block text-micro font-light text-cream/70">
                                         {city.note}
                                     </span>
                                 </span>

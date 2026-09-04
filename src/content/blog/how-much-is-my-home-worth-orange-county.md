@@ -6,8 +6,8 @@ category: "Selling"
 datePublished: "2026-08-07"
 dateModified: "2026-09-02"
 readingTime: "8 min read"
-image: "/neighborhoods/hero/huntington-beach-1600.webp"
-imageAlt: "Coastal homes near the shoreline in Huntington Beach, Orange County, California"
+image: "/neighborhoods/hero/laguna-beach-1600.webp"
+imageAlt: "Cove, bluff-top homes, and coastal hills at Laguna Beach, Orange County, California"
 ctaPrompt: "Want to know what your home would actually sell for, and what is worth fixing first?"
 featured: false
 tags:

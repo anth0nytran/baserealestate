@@ -7,7 +7,7 @@ datePublished: "2026-08-09"
 dateModified: "2026-09-02"
 readingTime: "8 min read"
 image: "/neighborhoods/hero/newport-beach-1600.webp"
-imageAlt: "Newport Beach harbour and waterfront homes at dusk, Orange County, California"
+imageAlt: "Aerial view of Balboa Pier, the Newport Beach peninsula, and the harbour, Orange County, California"
 ctaPrompt: "Wondering which of these two medians applies to the home you are actually buying or selling?"
 featured: true
 tags:

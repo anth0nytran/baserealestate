@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SEO, { SITE_URL } from "../hooks/useSEO";
+import { Plate } from "@/components/Plate";
 import Reveal, { HeadlineDraw } from "../components/Reveal";
 import { Band, BandHead, Seam } from "../components/Section";
 import { cn } from "../lib/utils";
@@ -113,7 +114,8 @@ const Hero = () => (
             aria-hidden="true"
             className="absolute inset-0 h-full w-full object-cover opacity-40"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/78 to-navy/45" />
+        {/* Opacities must be multiples of five — see the note in Home.tsx. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/45" />
 
         <div className="relative z-10 mx-auto max-w-shell px-gutter pb-sec-md pt-44 md:pt-52">
             <div className="max-w-3xl">
@@ -253,6 +255,7 @@ export default function Services() {
                 <BandHead
                     heading="Which one do you need?"
                     lede="Find the row that sounds like you. Most people start at the top of this table, not the bottom."
+                    aside={<Plate name="living" />}
                     foot={
                         <p className="text-body-sm font-light text-navy-500">
                             Not sure? That is what the consultation is for, and it is the first row.
@@ -339,6 +342,7 @@ export default function Services() {
                     tone="cream"
                     heading="Asked and answered."
                     lede="If yours is not here, it is a good first question for the consultation."
+                    aside={<Plate name="kitchen" />}
                     foot={
                         <div className="space-y-3">
                             <a

@@ -92,9 +92,12 @@ npm run images:brand   # regenerate every derived image (see note below)
 ```
 
 > `images:brand` reads the high-resolution originals in `assets/renders/`,
-> which are **not in the repo** — they are 25MB and Vercel never runs this
-> script. Everything the site serves is already derived into `public/` and is
-> tracked. Copy `assets/renders/` from the design machine before running it.
+> which are **not in the repo** — Vercel never runs this script. Everything
+> the site serves is already derived into `public/` and is tracked. Copy
+> `assets/renders/` from the design machine before running it.
+>
+> Photograph credits, the source of every frame, and how to swap one are in
+> [PHOTOGRAPHY.md](PHOTOGRAPHY.md).
 
 `npm run build` runs `seo:generate`, the client build, an SSR build, and then
 `scripts/prerender.mjs`, which renders every route to static HTML and fails the

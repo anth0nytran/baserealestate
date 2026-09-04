@@ -6,8 +6,8 @@ category: "Buying"
 datePublished: "2026-08-08"
 dateModified: "2026-09-02"
 readingTime: "8 min read"
-image: "/neighborhoods/hero/irvine-1600.webp"
-imageAlt: "Residential neighbourhood in Irvine, Orange County, California"
+image: "/neighborhoods/hero/dana-point-1600.webp"
+imageAlt: "Dana Point Harbour marina and breakwater, Orange County, California"
 ctaPrompt: "Trying to work out whether waiting another year would cost you or save you?"
 featured: false
 tags:

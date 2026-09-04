@@ -6,8 +6,8 @@ category: "Buying & Selling"
 datePublished: "2026-08-05"
 dateModified: "2026-09-02"
 readingTime: "8 min read"
-image: "/neighborhoods/hero/costa-mesa-1600.webp"
-imageAlt: "Residential street in Costa Mesa, Orange County, California"
+image: "/neighborhoods/hero/newport-beach-1600.webp"
+imageAlt: "Aerial view of Balboa Pier, the Newport Beach peninsula, and the harbour, Orange County, California"
 ctaPrompt: "Want someone to read your buyer-broker agreement with you before you sign it?"
 featured: false
 tags:

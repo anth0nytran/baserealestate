@@ -6,8 +6,8 @@ category: "Market Reports"
 datePublished: "2026-08-06"
 dateModified: "2026-09-02"
 readingTime: "9 min read"
-image: "/neighborhoods/hero/newport-beach-1600.webp"
-imageAlt: "Newport Beach waterfront homes and harbour, Orange County, California"
+image: "/neighborhoods/hero/laguna-beach-1600.webp"
+imageAlt: "Cove, bluff-top homes, and coastal hills at Laguna Beach, Orange County, California"
 ctaPrompt: "Need a real number for a specific street rather than a citywide median?"
 featured: false
 tags:

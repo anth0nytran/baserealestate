@@ -20,7 +20,7 @@ export default function Blog() {
     const [featured, ...rest] = posts;
 
     return (
-        <div className="w-full overflow-x-hidden">
+        <div className="w-full overflow-x-clip">
             <SEO
                 title="Orange County Market Reports & Buyer Guides"
                 description={`Sourced Orange County housing market reports and buyer and seller guides from ${AGENT.displayName}, ${AGENT.title}. Every figure carries its source and its observation date.`}

@@ -34,7 +34,7 @@ Redfin reported a median of roughly **$1,200,000** for August 2026. That figure 
 | --- | --- | --- | --- |
 | Existing detached single-family homes | $1,470,000 | California Association of REALTORS® | July 2026 |
 | All home types, including condos and townhomes | ≈$1,200,000 | Redfin | August 2026 |
-| **The difference** | **≈$270,000** | *Calculated by Base Real Estate from the two rows above* | — |
+| **The difference** | **≈$270,000** | *Calculated by Base Real Estate Group from the two rows above* | — |
 
 Neither source is wrong. The gap is methodology, not disagreement about the market.
 
@@ -128,4 +128,4 @@ Because they use different data and different methods. Automated estimates work 
 - [Redfin — Orange County Housing Market](https://www.redfin.com/county/332/CA/Orange-County/housing-market) — median sale price across all property types and median days on market, August 2026.
 - [Orange County weekly housing report](https://www.ocrealestateinc.com/orange-county-housing-report/) — active listing count, late August 2026.
 
-*The $270,000 difference between the two medians is calculated by Base Real Estate from the published figures above. Market data describes the county in aggregate and does not predict the outcome for any individual property. Figures verified 2 September 2026.*
+*The $270,000 difference between the two medians is calculated by Base Real Estate Group from the published figures above. Market data describes the county in aggregate and does not predict the outcome for any individual property. Figures verified 2 September 2026.*

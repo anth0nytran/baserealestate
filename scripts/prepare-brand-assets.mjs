@@ -30,7 +30,16 @@ const brandSrc = (name) => path.join(SRC, "base logo and branding", name);
  * that city exists — see the note on City.photo for why a stand-in is not an
  * acceptable substitute.
  */
-const CITY_SLUGS = ["newport-beach", "laguna-beach", "dana-point", "huntington-beach"];
+const CITY_SLUGS = [
+    "newport-beach",
+    "laguna-beach",
+    "dana-point",
+    "laguna-niguel",
+    "huntington-beach",
+    "costa-mesa",
+    "irvine",
+    "san-clemente",
+];
 
 /** Base names of the property photography in assets/renders/photography/services. */
 const PROPERTY_PHOTOS = ["hero", "buy", "sell", "cta", "aerial"];
@@ -191,6 +200,10 @@ const HERO_CROP = {
     // Horizon sits at ~0.62 in this frame; centring there keeps the
     // breakwater and open water above the marina.
     "dana-point": { focus: 0.72 },
+    // A 2560x3840 portrait. A 16:9 band is only 0.375 of that height, so the
+    // default centre lands on bare paving; 0.55 puts the wall along the top
+    // of the band and keeps the sculpture whole.
+    "costa-mesa": { focus: 0.55 },
 };
 
 /**
@@ -432,6 +445,20 @@ async function main() {
         console.log(`  ${out}  512x512`);
     }
 
+    /*
+     * Favicons are cut from the cream disc, not the navy one.
+     *
+     * The source names describe the disc, not the glyph: *_icon_navy is a navy
+     * disc carrying a cream monogram, *_icon_cream the reverse. At 16 and 32
+     * pixels the navy disc collapses into a solid dot — the monogram is a
+     * hairline didone and the one stroke that identifies it is the first thing
+     * the downscale eats. On the cream disc the same stroke is the darkest
+     * thing in the square, so it is the last thing to go.
+     *
+     * The cream disc then blends into the cream plate by design, which is the
+     * point: what the tab shows is the monogram itself, not a monogram inside
+     * a coin.
+     */
     console.log("Favicons");
     for (const [size, out] of [
         [16, "favicon-16x16.png"],
@@ -440,8 +467,8 @@ async function main() {
         [192, "icon-192.png"],
         [512, "icon-512.png"],
     ]) {
-        await sharp(brandSrc("base_real_estate_icon_navy.png"))
-            .resize(size, size, { fit: "contain", background: "#faf7f0" })
+        await sharp(brandSrc("base_real_estate_icon_cream.png"))
+            .resize(size, size, { fit: "contain", background: "#faf7f0", kernel: sharp.kernel.lanczos3 })
             .flatten({ background: "#faf7f0" })
             .png()
             .toFile(path.join(PUBLIC, out));

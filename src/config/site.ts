@@ -15,11 +15,27 @@
  * Identity
  * ---------------------------------------------------------------------- */
 
+/*
+ * "Group", not "Real Estate", is load-bearing.
+ *
+ * Sam is a salesperson licensed under a broker, not a brokerage. A name that
+ * reads as a brokerage — "Base Real Estate" — is a misleading trade name under
+ * BPC §10159.5 and §10140, and the wordmark, the <title>s, and the schema all
+ * derive from this one string. "Base Real Estate Group" names the team; the
+ * responsible broker is named separately in LICENSE.brokerage.
+ */
 export const BRAND = {
-    name: "Base Real Estate",
+    name: "Base Real Estate Group",
     shortName: "Base",
     /** Used in <title> suffixes and the footer copyright line. */
-    legalName: "Base Real Estate",
+    legalName: "Base Real Estate Group",
+    /**
+     * The logotype is set as an image, and the supplied artwork reads
+     * "BASE REAL ESTATE". `descriptor` is locked up beside it in Jost rather
+     * than redrawn in the display face, which nobody has the outlines for.
+     * See the wordmark lockup in components/Layout.tsx.
+     */
+    descriptor: "Group",
     tagline: "Where the right move begins.",
     /** One-line positioning statement. Appears in the footer and llms.txt. */
     positioning:
@@ -61,40 +77,64 @@ export const CONTACT = {
 /* -------------------------------------------------------------------------
  * Licensing & brokerage
  *
- * TODO(client): BOTH fields below are unconfirmed and must be verified before
- * launch. California BPC §10140.6 and DRE regulations require an agent's
- * licence number and responsible broker to appear on marketing material, so
- * this is a legal blocker, not a polish item.
+ * California BPC §10140.6 requires an agent's licence number and responsible
+ * broker on marketing material, so both fields below are legal content, not
+ * footer decoration.
  *
- * Conflicting signals on record:
- *   - The brand assets the client supplied include a "WERE Real Estate" logo
- *     (assets/attachment.png), which points to WERE Real Estate.
- *   - Verbal note during intake said "same as Regina's", which would be
- *     Nest Real Estate.
- * These cannot both be right. Confirm with Sam, then set `brokerage.name`,
- * `brokerage.showMark`, and `dreLicense` and delete this block.
+ * The licence number is verified against the DRE public register
+ * (https://www2.dre.ca.gov/PublicASP/pplinfo.asp?License_id=02282409):
+ * Elsherif, Bassam Salah — SALESPERSON — #02282409 — LICENSED, issued
+ * 06/27/25, expires 06/26/29, no disciplinary action.
+ *
+ * KNOWN LAG: that same register still named WERE Real Estate Inc (#02102670)
+ * as the responsible broker when it was read on 2026-09-10. Sam has moved to
+ * Nest Real Estate and confirmed the transfer; the DRE record is expected to
+ * catch up, and the register itself warns it does not reflect pending
+ * changes. Re-check the link above and remove this note once it does. If the
+ * transfer were ever to fall through, `brokerage.name` is the single string
+ * to change.
  * ---------------------------------------------------------------------- */
 
 export const LICENSE = {
-    /** TODO(client): Sam's own DRE number. Never reuse another agent's. */
-    dreLicense: "TODO — DRE #",
-    /** Set true once dreLicense holds a real number. Gates every disclosure line. */
-    dreConfirmed: false,
+    /** Verified against the DRE public register, 2026-09-10. */
+    dreLicense: "02282409",
+    /** Gates the licence half of the disclosure line. */
+    dreConfirmed: true,
     brokerage: {
-        /** TODO(client): confirm — "WERE Real Estate" or "Nest Real Estate". */
-        name: "WERE Real Estate",
-        confirmed: false,
-        /** The supplied logo is low-resolution; keep it hidden until replaced. */
+        /**
+         * The responsible broker, named as licensed — nestbrokerage.com
+         * trades as "Nest Real Estate" (DRE #02174581), so that is the name
+         * the disclosure carries, not the domain.
+         */
+        name: "Nest Real Estate",
+        confirmed: true,
+        /** No usable Nest artwork supplied; the line is typographic for now. */
         showMark: false,
         mark: "/base/brokerage-mark.png",
     },
 } as const;
 
-/** Renders the licence line, or a clearly provisional one, never a fake number. */
+/**
+ * Renders the licence disclosure, degrading a clause at a time.
+ *
+ * The two halves are gated independently because they arrive independently:
+ * a confirmed brokerage with an unverified number, or the reverse, are both
+ * states this site has actually been in. Neither is ever invented.
+ */
 export const licenseLine = (): string =>
-    LICENSE.dreConfirmed
-        ? `${AGENT.shortDisplayName}, ${AGENT.title} · ${LICENSE.brokerage.name} · CA ${LICENSE.dreLicense}`
-        : `${AGENT.shortDisplayName}, ${AGENT.title}`;
+    [`${AGENT.shortDisplayName}, ${AGENT.title}`, LICENSE.brokerage.confirmed ? LICENSE.brokerage.name : null, dreLine()]
+        .filter(Boolean)
+        .join(" · ");
+
+/**
+ * The licence number as it must read anywhere it stands on its own.
+ *
+ * A bare "CA 02282409" is not a licence disclosure — the issuing body has to
+ * be legible, and four surfaces print this number without the rest of the
+ * line around it. Returns null rather than a placeholder so a caller has to
+ * decide what an unconfirmed licence renders as.
+ */
+export const dreLine = (): string | null => (LICENSE.dreConfirmed ? `CA DRE #${LICENSE.dreLicense}` : null);
 
 /* -------------------------------------------------------------------------
  * Geography
@@ -171,11 +211,11 @@ export const AREA = {
         { name: "Newport Beach", slug: "newport-beach", photo: "newport-beach", photoAlt: "Balboa Pier and moored sailboats in Newport Harbour, Newport Beach, California", note: "Harbour, peninsula, and the bluffs above it" },
         { name: "Laguna Beach", slug: "laguna-beach", photo: "laguna-beach", photoAlt: "Bluff-top homes above a sandy cove at Laguna Beach, California", note: "Coves, canyon lots, and a market of one-offs" },
         { name: "Dana Point", slug: "dana-point", photo: "dana-point", photoAlt: "Boats moored in Dana Point Harbour behind the breakwater, Dana Point, California", note: "Harbour-side, Monarch Beach, and the headlands" },
-        { name: "Laguna Niguel", slug: "laguna-niguel", photo: null, note: "Inland hills with coastal access" },
+        { name: "Laguna Niguel", slug: "laguna-niguel", photo: "laguna-niguel", photoAlt: "Coastal canyon and ridgeline seen from the trail at Badlands Park, Laguna Niguel, California", note: "Inland hills with coastal access" },
         { name: "Huntington Beach", slug: "huntington-beach", photo: "huntington-beach", photoAlt: "Huntington Beach Pier and surfers in the water, Huntington Beach, California", note: "Downtown, Huntington Harbour, and the wetlands" },
-        { name: "Costa Mesa", slug: "costa-mesa", photo: null, note: "Eastside character, close to everything" },
-        { name: "Irvine", slug: "irvine", photo: null, note: "Villages, schools, and predictable inventory" },
-        { name: "San Clemente", slug: "san-clemente", photo: null, note: "The south end of the county, and the quietest coast" },
+        { name: "Costa Mesa", slug: "costa-mesa", photo: "costa-mesa", photoAlt: "Sandstone and running water in Isamu Noguchi's California Scenario garden, Costa Mesa, California", note: "Eastside character, close to everything" },
+        { name: "Irvine", slug: "irvine", photo: "irvine", photoAlt: "White footbridge over the lake at Woodbridge, with snow on the mountains behind, Irvine, California", note: "Villages, schools, and predictable inventory" },
+        { name: "San Clemente", slug: "san-clemente", photo: "san-clemente", photoAlt: "Bluff-top homes above the coastal rail line and the pier clock tower, San Clemente, California", note: "The south end of the county, and the quietest coast" },
     ] as const satisfies readonly City[],
 
     /** Served, and named for completeness, but not the focus of the practice. */
@@ -409,7 +449,7 @@ export const MARKET = {
         },
     ] as const satisfies readonly MarketFigure[],
 
-    /** Derived by Base Real Estate from the two rows above. Labelled as such. */
+    /** Derived by Base Real Estate Group from the two rows above. Labelled as such. */
     medianGap: "≈$270,000",
 
     conditions: [
@@ -501,14 +541,29 @@ export const PROCESS = [
 /* -------------------------------------------------------------------------
  * Social proof
  *
- * TODO(client): Sam named reviews as his proof but has not supplied any.
- * Set `PROOF.hasReviews = true` and fill `REVIEWS` with real, attributable
- * client reviews. Until then every proof surface renders an honest
- * "reviews coming soon" state rather than invented praise.
+ * Every quote, figure, and closing below was read off Sam's Zillow agent
+ * profile on 11 September 2026 and is reproduced, not summarised. Quotes are
+ * verbatim excerpts; where a word was obviously dropped by the reviewer it is
+ * restored in [brackets] and nothing else is touched.
  *
- * TODO(client): the same applies to STATS. No sale count, average price,
- * volume, or star rating is published until Sam supplies verifiable figures.
+ * Two of Zillow's own summary tiles are NOT republished here. Its profile
+ * shows a "$930K-$1.3M" price range and a "$1.1M" average against a sales
+ * list whose top closing is $1,390,000 and whose mean is $1,187,200 — the
+ * tiles disagree with the list on the same page. The list is the primary
+ * record, so the figures in STATS are computed from it and labelled as
+ * derived. If Zillow ever fixes its tiles the numbers here should still hold.
  * ---------------------------------------------------------------------- */
+
+/** Where the reviews and closings below can be checked, by anyone. */
+export const PROOF_SOURCE = {
+    label: "Zillow",
+    profileUrl: "https://www.zillow.com/profile/sam75344",
+    /** Re-read this profile and this date together, or neither. */
+    verifiedOn: "2026-09-11",
+    verifiedLabel: "11 September 2026",
+    rating: "5.0",
+    reviewCount: 6,
+} as const;
 
 export interface Review {
     quote: string;
@@ -517,16 +572,133 @@ export interface Review {
 }
 
 export const PROOF = {
-    hasReviews: false,
-    hasStats: false,
+    hasReviews: true,
+    hasStats: true,
+    hasSales: true,
 } as const;
 
+/*
+ * Ordered by what each one demonstrates, not by date. The first is the
+ * clearest statement of the thing this whole site claims — that you always
+ * know where you stand — and the carousel opens on it.
+ */
 export const REVIEWS: readonly Review[] = [
-    // TODO(client): paste real reviews here, then set PROOF.hasReviews = true.
+    {
+        quote:
+            "From the very beginning, he made sure we always knew exactly where we stood. He explained every development in plain language, never left us wondering what was happening or why.",
+        name: "Carol Curchoe",
+        detail: "Bought a condo in Newport Beach · April 2026",
+    },
+    {
+        quote:
+            "When we were touring homes, Sam helped call out green and red flags to look out for in different homes and we learned a lot by working together.",
+        name: "Alex Cheng",
+        detail: "Bought a single-family home in Yorba Linda · April 2026",
+    },
+    {
+        quote:
+            "He was lightning fast getting an offer together, working with lenders and inspectors on a short timeline, and communicating night and day through the process.",
+        name: "tanneravery6",
+        detail: "Bought a home in Orange County · March 2026",
+    },
+    {
+        quote:
+            "Sam was always available to answer our questions, offered honest advice, and guided us through every step with professionalism.",
+        name: "Emirjona Bashi",
+        detail: "Bought a home in Orange County · July 2026",
+    },
+    {
+        quote:
+            "He's very knowledgeable and proved to be an advantage to us. He'll understand what you want and need and will go out and find what will fit you.",
+        name: "Ken",
+        detail: "Bought a single-family home in Santa Ana · June 2026",
+    },
+    {
+        quote:
+            "Sam ultimately was trying to make sure I was [in a] home that I'd be comfortable in and not trying to get a sale.",
+        name: "mcalister95",
+        detail: "Bought a home in Orange County · March 2026",
+    },
 ];
 
+/*
+ * Four figures: two countable off the profile, two arithmetic on CLOSINGS
+ * below — which is why the band that renders them carries the source line
+ * rather than leaving a reader to assume Zillow published them.
+ *
+ * Every value is kept short enough to set on one line. A four-column cell at
+ * display size fits about seven characters; "$930K–$1.39M" wrapped mid-figure
+ * and shoved its own label out of the cell, which is why the price range is
+ * left to the closings list — where each end of it is a checkable address
+ * rather than a number a reader has to take on faith.
+ */
 export const STATS: readonly { value: string; label: string }[] = [
-    // TODO(client): add verified figures here, then set PROOF.hasStats = true.
+    { value: "5.0", label: `Rating across ${PROOF_SOURCE.reviewCount} reviews` },
+    { value: "5", label: "Homes closed, last 12 months" },
+    { value: "$1.19M", label: "Average closed price" },
+    { value: "$5.9M", label: "Closed volume" },
+];
+
+/**
+ * A closed transaction, as published on the source profile.
+ *
+ * `closed` is a month, but Zillow publishes these as "sold 4 months ago"
+ * relative to the read date — so each month here is that offset applied to
+ * PROOF_SOURCE.verifiedOn, and is accurate to about a month either way. It is
+ * rendered as the month it is, not as a date, for exactly that reason.
+ */
+export interface Closing {
+    address: string;
+    city: string;
+    price: string;
+    /** "3 bd · 2.5 ba · 1,730 sqft", pre-composed so the grid stays dumb. */
+    spec: string;
+    /** Which side of the table Sam sat on. */
+    side: "Buyer" | "Seller";
+    closed: string;
+}
+
+export const CLOSINGS: readonly Closing[] = [
+    {
+        address: "21 Stern St",
+        city: "Laguna Niguel",
+        price: "$1,290,000",
+        spec: "3 bd · 2.5 ba · 1,730 sqft",
+        side: "Buyer",
+        closed: "May 2026",
+    },
+    {
+        address: "3418 S Baker St",
+        city: "Santa Ana",
+        price: "$1,390,000",
+        spec: "4 bd · 3 ba · 2,125 sqft",
+        side: "Buyer",
+        closed: "May 2026",
+    },
+    {
+        address: "19811 Sienna Ln",
+        city: "Yorba Linda",
+        price: "$1,275,000",
+        spec: "3 bd · 2 ba · 1,680 sqft",
+        side: "Buyer",
+        closed: "April 2026",
+    },
+    {
+        address: "21 Summerwalk Ct",
+        city: "Newport Beach",
+        price: "$930,000",
+        spec: "2 bd · 2 ba · 989 sqft",
+        side: "Buyer",
+        closed: "April 2026",
+    },
+    {
+        address: "28 Hermosa Ave",
+        city: "Long Beach",
+        price: "$1,051,000",
+        spec: "2 bd · 1 ba · 1,184 sqft",
+        side: "Buyer",
+        closed: "February 2026",
+    },
 ];
 
 /* -------------------------------------------------------------------------

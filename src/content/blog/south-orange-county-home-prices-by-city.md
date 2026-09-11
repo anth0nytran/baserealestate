@@ -124,4 +124,4 @@ Use them as orientation and nothing more. Automated valuations work from public 
 - [California Association of REALTORS® — County Sales and Price Activity](https://www.car.org/marketdata/data/countysalesactivity) — Orange County median for existing detached single-family homes, July 2026.
 - [Redfin — Orange County housing market](https://www.redfin.com/county/332/CA/Orange-County/housing-market) — Orange County median across all property types, August 2026.
 
-*The $1,070,000 Newport Beach difference and the $1.7 million Laguna comparison are calculated by Base Real Estate from the published figures above. Medians describe closed transactions in aggregate and do not indicate the value of any individual property. Figures verified 2 September 2026.*
+*The $1,070,000 Newport Beach difference and the $1.7 million Laguna comparison are calculated by Base Real Estate Group from the published figures above. Medians describe closed transactions in aggregate and do not indicate the value of any individual property. Figures verified 2 September 2026.*

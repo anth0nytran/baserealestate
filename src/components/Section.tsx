@@ -83,6 +83,7 @@ export function BandHead({
     aside,
     foot,
     layout = "split",
+    bodySticky = false,
     className,
 }: {
     heading: ReactNode;
@@ -103,6 +104,23 @@ export function BandHead({
      * tall empty margin next to it.
      */
     layout?: "split" | "stacked";
+    /**
+     * Lets the body column travel too, for bands where the *head* is the tall
+     * one — a short paragraph beside a full-height photograph.
+     *
+     * Both columns are `self-start`, so each one's sticky travel is
+     * `rowHeight - ownHeight`: the taller column gets zero and behaves as it
+     * always did, and the shorter one rides down beside it instead of
+     * stranding a column of white under itself. That is the whole effect, and
+     * it needs no measurement — the geometry does it.
+     *
+     * Opt-in rather than automatic because a body column taller than the
+     * viewport must never be sticky: it would pin at the top and put its own
+     * last paragraph permanently out of reach. Only set this where the body is
+     * short. Long bodies — FAQ lists, the market table, the process steps —
+     * must leave it off.
+     */
+    bodySticky?: boolean;
     className?: string;
 }) {
     if (layout === "stacked") {
@@ -135,12 +153,28 @@ export function BandHead({
              * read as "text floating in space". Travelling with the body turns
              * that emptiness into a working margin and keeps the section's
              * subject on screen while its content scrolls past.
+             *
+             * This is load-bearing on page wrappers: every page is wrapped in
+             * `overflow-x-clip`, NOT `overflow-x-hidden`. They look
+             * interchangeable and are not. `overflow-x: hidden` forces
+             * `overflow-y: auto`, which makes that wrapper a scroll container,
+             * and a sticky element resolves against its nearest scroll
+             * container rather than the viewport — so every head column on the
+             * site silently rendered as an ordinary static block. `clip` does
+             * the same containment without creating one. If a sticky column
+             * ever stops travelling, look for a `hidden` that crept back in
+             * before looking at this file.
              */}
             <Reveal
                 className={cn(
                     "flex flex-col pt-10 lg:col-span-4 lg:self-start lg:pr-12 lg:pt-14",
                     "lg:sticky lg:top-28",
-                    (aside || foot) && "lg:pb-12"
+                    (aside || foot) && "lg:pb-12",
+                    /* The hairline between the columns always belongs to the
+                       column that does NOT travel, or it turns into a short
+                       line sliding up and down a gap. When the body travels,
+                       that is this one. */
+                    bodySticky && ["lg:border-r", RULE[tone]]
                 )}
             >
                 <h2 className="font-display text-d-section">{heading}</h2>
@@ -163,8 +197,8 @@ export function BandHead({
             {children && (
                 <div
                     className={cn(
-                        "pb-4 pt-8 lg:col-span-8 lg:border-l lg:pb-14 lg:pl-12 lg:pt-14",
-                        RULE[tone]
+                        "pb-4 pt-8 lg:col-span-8 lg:pb-14 lg:pl-12 lg:pt-14",
+                        bodySticky ? "lg:sticky lg:top-28 lg:self-start" : ["lg:border-l", RULE[tone]]
                     )}
                 >
                     {children}

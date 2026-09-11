@@ -9,7 +9,7 @@ const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 const dupeStore = new Map<string, { count: number; resetAt: number }>();
 
 /* Brand constants. Mirrors src/config/site.ts — update both together. */
-const BRAND_NAME = "Base Real Estate";
+const BRAND_NAME = "Base Real Estate Group";
 const AGENT_NAME = "Sam Elsherif";
 const AGENT_FIRST = "Sam";
 const AGENT_PHONE_DISPLAY = "(949) 945-8225";

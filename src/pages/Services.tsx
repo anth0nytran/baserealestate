@@ -112,10 +112,13 @@ const Hero = () => (
             sizes="100vw"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover opacity-40"
+            className="absolute inset-0 h-full w-full object-cover opacity-60"
         />
-        {/* Opacities must be multiples of five — see the note in Home.tsx. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/45" />
+        {/* Opacities must be multiples of five — see the note in Home.tsx.
+            Tuned to the same weight as the homepage hero: the headline sits in
+            the left third, so the veil is carried there and released across
+            the frame rather than held flat over the whole photograph. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/75 via-navy/55 to-navy/20" />
 
         <div className="relative z-10 mx-auto max-w-shell px-gutter pb-sec-md pt-44 md:pt-52">
             <div className="max-w-3xl">
@@ -194,7 +197,7 @@ const ServiceSection = ({ service, index }: { service: (typeof SERVICES)[number]
 
 export default function Services() {
     return (
-        <div className="w-full overflow-x-hidden">
+        <div className="w-full overflow-x-clip">
             <SEO
                 title="Real Estate Services in Orange County"
                 description={`Knowledge transfer, real estate consulting, home purchase and sale representation, and investor assistance across ${AREA.focusLabel} with ${AGENT.displayName}, ${AGENT.title}. Book a no-pressure consultation.`}
@@ -256,6 +259,7 @@ export default function Services() {
                     heading="Which one do you need?"
                     lede="Find the row that sounds like you. Most people start at the top of this table, not the bottom."
                     aside={<Plate name="living" />}
+                    bodySticky
                     foot={
                         <p className="text-body-sm font-light text-navy-500">
                             Not sure? That is what the consultation is for, and it is the first row.
@@ -343,6 +347,7 @@ export default function Services() {
                     heading="Asked and answered."
                     lede="If yours is not here, it is a good first question for the consultation."
                     aside={<Plate name="kitchen" />}
+                    bodySticky
                     foot={
                         <div className="space-y-3">
                             <a

@@ -198,7 +198,7 @@ export default function Contact() {
     const phoneDigits = form.phone.replace(/\D/g, "");
 
     return (
-        <div className="w-full overflow-x-hidden">
+        <div className="w-full overflow-x-clip">
             <SEO
                 title={`Book a Consultation with ${AGENT.shortDisplayName}`}
                 description={`Book a no-pressure real estate consultation with ${AGENT.displayName} in Orange County. Call ${CONTACT.phone} or send a few details and Sam will reach out.`}

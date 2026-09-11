@@ -6,7 +6,7 @@ import { Band, BandHead, Seam } from "../components/Section";
 import { trackCtaClick, trackPhoneClick } from "../lib/analytics";
 import NotFound from "./NotFound";
 import { getPost, getRelatedPosts, formatDate, type BlogPost as Post } from "@/lib/blog";
-import { AGENT, AREA, BRAND, CONTACT, LICENSE, MARKET, PRIMARY_CTA, licenseLine } from "@/config/site";
+import { AGENT, AREA, BRAND, CONTACT, LICENSE, MARKET, PRIMARY_CTA, dreLine, licenseLine } from "@/config/site";
 
 /**
  * Single article view.
@@ -25,7 +25,7 @@ export default function BlogPost() {
     const related = getRelatedPosts(post.slug);
 
     return (
-        <div className="bg-white w-full min-h-screen overflow-x-hidden">
+        <div className="bg-white w-full min-h-screen overflow-x-clip">
             <SEO
                 title={post.title}
                 description={post.description}
@@ -252,7 +252,7 @@ const AuthorBio = () => (
                     </p>
 
                     <div className="label mb-8 flex flex-wrap gap-x-8 gap-y-3 text-navy-400">
-                        {LICENSE.dreConfirmed && <span>CA {LICENSE.dreLicense}</span>}
+                        {dreLine() && <span>{dreLine()}</span>}
                         {LICENSE.brokerage.confirmed && <span>{LICENSE.brokerage.name}</span>}
                         <span>{AREA.primaryFull}</span>
                     </div>

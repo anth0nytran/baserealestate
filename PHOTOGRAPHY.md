@@ -18,8 +18,14 @@ could be. Cities without a verified photograph render a typographic tile
 instead — that is a deliberate choice, not a gap waiting to be filled with the
 nearest similar image.
 
-This is why `AREA.cities` in `src/config/site.ts` carries `photo: null` for
-Laguna Niguel, Costa Mesa, Irvine, and San Clemente.
+Every city in `AREA.cities` now has one. The four that were missing — Laguna
+Niguel, Costa Mesa, Irvine, San Clemente — were filled by searching Unsplash
+and then **discarding every candidate whose own location metadata did not name
+that city**, which is most of them: a search for "san clemente california"
+returns Santa Monica and Santa Barbara in the first ten results. Keyword
+relevance is not evidence about a place; the coordinates attached to the file
+are. The `photo: null` branch of the `City` type stays, because the next city
+added to the list will start there.
 
 ## Neighbourhood photography
 
@@ -32,6 +38,16 @@ Laguna Niguel, Costa Mesa, Irvine, and San Clemente.
 | Laguna Beach | Jeffrey Eisen | `CGWykKN59bk` | Treasure Island cove, bluff-top resort, and the coastal hills |
 | Dana Point | James Lee | `xAazjDc2JX4` | Dana Point Harbour marina, breakwater, and open water |
 | Huntington Beach | — | `6vbOIvavPYU` | Huntington Beach Pier and surfers on a clear day |
+| Laguna Niguel | Michael Gottron | `Q2K9e8iXiDA` | Ridge at Badlands Park, over the canyon to the coast |
+| Costa Mesa | Sven Piper | `vu2ruf-OicU` | Noguchi's California Scenario — sandstone, water, cream wall |
+| Irvine | Jim Strasma | `JQi5J8WxHS8` | Woodbridge lake footbridge, snow on the mountains behind |
+| San Clemente | Reed Naliboff | `6Dv_HoQNGBY` | Bluff-top homes, the coastal rail line, and the pier clock tower |
+
+Two of those four are not beach frames, deliberately. Laguna Niguel's own note
+reads "inland hills with coastal access" and Irvine's reads "villages,
+schools, and predictable inventory" — a cove would contradict both. The
+Costa Mesa frame is architectural rather than residential because the honest
+alternatives in that city were a fairground ferris wheel and a parking lot.
 
 ## Property photography
 
@@ -105,4 +121,6 @@ The retired originals are kept at `assets/renders/_retired-cuervo-ai/`
 Hero frames are cropped to 16:9. If the automatic crop lands badly, add the
 slug to `HERO_CROP` in the pipeline script — `focus` takes a fraction of the
 source height to centre the crop band on, which is how the Dana Point frame
-keeps its horizon.
+keeps its horizon and how the Costa Mesa portrait keeps its sculpture whole
+(a 16:9 band is barely a third of that frame's height, and the default centre
+lands on bare paving).

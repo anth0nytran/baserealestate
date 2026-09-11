@@ -5,7 +5,7 @@ import { trackPhoneClick, trackEmailClick, trackCtaClick } from "@/lib/analytics
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ArrowRight, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { AGENT, AREA, BRAND, CONTACT, CREDIT, LICENSE, PRIMARY_CTA, SERVICES, licenseLine } from "@/config/site";
+import { AGENT, AREA, BRAND, CONTACT, CREDIT, LICENSE, PRIMARY_CTA, SERVICES, dreLine, licenseLine } from "@/config/site";
 
 interface LayoutProps {
     children: ReactNode;
@@ -17,6 +17,73 @@ const NAV_LINKS = [
     { name: "Journal", path: "/blog" },
     { name: "Contact", path: "/contact" },
 ] as const;
+
+/**
+ * The logotype lockup: supplied wordmark artwork + typeset descriptor.
+ *
+ * The artwork reads "BASE REAL ESTATE" and cannot say "GROUP" — it is a
+ * bespoke didone cut and nobody has the outlines, so the word is set in Jost
+ * beside it rather than faked in a near-miss serif, which would read as a
+ * mistake at every size. That word is not decoration: Sam is a salesperson
+ * under a broker, and a mark reading "Base Real Estate" on its own claims a
+ * brokerage he does not hold (see BRAND in src/config/site.ts).
+ *
+ * `size` sets the container's font-size to the artwork's cap height, and both
+ * halves are then expressed in `em` — so one responsive value moves the
+ * wordmark and the descriptor together instead of two that drift apart at the
+ * next breakpoint. Bottom-aligned, because the trimmed artwork's lower edge
+ * *is* the cap baseline.
+ */
+function Wordmark({
+    src,
+    srcSet,
+    tone,
+    size,
+    /* Intrinsic size of `src`. Wrong values here reserve the wrong box and
+       shunt the descriptor sideways on first paint — the nav variants are
+       trimmed to roughly 13:1, the full mark with its gold rule is 9.6:1. */
+    width = 600,
+    height = 45,
+    loading,
+}: {
+    src: string;
+    srcSet?: string;
+    /** Which ink the surrounding surface calls for. */
+    tone: "navy" | "cream";
+    /** Font-size utilities setting the cap height, e.g. "text-[17px] md:text-[27px]". */
+    size: string;
+    width?: number;
+    height?: number;
+    loading?: "lazy" | "eager";
+}) {
+    return (
+        <span className={cn("flex items-end gap-[0.5em] leading-none", size)}>
+            <img
+                src={src}
+                srcSet={srcSet}
+                sizes="300px"
+                alt={BRAND.name}
+                width={width}
+                height={height}
+                loading={loading}
+                className="h-[1em] w-auto object-contain transition-all duration-view ease-brand"
+            />
+            <span
+                aria-hidden="true"
+                className={cn(
+                    "select-none whitespace-nowrap font-sans text-[0.58em] font-medium uppercase leading-none tracking-[0.28em]",
+                    // The trimmed artwork has no descender room, so its box
+                    // bottom is the baseline; a hairline nudge is what stops
+                    // the descriptor floating above it.
+                    "translate-y-[0.05em]",
+                    tone === "cream" ? "text-cream/70" : "text-navy/60"
+                )}
+            >
+                {BRAND.descriptor}
+            </span>
+        </span>
+    );
+}
 
 export default function Layout({ children }: LayoutProps) {
     const [scrolled, setScrolled] = useState(false);
@@ -120,25 +187,21 @@ export default function Layout({ children }: LayoutProps) {
                          * scripts/prepare-brand-assets.mjs); the full-scale
                          * wordmark greys out below about 60px of height.
                          */}
-                        <img
+                        <Wordmark
                             src={lightMarks ? "/base/wordmark-cream-nav-600.png" : "/base/wordmark-navy-nav-600.png"}
                             srcSet={
                                 lightMarks
                                     ? "/base/wordmark-cream-nav-600.png 600w, /base/wordmark-cream-nav-900.png 900w"
                                     : "/base/wordmark-navy-nav-600.png 600w, /base/wordmark-navy-nav-900.png 900w"
                             }
-                            sizes="300px"
-                            alt={BRAND.name}
-                            width={600}
-                            height={45}
-                            className={cn(
-                                "w-auto object-contain transition-all duration-view ease-brand",
-                                // The wordmark is 13:1; at full nav height it
-                                // would run into the Menu button on a 390px screen.
+                            tone={lightMarks ? "cream" : "navy"}
+                            // The wordmark is 13:1; at full nav height it would
+                            // run into the Menu button on a 390px screen.
+                            size={
                                 scrolled
-                                    ? "h-[15px] sm:h-[17px] md:h-[19px]"
-                                    : "h-[17px] sm:h-[20px] md:h-[27px]"
-                            )}
+                                    ? "text-[15px] sm:text-[17px] md:text-[19px]"
+                                    : "text-[17px] sm:text-[20px] md:text-[27px]"
+                            }
                         />
                     </Link>
 
@@ -214,12 +277,10 @@ export default function Layout({ children }: LayoutProps) {
                             without it the header collapses and clips the wordmark. */}
                         <div className="flex h-[76px] flex-shrink-0 items-center justify-between border-b border-cream/10 px-6 sm:h-[92px]">
                             <Link to="/" onClick={() => setMobileMenuOpen(false)}>
-                                <img
+                                <Wordmark
                                     src="/base/wordmark-cream-nav-600.png"
-                                    alt={BRAND.name}
-                                    width={600}
-                                    height={45}
-                                    className="h-[17px] w-auto object-contain sm:h-[20px]"
+                                    tone="cream"
+                                    size="text-[17px] sm:text-[20px]"
                                 />
                             </Link>
                             <button onClick={() => setMobileMenuOpen(false)} aria-label="Close menu" className="p-1">
@@ -345,13 +406,19 @@ export default function Layout({ children }: LayoutProps) {
                         {/* Brand */}
                         <div className="flex flex-col justify-between border-b border-cream/10 p-8 md:col-span-4 md:border-b-0 md:border-r md:p-14">
                             <div>
-                                <img
+                                {/*
+                                 * The full-scale mark, which carries the gold
+                                 * rule the nav variants drop — so the artwork
+                                 * box extends below the baseline here and the
+                                 * descriptor rides a touch lower with it.
+                                 */}
+                                <Wordmark
                                     src="/base/wordmark-cream.png"
-                                    alt={BRAND.name}
+                                    tone="cream"
+                                    size="mb-8 text-[22px]"
                                     width={3000}
                                     height={313}
                                     loading="lazy"
-                                    className="mb-8 h-[22px] w-auto object-contain"
                                 />
                                 <p className="max-w-measure text-body-sm font-light leading-[1.9] text-cream/55">
                                     {BRAND.positioning}
@@ -363,9 +430,7 @@ export default function Layout({ children }: LayoutProps) {
                                 <p className="label text-cream/40">
                                     {AGENT.title} · {AGENT.role}
                                 </p>
-                                {LICENSE.dreConfirmed && (
-                                    <p className="label mt-3 text-cream/30">CA {LICENSE.dreLicense}</p>
-                                )}
+                                {dreLine() && <p className="label mt-3 text-cream/30">{dreLine()}</p>}
                                 {LICENSE.brokerage.confirmed && (
                                     <p className="label mt-2 text-cream/30">{LICENSE.brokerage.name}</p>
                                 )}

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "images:brand": "node scripts/prepare-brand-assets.mjs",
+    "images:logos": "node scripts/prepare-brand-assets.mjs --logos",
     "seo:generate": "node scripts/generate-seo-files.mjs",
     "prebuild": "npm run seo:generate",
     "build": "tsc -b && vite build && npm run build:ssr && npm run prerender",

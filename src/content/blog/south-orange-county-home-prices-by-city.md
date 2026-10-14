@@ -6,8 +6,8 @@ category: "Market Reports"
 datePublished: "2026-08-06"
 dateModified: "2026-09-02"
 readingTime: "9 min read"
-image: "/neighborhoods/hero/laguna-beach-1600.webp"
-imageAlt: "Cove, bluff-top homes, and coastal hills at Laguna Beach, Orange County, California"
+image: "/journal/south-orange-county-home-prices-by-city-1600.webp"
+imageAlt: "A coastal headland above a harbor breakwater on a clear day"
 ctaPrompt: "Need a real number for a specific street rather than a citywide median?"
 featured: false
 tags:
@@ -28,7 +28,7 @@ Newport Beach is the clearest example I have seen.
 
 Over the same six-month window ending August 2026, one report put the median at **$4,470,000** across 231 sales. Another put it at **$3,400,000** across 381 closings.
 
-Both are defensible. The first counts detached single-family homes only. The second counts every closing, which in Newport Beach means a large volume of condominiums and attached properties on the peninsula and around the harbour. Adding roughly 150 mostly-attached sales to the pool pulls the median down by over a million dollars.
+Both are defensible. The first counts detached single-family homes only. The second counts every closing, which in Newport Beach means a large volume of condominiums and attached properties on the peninsula and around the harbor. Adding roughly 150 mostly-attached sales to the pool pulls the median down by over a million dollars.
 
 Neither figure is the "real" price of a Newport Beach home, because "a Newport Beach home" is not one thing.
 
@@ -70,14 +70,14 @@ If you are a seller, that second pattern is the one to take seriously. The activ
 Three rules, in order of how much money they save you.
 
 1. **Check what the median counts before you use it.** Detached only, or all types? That single distinction was worth a million dollars in Newport Beach. Ask it every time.
-2. **Never price a specific property off a city median.** Coastal south county markets are thin and highly differentiated. A canyon lot in Laguna, a harbour-adjacent property in Dana Point, and a hillside home in Laguna Niguel share a county and almost nothing else. What matters is what genuinely comparable homes on comparable streets closed at, and how long they took.
+2. **Never price a specific property off a city median.** Coastal south county markets are thin and highly differentiated. A canyon lot in Laguna, a harbor-adjacent property in Dana Point, and a hillside home in Laguna Niguel share a county and almost nothing else. What matters is what genuinely comparable homes on comparable streets closed at, and how long they took.
 3. **Watch days on market and the ask-to-sold gap, not the median.** Medians move slowly and lag. Time on market and the divergence between asking and sold prices move first, and they tell you where the leverage is.
 
 ## What about Dana Point and San Clemente?
 
 I do not have a figure for either that I am willing to publish yet.
 
-I could give you one — there are aggregators that will produce a number for any city you type in. But several of them are modelled estimates rather than counts of closed sales, and at the transaction volumes these cities produce, a modelled median can be off by a wide margin without anything looking obviously wrong.
+I could give you one — there are aggregators that will produce a number for any city you type in. But several of them are modeled estimates rather than counts of closed sales, and at the transaction volumes these cities produce, a modeled median can be off by a wide margin without anything looking obviously wrong.
 
 When I have a sourced, dated figure with a stated methodology for Dana Point and San Clemente, it goes in the table above. Until then the honest answer is that I do not have one, and a made-up number would be worse than the gap.
 
@@ -124,4 +124,4 @@ Use them as orientation and nothing more. Automated valuations work from public 
 - [California Association of REALTORS® — County Sales and Price Activity](https://www.car.org/marketdata/data/countysalesactivity) — Orange County median for existing detached single-family homes, July 2026.
 - [Redfin — Orange County housing market](https://www.redfin.com/county/332/CA/Orange-County/housing-market) — Orange County median across all property types, August 2026.
 
-*The $1,070,000 Newport Beach difference and the $1.7 million Laguna comparison are calculated by Base Real Estate Group from the published figures above. Medians describe closed transactions in aggregate and do not indicate the value of any individual property. Figures verified 2 September 2026.*
+*The $1,070,000 Newport Beach difference and the $1.7 million Laguna comparison are calculated by Base Real Estate Group from the published figures above. Medians describe closed transactions in aggregate and do not indicate the value of any individual property. Figures verified September 2, 2026.*

@@ -17,7 +17,7 @@ tags:
   - Financing
 ---
 
-Most people buy their first home having never been taught how the process works. They learn it in real time, under deadline, with the largest cheque of their life on the table. That is a bad way to learn anything.
+Most people buy their first home having never been taught how the process works. They learn it in real time, under deadline, with the largest check of their life on the table. That is a bad way to learn anything.
 
 This guide is the walkthrough I would give you in a first consultation. It will not make you an expert. It should make the transaction stop feeling opaque.
 
@@ -40,7 +40,7 @@ Beyond the purchase price, plan for:
 
 You now sign a written agreement with your agent before you make an offer, and it states what you owe them.
 
-California Civil Code §1670.50, effective 1 January 2025, requires a written buyer-broker representation agreement executed no later than when you submit an offer. It must state the compensation, the services provided, when compensation is due, and the term — which cannot exceed 90 days for an individual buyer. Separately, national practice changes from August 2024 mean buyer-agent compensation is no longer published on the MLS, and you need a written agreement before touring a home.
+California Civil Code §1670.50, effective January 1, 2025, requires a written buyer-broker representation agreement executed no later than when you submit an offer. It must state the compensation, the services provided, when compensation is due, and the term — which cannot exceed 90 days for an individual buyer. Separately, national practice changes from August 2024 mean buyer-agent compensation is no longer published on the MLS, and you need a written agreement before touring a home.
 
 **This does not necessarily mean you pay out of pocket.** Sellers frequently still cover some or all of that compensation as a concession negotiated in the purchase agreement. What changed is that it is negotiated and written down rather than assumed and invisible.
 
@@ -106,7 +106,7 @@ Beyond the down payment, budget for closing costs, property tax at California's 
 
 ### Do first-time buyers have to sign a contract with a real estate agent in California?
 
-Yes. Since 1 January 2025, California Civil Code §1670.50 has required a written buyer-broker representation agreement executed no later than when you make an offer, stating the compensation, the services, when payment is due, and the term. For an individual buyer the term cannot exceed 90 days. National practice changes since August 2024 also require a written agreement before touring a home.
+Yes. Since January 1, 2025, California Civil Code §1670.50 has required a written buyer-broker representation agreement executed no later than when you make an offer, stating the compensation, the services, when payment is due, and the term. For an individual buyer the term cannot exceed 90 days. National practice changes since August 2024 also require a written agreement before touring a home.
 
 ### Does the buyer pay the agent commission in California now?
 
@@ -118,7 +118,7 @@ Mello-Roos is a community facilities district assessment used to fund infrastruc
 
 ### Is it a good time for a first-time buyer in Orange County?
 
-Conditions are more favourable than in 2024. Active listings reached about 5,165 in late August 2026, a yearly high, and median days on market rose to roughly 54 from about 40 a year earlier — meaning more choice, more time to inspect, and more room to negotiate credits. Prices are still up about 3.2% year over year.
+Conditions are more favorable than in 2024. Active listings reached about 5,165 in late August 2026, a yearly high, and median days on market rose to roughly 54 from about 40 a year earlier — meaning more choice, more time to inspect, and more room to negotiate credits. Prices are still up about 3.2% year over year.
 
 ### What is the biggest mistake first-time buyers make?
 
@@ -126,9 +126,9 @@ Removing a contingency before they have the information it was protecting them a
 
 ## Sources
 
-- [California Civil Code §1670.50 — Buyer-Broker Representation Agreements](https://law.justia.com/codes/california/code-civ/division-3/part-2/title-4-1/section-1670-50/) — written agreement requirements effective 1 January 2025.
+- [California Civil Code §1670.50 — Buyer-Broker Representation Agreements](https://law.justia.com/codes/california/code-civ/division-3/part-2/title-4-1/section-1670-50/) — written agreement requirements effective January 1, 2025.
 - [California Association of REALTORS® — County Sales and Price Activity](https://www.car.org/marketdata/data/countysalesactivity) — Orange County median for existing detached single-family homes, July 2026.
 - [Redfin — Orange County housing market](https://www.redfin.com/county/332/CA/Orange-County/housing-market) — median sale price across all property types and median days on market, August 2026.
 - [Orange County weekly housing report](https://www.ocrealestateinc.com/orange-county-housing-report/) — active listing count, late August 2026.
 
-*Figures verified 2 September 2026. This is general information, not lending, tax, or legal advice. Loan programs, assistance eligibility, and assessment amounts vary by property and change over time — confirm current figures with a licensed lender and verify assessments for any specific property.*
+*Figures verified September 2, 2026. This is general information, not lending, tax, or legal advice. Loan programs, assistance eligibility, and assessment amounts vary by property and change over time — confirm current figures with a licensed lender and verify assessments for any specific property.*

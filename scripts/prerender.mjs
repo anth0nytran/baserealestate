@@ -20,7 +20,7 @@ const root = process.cwd();
 const distDir = path.join(root, "dist");
 const ssrDir = path.join(root, "dist-ssr");
 
-const STATIC_ROUTES = ["/", "/services", "/contact"];
+const STATIC_ROUTES = ["/", "/services", "/buy", "/sell", "/contact"];
 
 async function blogRoutes() {
     const cutoff = publishCutoff();

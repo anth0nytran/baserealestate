@@ -33,9 +33,9 @@ export default {
                 /* --- Display roles (Bodoni). 48→92, 38→64, 30→46, 22→28px. --- */
                 "d-hero": ["clamp(3rem, 3.67vw + 2.08rem, 5.75rem)", { lineHeight: "0.98", letterSpacing: "-0.025em" }],
                 "d-page": ["clamp(2.375rem, 2.17vw + 1.83rem, 4rem)", { lineHeight: "1.02", letterSpacing: "-0.02em" }],
-                "d-section": ["clamp(1.875rem, 1.33vw + 1.54rem, 2.875rem)", { lineHeight: "1.08", letterSpacing: "-0.015em" }],
-                "d-block": ["clamp(1.375rem, 0.5vw + 1.25rem, 1.75rem)", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
-                "d-item": ["1.1875rem", { lineHeight: "1.3", letterSpacing: "-0.005em" }],
+                "d-section": ["clamp(2.125rem, 1.88vw + 1.66rem, 3.5rem)", { lineHeight: "1.08", letterSpacing: "-0.015em" }],
+                "d-block": ["clamp(1.5rem, 0.58vw + 1.35rem, 1.9375rem)", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
+                "d-item": ["1.3125rem", { lineHeight: "1.3", letterSpacing: "-0.005em" }],
 
                 /* --- Prose roles (Jost). 17→21px lead. --- */
                 lead: ["clamp(1.0625rem, 0.33vw + 0.98rem, 1.3125rem)", { lineHeight: "1.75", letterSpacing: "0.002em" }],
@@ -56,8 +56,8 @@ export default {
                     800: "#1B2A41",
                     700: "#2A3D59",
                     600: "#3D5273",
-                    500: "#54698A",
-                    400: "#7386A3",
+                    500: "#46597A",
+                    400: "#5F7291",
                     300: "#9AA9C0",
                     200: "#C3CCDA",
                     100: "#DFE5ED",
@@ -89,6 +89,15 @@ export default {
                 muted: { DEFAULT: "#FAF7F0", foreground: "#54698A" },
             },
 
+            /*
+             * Jost at 300 read as grey haze at body sizes on white — the most
+             * common complaint about the site. "Light" now resolves to the
+             * regular cut, so every prose block gains weight in one place.
+             */
+            fontWeight: {
+                light: "400",
+            },
+
             letterSpacing: {
                 brand: "0.3em",
                 label: "0.2em",
@@ -103,9 +112,9 @@ export default {
              */
             spacing: {
                 "sec-xs": "clamp(2.5rem, 4vw, 4rem)",
-                "sec-sm": "clamp(3.5rem, 6vw, 6rem)",
-                "sec-md": "clamp(5rem, 8vw, 8.5rem)",
-                "sec-lg": "clamp(6.5rem, 11vw, 12rem)",
+                "sec-sm": "clamp(3rem, 4.5vw, 4.5rem)",
+                "sec-md": "clamp(4rem, 6vw, 6.5rem)",
+                "sec-lg": "clamp(5rem, 8.5vw, 9rem)",
                 "sec-xl": "clamp(8rem, 15vw, 16rem)",
                 gutter: "clamp(1.5rem, 5vw, 4rem)",
             },

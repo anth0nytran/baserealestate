@@ -2,12 +2,12 @@
  * Every client-specific fact on this site lives here.
  *
  * Pages import from this module rather than hard-coding a phone number or a
- * headline, so a change of brokerage, licence number, or service area is one
+ * headline, so a change of brokerage, license number, or service area is one
  * edit in one file instead of a grep across twelve components.
  *
  * Anything the client has not yet supplied is marked TODO(client) and carries
  * a visibly provisional value. Nothing in this file is invented: no review,
- * sale count, rating, or licence number is written here unless the client
+ * sale count, rating, or license number is written here unless the client
  * provided it. Search this file for "TODO(client)" before launch.
  */
 
@@ -44,7 +44,7 @@ export const BRAND = {
 
 export const AGENT = {
     firstName: "Sam",
-    /** Full legal name, as it should appear in schema and licence disclosures. */
+    /** Full legal name, as it should appear in schema and license disclosures. */
     fullName: "Bassam Elsherif",
     /** How he is addressed everywhere in body copy. */
     displayName: 'Bassam "Sam" Elsherif',
@@ -64,24 +64,77 @@ export const CONTACT = {
     /** Digits only, for tel: hrefs. */
     phoneHref: "9499458225",
     email: "sam.elsherif@gmail.com",
-    hours: "Mon – Fri, 8 AM – 7 PM",
+    hours: "Mon – Fri, 8 AM – 8 PM",
     hoursNote: "After-hours available by appointment",
     /** Schema openingHoursSpecification. */
     hoursSchema: {
         dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
         opens: "08:00",
-        closes: "19:00",
+        closes: "20:00",
     },
 } as const;
+
+/**
+ * Sam's pages on his brokerage's site.
+ *
+ * Labeled by what is actually there, checked 2026-10-13: /buyer is a sign-in
+ * and create-account page for his buyer account, and /seller is an instant
+ * home-value and equity report with a request for an in-home evaluation. If
+ * either page changes what it offers, change the copy in Guide.tsx with it.
+ */
+export const NEST_PORTAL = {
+    buyer: "https://samelsherif.nestbrokerage.com/buyer",
+    seller: "https://samelsherif.nestbrokerage.com/seller",
+} as const;
+
+/**
+ * Live listings on Nest's search, filtered to one place.
+ *
+ * Parameter names are Nest's own — s[locations][0][city] for a city (its
+ * search header confirms the match: "Homes in Newport Beach, CA (city)") and
+ * s[locations][0][county] for the county. Property types mirror the set
+ * Nest's own result links use, townhouse included, so a buyer sees every
+ * residential listing rather than single-family homes alone.
+ */
+const NEST_SEARCH = "https://search.nestbrokerage.com/search";
+const NEST_PROPERTY_TYPES = ["house", "condo", "townhouse", "land", "other"] as const;
+
+export const nestSearchUrl = (place: { city: string } | { county: string }): string => {
+    // Built by hand, not with URLSearchParams: Nest's own links keep the
+    // brackets literal and encode spaces as %20, and this matches them.
+    const location = "city" in place ? ["city", place.city] : ["county", place.county];
+    const pairs = [
+        [`s[locations][0][${location[0]}]`, location[1]],
+        ["s[locations][0][state]", "CA"],
+        ...NEST_PROPERTY_TYPES.map((type, i) => [`s[propertyTypes][${i}]`, type]),
+    ];
+    return `${NEST_SEARCH}?${pairs.map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join("&")}`;
+};
+
+/**
+ * Where a service-area name should search when it is not an MLS city of its
+ * own. Corona del Mar is a neighborhood of Newport Beach: searched by name it
+ * returned 4 homes (2026-10-13) against 349 for Newport Beach, because the MLS
+ * files nearly all of its listings under Newport Beach.
+ */
+const SEARCH_AS_CITY: Record<string, string> = {
+    "Corona Del Mar": "Newport Beach",
+};
+
+/** Search link for any name the site lists as a service area. */
+export const areaSearchUrl = (name: string): string =>
+    name === AREA.primary
+        ? nestSearchUrl({ county: "Orange" })
+        : nestSearchUrl({ city: SEARCH_AS_CITY[name] ?? name });
 
 /* -------------------------------------------------------------------------
  * Licensing & brokerage
  *
- * California BPC §10140.6 requires an agent's licence number and responsible
+ * California BPC §10140.6 requires an agent's license number and responsible
  * broker on marketing material, so both fields below are legal content, not
  * footer decoration.
  *
- * The licence number is verified against the DRE public register
+ * The license number is verified against the DRE public register
  * (https://www2.dre.ca.gov/PublicASP/pplinfo.asp?License_id=02282409):
  * Elsherif, Bassam Salah — SALESPERSON — #02282409 — LICENSED, issued
  * 06/27/25, expires 06/26/29, no disciplinary action.
@@ -98,7 +151,7 @@ export const CONTACT = {
 export const LICENSE = {
     /** Verified against the DRE public register, 2026-09-10. */
     dreLicense: "02282409",
-    /** Gates the licence half of the disclosure line. */
+    /** Gates the license half of the disclosure line. */
     dreConfirmed: true,
     brokerage: {
         /**
@@ -108,14 +161,14 @@ export const LICENSE = {
          */
         name: "Nest Real Estate",
         confirmed: true,
-        /** No usable Nest artwork supplied; the line is typographic for now. */
-        showMark: false,
-        mark: "/base/brokerage-mark.png",
+        /** Official Nest artwork, recolored by `npm run images:logos`. */
+        showMark: true,
+        mark: { navy: "/base/nest-navy.png", cream: "/base/nest-cream.png", width: 960, height: 262 },
     },
 } as const;
 
 /**
- * Renders the licence disclosure, degrading a clause at a time.
+ * Renders the license disclosure, degrading a clause at a time.
  *
  * The two halves are gated independently because they arrive independently:
  * a confirmed brokerage with an unverified number, or the reverse, are both
@@ -127,12 +180,12 @@ export const licenseLine = (): string =>
         .join(" · ");
 
 /**
- * The licence number as it must read anywhere it stands on its own.
+ * The license number as it must read anywhere it stands on its own.
  *
- * A bare "CA 02282409" is not a licence disclosure — the issuing body has to
+ * A bare "CA 02282409" is not a license disclosure — the issuing body has to
  * be legible, and four surfaces print this number without the rest of the
  * line around it. Returns null rather than a placeholder so a caller has to
- * decide what an unconfirmed licence renders as.
+ * decide what an unconfirmed license renders as.
  */
 export const dreLine = (): string | null => (LICENSE.dreConfirmed ? `CA DRE #${LICENSE.dreLicense}` : null);
 
@@ -150,11 +203,11 @@ export const dreLine = (): string | null => (LICENSE.dreConfirmed ? `CA DRE #${L
  * ---------------------------------------------------------------------- */
 
 /**
- * A city in the neighbourhood grid and hero rotation.
+ * A city in the neighborhood grid and hero rotation.
  *
  * `photo` and `photoAlt` travel together by construction. A photograph with
  * no description of what it shows is how the grid ended up captioning a
- * harbour aerial, a cove, a marina, and a pier all as "Residential street in
+ * harbor aerial, a cove, a marina, and a pier all as "Residential street in
  * ..." — true of the generated stock that preceded them, false of every real
  * photograph that replaced it. Making the pair a union means the compiler
  * catches that rather than a reader noticing it a year later.
@@ -206,14 +259,14 @@ export const AREA = {
         { name: "Laguna Niguel", slug: "laguna-niguel" },
     ],
 
-    /** Cities rendered in the neighbourhood grid and hero rotation. */
+    /** Cities rendered in the neighborhood grid and hero rotation. */
     cities: [
-        { name: "Newport Beach", slug: "newport-beach", photo: "newport-beach", photoAlt: "Balboa Pier and moored sailboats in Newport Harbour, Newport Beach, California", note: "Harbour, peninsula, and the bluffs above it" },
+        { name: "Newport Beach", slug: "newport-beach", photo: "newport-beach", photoAlt: "Balboa Pier and moored sailboats in Newport Harbor, Newport Beach, California", note: "Harbor, peninsula, and the bluffs above it" },
         { name: "Laguna Beach", slug: "laguna-beach", photo: "laguna-beach", photoAlt: "Bluff-top homes above a sandy cove at Laguna Beach, California", note: "Coves, canyon lots, and a market of one-offs" },
-        { name: "Dana Point", slug: "dana-point", photo: "dana-point", photoAlt: "Boats moored in Dana Point Harbour behind the breakwater, Dana Point, California", note: "Harbour-side, Monarch Beach, and the headlands" },
+        { name: "Dana Point", slug: "dana-point", photo: "dana-point", photoAlt: "Boats moored in Dana Point Harbor behind the breakwater, Dana Point, California", note: "Harbor-side, Monarch Beach, and the headlands" },
         { name: "Laguna Niguel", slug: "laguna-niguel", photo: "laguna-niguel", photoAlt: "Coastal canyon and ridgeline seen from the trail at Badlands Park, Laguna Niguel, California", note: "Inland hills with coastal access" },
         { name: "Huntington Beach", slug: "huntington-beach", photo: "huntington-beach", photoAlt: "Huntington Beach Pier and surfers in the water, Huntington Beach, California", note: "Downtown, Huntington Harbour, and the wetlands" },
-        { name: "Costa Mesa", slug: "costa-mesa", photo: "costa-mesa", photoAlt: "Sandstone and running water in Isamu Noguchi's California Scenario garden, Costa Mesa, California", note: "Eastside character, close to everything" },
+        { name: "Costa Mesa", slug: "costa-mesa", photo: "costa-mesa", photoAlt: "Sandstone and running water in Isamu Noguchi's California Scenario garden, Costa Mesa, California", note: "Noguchi's garden, the Eastside, and close to everything" },
         { name: "Irvine", slug: "irvine", photo: "irvine", photoAlt: "White footbridge over the lake at Woodbridge, with snow on the mountains behind, Irvine, California", note: "Villages, schools, and predictable inventory" },
         { name: "San Clemente", slug: "san-clemente", photo: "san-clemente", photoAlt: "Bluff-top homes above the coastal rail line and the pier clock tower, San Clemente, California", note: "The south end of the county, and the quietest coast" },
     ] as const satisfies readonly City[],
@@ -228,6 +281,7 @@ export const AREA = {
         "Orange",
         "Santa Ana",
         "Anaheim",
+        "Yorba Linda",
     ],
 } as const;
 
@@ -283,7 +337,11 @@ export type EditorialName =
     | "bluff"
     | "terrace"
     | "water"
-    | "coastline";
+    | "coastline"
+    | "oak-living"
+    | "marble-kitchen"
+    | "staged-living"
+    | "timber-living";
 
 /** What each frame shows, for alt text and for choosing between them. */
 export const EDITORIAL: Record<EditorialName, string> = {
@@ -295,6 +353,10 @@ export const EDITORIAL: Record<EditorialName, string> = {
     terrace: "Glass-walled house opening onto a pool terrace in daylight",
     water: "Paddleboarders crossing deep navy open water, seen from above",
     coastline: "Southern California coastline curving away past a hillside town",
+    "oak-living": "Bright white living room under a pale oak beam, with an olive tree by the window",
+    "marble-kitchen": "White kitchen with marble counters, brass pendants, and pale oak floors",
+    "staged-living": "Staged living room in cream and sand, with a round oak coffee table",
+    "timber-living": "Living room with a timber ceiling, a cognac leather sofa, and a full glass wall",
 };
 
 /**
@@ -320,7 +382,12 @@ export interface Service {
     includes: readonly string[];
     /** Base name for propertyPhoto(). */
     photo: string;
+    /** A dedicated page, for the services big enough to need one. */
+    page?: { href: string; label: string };
 }
+
+/** Where a link to a service should land: its own page, or its /services section. */
+export const serviceHref = (service: Service): string => service.page?.href ?? `/services#${service.id}`;
 
 export const SERVICES: readonly Service[] = [
     {
@@ -364,6 +431,7 @@ export const SERVICES: readonly Service[] = [
             "Guidance held all the way through escrow",
         ],
         photo: "buy",
+        page: { href: "/buy", label: "The full buyer’s guide" },
     },
     {
         id: "selling",
@@ -378,6 +446,7 @@ export const SERVICES: readonly Service[] = [
             "Negotiation through appraisal and inspection",
         ],
         photo: "sell",
+        page: { href: "/sell", label: "The full seller’s guide" },
     },
     {
         id: "investing",
@@ -387,11 +456,11 @@ export const SERVICES: readonly Service[] = [
         blurb:
             "Investment property is underwriting before it is real estate. Sam models cash flow, carrying cost, and exit before anyone tours anything — so the properties you see are the ones that already survived the math.",
         includes: [
-            "Cash-flow and carrying-cost modelling",
-            "Neighbourhood-level rent and appreciation context",
+            "Cash-flow and carrying-cost modeling",
+            "Neighborhood-level rent and appreciation context",
             "Exit strategy considered before entry",
         ],
-        photo: "cta",
+        photo: "invest",
     },
 ] as const;
 
@@ -399,7 +468,7 @@ export const SERVICES: readonly Service[] = [
  * Market data
  *
  * Every figure carries its source and its observation date, and anything
- * derived here is labelled as a calculation rather than a published statistic.
+ * derived here is labeled as a calculation rather than a published statistic.
  * That is the rule the whole site is held to — it is also the single strongest
  * reason for an answer engine to cite this page instead of one of the many
  * Orange County sites that publish a median price with no date and no source.
@@ -449,7 +518,7 @@ export const MARKET = {
         },
     ] as const satisfies readonly MarketFigure[],
 
-    /** Derived by Base Real Estate Group from the two rows above. Labelled as such. */
+    /** Derived by Base Real Estate Group from the two rows above. Labeled as such. */
     medianGap: "≈$270,000",
 
     conditions: [
@@ -542,7 +611,7 @@ export const PROCESS = [
  * Social proof
  *
  * Every quote, figure, and closing below was read off Sam's Zillow agent
- * profile on 11 September 2026 and is reproduced, not summarised. Quotes are
+ * profile on September 11, 2026 and is reproduced, not summarized. Quotes are
  * verbatim excerpts; where a word was obviously dropped by the reviewer it is
  * restored in [brackets] and nothing else is touched.
  *
@@ -550,7 +619,7 @@ export const PROCESS = [
  * shows a "$930K-$1.3M" price range and a "$1.1M" average against a sales
  * list whose top closing is $1,390,000 and whose mean is $1,187,200 — the
  * tiles disagree with the list on the same page. The list is the primary
- * record, so the figures in STATS are computed from it and labelled as
+ * record, so the figures in STATS are computed from it and labeled as
  * derived. If Zillow ever fixes its tiles the numbers here should still hold.
  * ---------------------------------------------------------------------- */
 
@@ -560,7 +629,7 @@ export const PROOF_SOURCE = {
     profileUrl: "https://www.zillow.com/profile/sam75344",
     /** Re-read this profile and this date together, or neither. */
     verifiedOn: "2026-09-11",
-    verifiedLabel: "11 September 2026",
+    verifiedLabel: "September 11, 2026",
     rating: "5.0",
     reviewCount: 6,
 } as const;

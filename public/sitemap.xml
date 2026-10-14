@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.baserealestate.com/</loc>
-    <lastmod>2026-09-04</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -17,7 +17,7 @@
   </url>
   <url>
     <loc>https://www.baserealestate.com/services</loc>
-    <lastmod>2026-09-04</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -26,8 +26,28 @@
     </image:image>
   </url>
   <url>
+    <loc>https://www.baserealestate.com/buy</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.baserealestate.com/base/sam-portrait.jpg</image:loc>
+      <image:title>Bassam &quot;Sam&quot; Elsherif, REALTOR® — Base Real Estate Group</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.baserealestate.com/sell</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.baserealestate.com/base/sam-portrait.jpg</image:loc>
+      <image:title>Bassam &quot;Sam&quot; Elsherif, REALTOR® — Base Real Estate Group</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.baserealestate.com/contact</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>

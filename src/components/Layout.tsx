@@ -5,7 +5,9 @@ import { trackPhoneClick, trackEmailClick, trackCtaClick } from "@/lib/analytics
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ArrowRight, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { AGENT, AREA, BRAND, CONTACT, CREDIT, LICENSE, PRIMARY_CTA, SERVICES, dreLine, licenseLine } from "@/config/site";
+import { AGENT, AREA, BRAND, CONTACT, CREDIT, PRIMARY_CTA, SERVICES, dreLine, licenseLine, serviceHref, areaSearchUrl } from "@/config/site";
+import { BrandName, BrokeredBy } from "./Brand";
+import { brandify } from "../lib/brand";
 
 interface LayoutProps {
     children: ReactNode;
@@ -13,6 +15,8 @@ interface LayoutProps {
 
 const NAV_LINKS = [
     { name: "Home", path: "/" },
+    { name: "Buy", path: "/buy" },
+    { name: "Sell", path: "/sell" },
     { name: "Services", path: "/services" },
     { name: "Journal", path: "/blog" },
     { name: "Contact", path: "/contact" },
@@ -103,7 +107,12 @@ export default function Layout({ children }: LayoutProps) {
      * screen is split navy-left / white-right, and no single mark colour reads
      * against both — so it gets the solid white plate from the first paint.
      */
-    const darkHero = route === "/" || route === "/services" || route.startsWith("/blog");
+    const darkHero =
+        route === "/" ||
+        route === "/services" ||
+        route === "/buy" ||
+        route === "/sell" ||
+        route.startsWith("/blog");
     const lightMarks = darkHero && !scrolled;
     const plated = !darkHero || scrolled;
 
@@ -199,14 +208,15 @@ export default function Layout({ children }: LayoutProps) {
                             // run into the Menu button on a 390px screen.
                             size={
                                 scrolled
-                                    ? "text-[15px] sm:text-[17px] md:text-[19px]"
-                                    : "text-[17px] sm:text-[20px] md:text-[27px]"
+                                    ? "text-[15px] sm:text-[17px] xl:text-[19px]"
+                                    : "text-[17px] sm:text-[20px] lg:text-[20px] xl:text-[27px]"
                             }
                         />
                     </Link>
 
-                    <div className="hidden items-center gap-10 md:flex">
-                        {NAV_LINKS.slice(0, 3).map((link) => (
+                    <div className="hidden items-center gap-6 whitespace-nowrap lg:flex xl:gap-10">
+                        {/* The logo is the way home, and Contact is the button. */}
+                        {NAV_LINKS.filter((link) => link.path !== "/" && link.path !== "/contact").map((link) => (
                             <Link
                                 key={link.path}
                                 to={link.path}
@@ -231,7 +241,7 @@ export default function Layout({ children }: LayoutProps) {
                             href={`tel:${CONTACT.phoneHref}`}
                             onClick={() => trackPhoneClick("nav")}
                             className={cn(
-                                "label hidden transition-colors duration-state lg:inline",
+                                "label hidden transition-colors duration-state min-[1400px]:inline",
                                 lightMarks ? "text-cream/60 hover:text-cream" : "text-navy-400 hover:text-ink"
                             )}
                         >
@@ -256,7 +266,7 @@ export default function Layout({ children }: LayoutProps) {
                         onClick={() => setMobileMenuOpen(true)}
                         aria-label="Open menu"
                         aria-expanded={mobileMenuOpen}
-                        className={cn("label md:hidden", lightMarks ? "text-cream" : "text-ink")}
+                        className={cn("label lg:hidden", lightMarks ? "text-cream" : "text-ink")}
                     >
                         Menu
                     </button>
@@ -317,7 +327,7 @@ export default function Layout({ children }: LayoutProps) {
                                 {SERVICES.map((service) => (
                                     <li key={service.id}>
                                         <Link
-                                            to={`/services#${service.id}`}
+                                            to={serviceHref(service)}
                                             onClick={() => setMobileMenuOpen(false)}
                                             className="text-body-sm font-light text-cream/65 transition-colors hover:text-cream"
                                         >
@@ -376,14 +386,14 @@ export default function Layout({ children }: LayoutProps) {
             {/* ----------------------- Sticky mobile CTA ----------------------- */}
             <div
                 className={cn(
-                    "fixed inset-x-0 bottom-0 z-40 transition-transform duration-view ease-brand md:hidden",
+                    "fixed inset-x-0 bottom-0 z-40 transition-transform duration-view ease-brand lg:hidden",
                     scrolled && !mobileMenuOpen ? "translate-y-0" : "translate-y-full"
                 )}
             >
                 <Link
                     to={PRIMARY_CTA.href}
                     onClick={() => trackCtaClick(PRIMARY_CTA.label, "sticky-bar")}
-                    className="on-navy flex items-center justify-between gap-4 border-t border-gold/30 bg-navy/97 px-5 py-4 backdrop-blur-md"
+                    className="on-navy flex items-center justify-between gap-4 border-t border-gold/30 bg-navy px-5 py-4"
                 >
                     <span className="min-w-0">
                         <span className="label mb-1 block text-gold-400">No pressure, no obligation</span>
@@ -404,7 +414,7 @@ export default function Layout({ children }: LayoutProps) {
                 <div className="mx-auto max-w-shell">
                     <div className="grid grid-cols-1 border-b border-cream/10 md:grid-cols-12">
                         {/* Brand */}
-                        <div className="flex flex-col justify-between border-b border-cream/10 p-8 md:col-span-4 md:border-b-0 md:border-r md:p-14">
+                        <div className="flex flex-col justify-between border-b border-cream/10 p-8 md:col-span-4 md:border-b-0 md:border-r md:p-14 lg:col-span-3 lg:p-12">
                             <div>
                                 {/*
                                  * The full-scale mark, which carries the gold
@@ -431,9 +441,7 @@ export default function Layout({ children }: LayoutProps) {
                                     {AGENT.title} · {AGENT.role}
                                 </p>
                                 {dreLine() && <p className="label mt-3 text-cream/30">{dreLine()}</p>}
-                                {LICENSE.brokerage.confirmed && (
-                                    <p className="label mt-2 text-cream/30">{LICENSE.brokerage.name}</p>
-                                )}
+                                <BrokeredBy tone="cream" className="mt-5 text-[26px]" />
                             </div>
                         </div>
 
@@ -461,7 +469,7 @@ export default function Layout({ children }: LayoutProps) {
                                 {SERVICES.map((service) => (
                                     <li key={service.id}>
                                         <Link
-                                            to={`/services#${service.id}`}
+                                            to={serviceHref(service)}
                                             className="text-body-sm font-light text-cream/70 transition-colors hover:text-cream"
                                         >
                                             {service.name}
@@ -472,14 +480,24 @@ export default function Layout({ children }: LayoutProps) {
                         </nav>
 
                         {/* Areas */}
-                        <div className="border-b border-cream/10 p-8 md:col-span-3 md:border-b-0 md:border-r md:p-12 lg:col-span-2">
+                        <div className="border-b border-cream/10 p-8 md:col-span-3 md:border-b-0 md:border-r md:p-12">
                             <h2 className="label mb-7 font-sans text-cream/35">Areas Served</h2>
                             {/* Two columns: a single 15-item stack made this row
-                                twice the height of every other footer column. */}
-                            <ul className="grid grid-cols-2 gap-x-6 gap-y-4 md:grid-cols-1 lg:grid-cols-2">
+                                twice the height of every other footer column. At
+                                lg the column is a full quarter so city names sit on
+                                one line instead of breaking ("Orange / County"). */}
+                            <ul className="grid grid-cols-2 gap-x-5 gap-y-4 md:grid-cols-1 lg:grid-cols-2">
                                 {[AREA.primary, ...AREA.cities.map((c) => c.name), ...AREA.alsoServing].map((area) => (
-                                    <li key={area} className="text-body-sm font-light text-cream/55">
-                                        {area}
+                                    <li key={area}>
+                                        <a
+                                            href={areaSearchUrl(area)}
+                                            target="_blank"
+                                            rel="noopener"
+                                            onClick={() => trackCtaClick(`Search homes — ${area}`, "footer-areas")}
+                                            className="text-body-sm font-light text-cream/65 transition-colors hover:text-gold-300"
+                                        >
+                                            {area}
+                                        </a>
                                     </li>
                                 ))}
                             </ul>
@@ -535,13 +553,13 @@ export default function Layout({ children }: LayoutProps) {
                             className="whitespace-nowrap font-display leading-none tracking-[0.06em] text-cream/[0.055]"
                             style={{ fontSize: "min(13vw, 190px)" }}
                         >
-                            BASE
+                            {brandify("BASE")}
                         </span>
                     </div>
 
                     <div className="flex flex-col items-center justify-between gap-5 border-t border-cream/10 px-6 py-8 md:flex-row md:px-12">
                         <p className="label text-center text-cream/30 md:text-left">
-                            © {new Date().getFullYear()} {BRAND.legalName}. All rights reserved.
+                            © {new Date().getFullYear()} <BrandName legal />. All rights reserved.
                         </p>
                         <p className="label text-center text-cream/30">{licenseLine()}</p>
                         <a

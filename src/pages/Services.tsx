@@ -5,6 +5,7 @@ import SEO, { SITE_URL } from "../hooks/useSEO";
 import { Plate } from "@/components/Plate";
 import Reveal, { HeadlineDraw } from "../components/Reveal";
 import { Band, BandHead, Seam } from "../components/Section";
+import Timeline from "../components/Timeline";
 import { cn } from "../lib/utils";
 import {
     AGENT,
@@ -18,6 +19,8 @@ import {
     SERVICES,
 } from "../config/site";
 import { trackCtaClick, trackPhoneClick } from "../lib/analytics";
+import { BrandName } from "../components/Brand";
+import { brandify } from "../lib/brand";
 
 /* ==========================================================================
    Answer-engine content
@@ -58,7 +61,7 @@ const FAQS = [
     },
     {
         q: "How quickly will I hear back?",
-        a: `${AGENT.firstName} works ${CONTACT.hours}, with after-hours availability by appointment. Enquiries sent through this site are answered the same business day wherever possible.`,
+        a: `${AGENT.firstName} works ${CONTACT.hours}, with after-hours availability by appointment. Inquiries sent through this site are answered the same business day wherever possible.`,
     },
 ];
 
@@ -99,7 +102,7 @@ const DECISION_ROWS = [
         situation: "I want the numbers to work before I look at anything",
         service: "Investor Assistance",
         id: "investing",
-        outcome: "Cash-flow, carrying-cost, and exit modelling first",
+        outcome: "Cash-flow, carrying-cost, and exit modeling first",
     },
 ];
 
@@ -131,7 +134,7 @@ const Hero = () => (
 
                 {/* Answer-first block: what this page is, in under 55 words. */}
                 <p className="max-w-measure-lg text-lead font-light text-cream/80">
-                    {BRAND.name} offers knowledge transfer, real estate consulting, home purchase and sale
+                    <BrandName /> offers knowledge transfer, real estate consulting, home purchase and sale
                     representation, and investor assistance across {AREA.focusLabel}. They are listed in the order{" "}
                     {AGENT.firstName} believes they should happen — most clients start at the top and never think about
                     the rest until they are ready.
@@ -179,14 +182,24 @@ const ServiceSection = ({ service, index }: { service: (typeof SERVICES)[number]
                         ))}
                     </ul>
 
-                    <Link
-                        to={`${PRIMARY_CTA.href}?service=${service.value}`}
-                        onClick={() => trackCtaClick(`Enquire — ${service.name}`, "service-detail")}
-                        className="link-rule label mt-10"
-                    >
-                        Start with {service.name.toLowerCase()}
-                        <ArrowUpRight className="h-4 w-4 text-gold" strokeWidth={1.25} />
-                    </Link>
+                    <div className="mt-10 flex flex-wrap items-center gap-x-10 gap-y-5">
+                        <Link
+                            to={`${PRIMARY_CTA.href}?service=${service.value}`}
+                            onClick={() => trackCtaClick(`Inquire — ${service.name}`, "service-detail")}
+                            className="link-rule label"
+                        >
+                            Start with {service.name.toLowerCase()}
+                            <ArrowUpRight className="h-4 w-4 text-gold" strokeWidth={1.25} />
+                        </Link>
+                        {service.page && (
+                            <Link
+                                to={service.page.href}
+                                className="label text-navy-400 transition-colors hover:text-ink"
+                            >
+                                {service.page.label} →
+                            </Link>
+                        )}
+                    </div>
                 </Reveal>
             </div>
         </Band>
@@ -326,17 +339,7 @@ export default function Services() {
                     heading="How a working relationship runs."
                     lede="Five stages, in order. Nothing is decided in the first, and nothing is rushed in the last."
                 >
-                    <ol className="grid grid-cols-1 gap-px bg-cream/14 md:grid-cols-2 lg:grid-cols-5">
-                        {PROCESS.map((step, i) => (
-                            <Reveal key={step.step} variant="row" index={i} as="li" className="bg-navy p-6 md:p-7">
-                                <span className="tabular mb-6 block font-display text-d-item text-gold">
-                                    {step.step}
-                                </span>
-                                <h3 className="font-display text-d-item leading-tight text-cream">{step.title}</h3>
-                                <p className="mt-4 text-body-sm font-light text-cream/60">{step.body}</p>
-                            </Reveal>
-                        ))}
-                    </ol>
+                    <Timeline steps={PROCESS} tone="navy" cols={5} />
                 </BandHead>
             </Band>
 
@@ -374,8 +377,8 @@ export default function Services() {
                                 index={i}
                                 className={cn("py-8", i > 0 && "border-t border-navy/12")}
                             >
-                                <dt className="font-display text-d-block leading-snug text-ink">{faq.q}</dt>
-                                <dd className="mt-4 max-w-measure-lg text-body-sm font-light text-navy-600">{faq.a}</dd>
+                                <dt className="font-display text-d-block leading-snug text-ink">{brandify(faq.q)}</dt>
+                                <dd className="mt-4 max-w-measure-lg text-body-sm font-light text-navy-600">{brandify(faq.a)}</dd>
                             </Reveal>
                         ))}
                     </dl>

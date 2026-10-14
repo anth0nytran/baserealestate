@@ -8,6 +8,7 @@ import { posts, formatDate, type BlogPost } from "@/lib/blog";
 import { AGENT, AREA, BRAND, MARKET, PRIMARY_CTA } from "@/config/site";
 import { trackCtaClick } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { brandify } from "../lib/brand";
 
 /**
  * Journal hub.
@@ -89,7 +90,7 @@ const BlogHero = () => (
                 <p className="max-w-measure-lg text-lead font-light text-cream/70">
                     Straight answers about the {AREA.primaryFull} housing market — what homes actually sell for, what
                     buyers really pay, and what it means for your next move. Every figure names its source and the month
-                    it was observed, and every calculation is labelled as one.
+                    it was observed, and every calculation is labeled as one.
                 </p>
             </div>
         </div>
@@ -114,7 +115,7 @@ const FeaturedPost = ({ post }: { post: BlogPost }) => (
                     <h2 className="font-display text-d-section text-ink transition-colors duration-view group-hover:text-gold-600">
                         {post.title}
                     </h2>
-                    <p className="mb-8 mt-6 text-body font-light text-navy-600">{post.description}</p>
+                    <p className="mb-8 mt-6 text-body font-light text-navy-600">{brandify(post.description)}</p>
                     <PostMeta post={post} />
                     <span className="link-rule label mt-8">
                         Read the report
@@ -161,7 +162,7 @@ const PostGrid = ({ posts: items }: { posts: BlogPost[] }) => {
                                         {post.title}
                                     </h3>
                                     <span className="mb-7 mt-4 block flex-1 text-body-sm font-light text-navy-600">
-                                        {post.description}
+                                        {brandify(post.description)}
                                     </span>
                                     <PostMeta post={post} />
                                 </span>

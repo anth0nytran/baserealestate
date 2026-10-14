@@ -7,7 +7,7 @@ datePublished: "2026-08-08"
 dateModified: "2026-09-02"
 readingTime: "8 min read"
 image: "/neighborhoods/hero/dana-point-1600.webp"
-imageAlt: "Dana Point Harbour marina and breakwater, Orange County, California"
+imageAlt: "Dana Point Harbor marina and breakwater, Orange County, California"
 ctaPrompt: "Trying to work out whether waiting another year would cost you or save you?"
 featured: false
 tags:
@@ -68,7 +68,7 @@ Here is the calculation I would walk you through, and it has nothing to do with 
 
 **What is your horizon?** If you expect to hold for seven to ten years, the entry month matters far less than people believe. If you may need to sell within three, timing matters enormously and the current transaction costs plus a 54-day median sale time deserve serious weight.
 
-**What happens if you are wrong?** This is the question most people skip. If you buy now and prices soften, can you comfortably hold? If you wait and prices rise another 3%, does your target neighbourhood move out of reach? Whichever answer is more survivable is usually the right decision.
+**What happens if you are wrong?** This is the question most people skip. If you buy now and prices soften, can you comfortably hold? If you wait and prices rise another 3%, does your target neighborhood move out of reach? Whichever answer is more survivable is usually the right decision.
 
 Prices are up year over year. Anyone who waited for a crash has, so far, paid more. That is not a prediction — it is what the record shows.
 
@@ -108,7 +108,7 @@ That depends on what waiting costs you and how long you plan to hold. If your ho
 
 ### Is it a buyer's market or a seller's market in Orange County?
 
-Moving toward balance, without having arrived. Buyers have gained choice and time; sellers have retained pricing. Active listings at a yearly high and a 54-day median sale time are buyer-favourable conditions; a sold median still rising year over year is not.
+Moving toward balance, without having arrived. Buyers have gained choice and time; sellers have retained pricing. Active listings at a yearly high and a 54-day median sale time are buyer-favorable conditions; a sold median still rising year over year is not.
 
 ## Sources
 
@@ -117,4 +117,4 @@ Moving toward balance, without having arrived. Buyers have gained choice and tim
 - [Orange County weekly housing report](https://www.ocrealestateinc.com/orange-county-housing-report/) — active listing count, late August 2026.
 - [OC Real Estate Inc. — Newport Beach market report](https://www.ocrealestateinc.com/newport-beach-real-estate-market-report/) — asking-to-sold gap and price-band timing, six months to August 2026.
 
-*Figures verified 2 September 2026. This is general market information, not lending, tax, or investment advice. Orange County conditions change month to month — cite the observation date alongside any figure taken from this page.*
+*Figures verified September 2, 2026. This is general market information, not lending, tax, or investment advice. Orange County conditions change month to month — cite the observation date alongside any figure taken from this page.*

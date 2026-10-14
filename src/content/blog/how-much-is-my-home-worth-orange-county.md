@@ -82,7 +82,7 @@ For a coastal property, treat the county figures as background only. Coastal sou
 
 Whatever number you land on, understand what your first two weeks buy you.
 
-When a listing goes live, it is shown to every buyer who has been waiting and watching in that price band. That audience is the largest and the most motivated it will ever be. If the price tests a hopeful number, those two weeks are spent proving it does not work, and the reduction that follows is presented to a smaller and more sceptical pool.
+When a listing goes live, it is shown to every buyer who has been waiting and watching in that price band. That audience is the largest and the most motivated it will ever be. If the price tests a hopeful number, those two weeks are spent proving it does not work, and the reduction that follows is presented to a smaller and more skeptical pool.
 
 With active inventory at a yearly high, that audience has more alternatives than it did a year ago. The cost of testing a number has gone up.
 
@@ -96,7 +96,7 @@ That timing lets you do the things that actually change the number: address the 
 
 ### How accurate are Zillow and Redfin estimates in Orange County?
 
-They are reasonable orientation in uniform tract neighbourhoods and considerably less reliable on the coast. Automated models work from public records and nearby sales, and cannot account for view corridor, coastal permit history, unpermitted improvements, orientation, or condition. In Laguna Beach, Dana Point, and Newport Beach those factors routinely move value by six figures.
+They are reasonable orientation in uniform tract neighborhoods and considerably less reliable on the coast. Automated models work from public records and nearby sales, and cannot account for view corridor, coastal permit history, unpermitted improvements, orientation, or condition. In Laguna Beach, Dana Point, and Newport Beach those factors routinely move value by six figures.
 
 ### How much does a home valuation cost in Orange County?
 
@@ -108,7 +108,7 @@ Because a valuation is an argument from evidence, and agents may select differen
 
 ### Should I price high and negotiate down?
 
-Rarely, and it is more costly now than it used to be. Your first two weeks reach the largest and most motivated audience your listing will ever get. Spending them testing a high number means the inevitable reduction is presented to a smaller, more sceptical pool. With Orange County active listings at a yearly high, buyers have more alternatives than they did a year ago.
+Rarely, and it is more costly now than it used to be. Your first two weeks reach the largest and most motivated audience your listing will ever get. Spending them testing a high number means the inevitable reduction is presented to a smaller, more skeptical pool. With Orange County active listings at a yearly high, buyers have more alternatives than they did a year ago.
 
 ### What is the difference between asking price and sale price right now?
 
@@ -125,4 +125,4 @@ About 54 days at the median as of August 2026, up from roughly 40 days a year ea
 - [OC Real Estate Inc. — Newport Beach market report](https://www.ocrealestateinc.com/newport-beach-real-estate-market-report/) — asking-to-sold gap, price-band timing, and detached single-family median, six months to August 2026.
 - [Orange County weekly housing report](https://www.ocrealestateinc.com/orange-county-housing-report/) — active listing count, late August 2026.
 
-*Figures verified 2 September 2026. Market data describes aggregates and does not establish the value of any individual property. A valuation of your home requires an analysis of that specific property.*
+*Figures verified September 2, 2026. Market data describes aggregates and does not establish the value of any individual property. A valuation of your home requires an analysis of that specific property.*

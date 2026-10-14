@@ -26,6 +26,13 @@ const TONE: Record<Tone, string> = {
     navy: "on-navy bg-navy text-cream",
 };
 
+/* Literal class names: Tailwind only keeps CSS for classes it can read in source. */
+const GROUND: Record<Tone, string> = {
+    white: "band-white",
+    cream: "band-cream",
+    navy: "band-navy",
+};
+
 const RULE: Record<Tone, string> = {
     white: "border-navy/12",
     cream: "border-navy/12",
@@ -59,7 +66,7 @@ export function Band({
     className,
 }: BandProps) {
     return (
-        <section id={id} className={cn("relative", TONE[tone], className)}>
+        <section id={id} className={cn("band relative", GROUND[tone], TONE[tone], className)}>
             <div className={cn("mx-auto max-w-shell px-gutter", DENSITY[density])}>
                 <div className={cn(rule && "border-t", rule && RULE[tone])}>{children}</div>
             </div>
@@ -127,7 +134,10 @@ export function BandHead({
         return (
             <div className={className}>
                 <Reveal className="flex flex-col gap-6 pt-10 lg:flex-row lg:items-end lg:justify-between lg:pt-14">
-                    <h2 className="max-w-2xl font-display text-d-section">{heading}</h2>
+                    <div>
+                        <h2 className="max-w-2xl font-display text-d-section">{heading}</h2>
+                        <span className="rule mt-6 w-14" aria-hidden="true" />
+                    </div>
                     {lede && (
                         <p
                             className={cn(
@@ -178,6 +188,7 @@ export function BandHead({
                 )}
             >
                 <h2 className="font-display text-d-section">{heading}</h2>
+                <span className="rule mt-6 w-14" aria-hidden="true" />
                 {lede && (
                     <p
                         className={cn(
@@ -254,7 +265,13 @@ export function Cell({
     className?: string;
 }) {
     return (
-        <Tag className={cn("p-6 md:p-8", tone === "navy" ? "bg-navy" : "bg-white", className)}>
+        <Tag
+            className={cn(
+                "cell-accent p-6 md:p-8",
+                tone === "navy" ? "bg-navy hover:bg-navy-700/60" : "bg-white hover:bg-cream",
+                className
+            )}
+        >
             {children}
         </Tag>
     );
@@ -290,19 +307,19 @@ export function Seam({
                             key={item.label}
                             variant="row"
                             index={i}
-                            className={cn("px-5 py-7 md:px-7", tone === "navy" ? "bg-navy" : "bg-white")}
+                            className={cn("cell-accent px-5 py-7 md:px-7", tone === "navy" ? "bg-navy" : "bg-white")}
                         >
                             <dt
                                 className={cn(
                                     "label",
-                                    tone === "navy" ? "text-cream/40" : "text-navy-400"
+                                    tone === "navy" ? "text-cream/55" : "text-navy-500"
                                 )}
                             >
                                 {item.label}
                             </dt>
                             <dd
                                 className={cn(
-                                    "mt-3 font-display text-d-item tabular",
+                                    "mt-3 font-display text-d-block leading-none tabular",
                                     tone === "navy" ? "text-cream" : "text-ink"
                                 )}
                             >

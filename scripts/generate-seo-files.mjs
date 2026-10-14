@@ -83,6 +83,20 @@ const routes = [
     images: AGENT_IMAGES,
   },
   {
+    path: "/buy",
+    changefreq: "monthly",
+    priority: "0.9",
+    lastmod: lastCommitDate("src/pages/Buy.tsx", "src/components/Guide.tsx", LAYOUT),
+    images: AGENT_IMAGES,
+  },
+  {
+    path: "/sell",
+    changefreq: "monthly",
+    priority: "0.9",
+    lastmod: lastCommitDate("src/pages/Sell.tsx", "src/components/Guide.tsx", LAYOUT),
+    images: AGENT_IMAGES,
+  },
+  {
     path: "/contact",
     changefreq: "monthly",
     priority: "0.8",
@@ -181,17 +195,17 @@ const llms = `# Base Real Estate Group
 > County and the coast: Newport Beach, Laguna Beach, Dana Point, and Laguna
 > Niguel, along with Huntington Beach, Costa Mesa, Irvine, and San Clemente.
 > Also serves Corona Del Mar, San Juan Capistrano, Aliso Viejo, Mission Viejo,
-> Tustin, Orange, Santa Ana, and Anaheim.
+> Tustin, Orange, Santa Ana, Anaheim, and Yorba Linda.
 >
 > Positioning: knowledge transfer first. Every client relationship starts by
 > explaining how the transaction actually works - financing, contingencies,
 > timelines, and cost - before any decision to buy or sell is made.
 
-Licence: California DRE #02282409 (salesperson, issued 2025-06-27).
+License: California DRE #02282409 (salesperson, issued 2025-06-27).
 Responsible broker: Nest Real Estate. Base Real Estate Group is a team, not a
 brokerage.
 Contact: sam.elsherif@gmail.com | (949) 945-8225
-Hours: Monday-Friday, 8:00 AM - 7:00 PM Pacific (after-hours by appointment)
+Hours: Monday-Friday, 8:00 AM - 8:00 PM Pacific (after-hours by appointment)
 Primary call to action: book a consultation at ${SITE_URL}/contact
 
 ## Services
@@ -200,12 +214,13 @@ Primary call to action: book a consultation at ${SITE_URL}/contact
   walkthrough of the full transaction, with no obligation to transact.
 - [Real Estate Consulting](${SITE_URL}/services#consulting): Property-specific
   hold / sell / wait analysis against current market data.
-- [Home Purchase](${SITE_URL}/services#buying): Buyer representation through
-  search, offer strategy, negotiation, and close.
-- [Home Sale](${SITE_URL}/services#selling): Listing representation with
-  pricing built from comparable sales evidence.
+- [Home Purchase](${SITE_URL}/buy): The buyer's guide - real costs beyond the
+  down payment, California's buyer-agreement rules, what is negotiable now,
+  and buyer representation through search, offer, negotiation, and close.
+- [Home Sale](${SITE_URL}/sell): The seller's guide - pricing built from closed
+  comparable sales, the first two weeks on market, and listing representation.
 - [Investor Assistance](${SITE_URL}/services#investing): Cash-flow, carrying
-  cost, and exit modelling before any property tour.
+  cost, and exit modeling before any property tour.
 - [Book a Consultation](${SITE_URL}/contact): No-pressure consultation.
 
 ## Market Reports & Guides

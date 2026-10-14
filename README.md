@@ -10,16 +10,22 @@ run JavaScript.
 
 ## Before this can launch
 
-Four things are unresolved. The first is a legal blocker in California; the
-rest are correctness. Every one of them is a single edit in
+One thing is unresolved: **the domain.** It is a single edit in
 `src/config/site.ts` — search that file for `TODO(client)`.
 
-| # | What's missing | Where | Why it matters |
-|---|---|---|---|
-| 1 | **Sam's DRE licence number** | `LICENSE.dreLicense`, then set `dreConfirmed: true` | California requires an agent's licence number on marketing material. The site currently renders no number rather than a wrong one, and every licence line is gated behind `dreConfirmed`. |
-| 2 | **Which brokerage** | `LICENSE.brokerage` | The brand assets Sam supplied include a *WERE Real Estate* logo; a note during intake said "same as Regina's", which is *Nest Real Estate*. These conflict. Set `name`, then `confirmed: true`, and `showMark: true` once a high-resolution logo arrives. |
-| 3 | **Real client reviews** | `REVIEWS`, then set `PROOF.hasReviews: true` | Sam named reviews as his proof but supplied none. Nothing is invented: the homepage renders an honest "reviews are being collected" panel until real, attributable reviews are pasted in. The same applies to `STATS` / `PROOF.hasStats` — no sale count, average price, or star rating is published without verifiable figures. |
-| 4 | **The domain** | `SITE_URL` **and** the `@id` values in `index.html` | Drives canonical tags, OG tags, `sitemap.xml`, `robots.txt`, `llms.txt`, and the JSON-LD entity graph. Currently a placeholder: `https://www.baserealestate.com`. Also set `SITE_URL` in the Vercel environment, and restore the apex → www redirect in `vercel.json` (removed because it named a domain that no longer applies). |
+| What's missing | Where | Why it matters |
+|---|---|---|
+| **The domain** | `SITE_URL` **and** the `@id` values in `index.html` | Drives canonical tags, OG tags, `sitemap.xml`, `robots.txt`, `llms.txt`, and the JSON-LD entity graph. Currently a placeholder: `https://www.baserealestate.com`. Also set `SITE_URL` in the Vercel environment, and restore the apex → www redirect in `vercel.json` (removed because it named a domain that no longer applies). |
+
+Resolved, for the record: the DRE license (#02282409, verified against the DRE
+public register), the brokerage (Nest Real Estate; `showMark` stays `false`
+until a high-resolution logo arrives), and reviews and stats (reproduced from
+Sam's Zillow profile, with the date read alongside them).
+
+After the first deploy, load `/services` and `/contact` directly on the Vercel
+URL and check the console. `vite preview` serves the homepage HTML at those
+paths (it does not resolve `services/index.html` for `/services`), which
+produces a React hydration error locally that Vercel should not reproduce.
 
 ### Also worth replacing
 
@@ -27,6 +33,10 @@ rest are correctness. Every one of them is a single edit in
 upscaled in `scripts/prepare-brand-assets.mjs` and used at small render sizes,
 but no resampler invents detail. Drop a high-resolution portrait over
 `assets/IMG_5509.jpeg` and re-run `npm run images:brand`.
+
+**The email address.** `CONTACT.email` is a Gmail address. Once the domain is
+registered, set up a mailbox on it and change that one value; `LEAD_TO_EMAIL`
+in Vercel can stay pointed wherever Sam actually reads mail.
 
 ---
 
@@ -89,6 +99,7 @@ npm run lint
 
 npm run seo:generate   # regenerate sitemap.xml, robots.txt, llms.txt
 npm run images:brand   # regenerate every derived image (see note below)
+npm run images:logos   # logos, favicons, and the Nest mark only — no renders needed
 ```
 
 > `images:brand` reads the high-resolution originals in `assets/renders/`,

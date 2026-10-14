@@ -12,7 +12,6 @@ import {
     AGENT,
     AREA,
     BRAND,
-    CLOSINGS,
     CONTACT,
     dreLine,
     MARKET,
@@ -20,14 +19,16 @@ import {
     PRIMARY_CTA,
     PROCESS,
     PROMISES,
-    PROOF,
-    PROOF_SOURCE,
-    propertyPhoto,
-    REVIEWS,
     SERVICES,
-    STATS,
+    serviceHref,
+    nestSearchUrl,
 } from "../config/site";
 import { trackCtaClick, trackPhoneClick } from "../lib/analytics";
+import Proof from "../components/Proof";
+import Timeline from "../components/Timeline";
+import ClosingCTA from "../components/ClosingCTA";
+import { BrandName, BrokeredBy } from "../components/Brand";
+import { brandify } from "../lib/brand";
 
 /* ==========================================================================
    Answer-engine content
@@ -50,7 +51,7 @@ const FAQS = [
     },
     {
         q: `What areas of Orange County does ${BRAND.name} serve?`,
-        a: `The practice is weighted to ${AREA.focusLabel} — ${AREA.focus.map((c) => c.name).join(", ")} — along with ${otherCities.map((c) => c.name).join(", ")}. ${AGENT.firstName} also works throughout the rest of Orange County, including ${AREA.alsoServing.join(", ")}.`,
+        a: `The practice is weighted to ${AREA.focusLabel} — ${AREA.focus.map((c) => c.name).join(", ")} — along with ${otherCities.map((c) => c.name).join(", ")}. ${AGENT.firstName} also works throughout the rest of Orange County, including ${AREA.alsoServing.join(", ")} — and follows clients just over the county line into Long Beach when the move calls for it.`,
     },
     {
         q: "What does a consultation with Sam cost?",
@@ -170,7 +171,7 @@ const Hero = () => {
                      */}
                     <p className="mb-12 max-w-measure-lg text-lead font-light text-cream/80 [text-shadow:0_1px_24px_rgba(17,28,44,0.55)]">
                         <strong className="font-normal text-cream">{AGENT.displayName}</strong> is a {AGENT.title} in{" "}
-                        {AREA.primaryFull}, specialising in {AREA.focusLabel} —{" "}
+                        {AREA.primaryFull}, specializing in {AREA.focusLabel} —{" "}
                         {AREA.focus.map((c) => c.name).join(", ")}. He works with buyers, sellers, and investors, and
                         starts every engagement by making sure you understand the transaction before you commit to one.
                     </p>
@@ -243,7 +244,7 @@ export default function Home() {
         <div className="w-full overflow-x-clip">
             <SEO
                 title={`Orange County Real Estate Agent — ${AGENT.shortDisplayName}, REALTOR® | ${BRAND.name}`}
-                description={`${AGENT.displayName} is a REALTOR® specialising in ${AREA.focusLabel}: ${AREA.focus.map((c) => c.name).join(", ")}. Knowledge transfer, consulting, home purchase and sale, investor assistance. Book a no-pressure consultation.`}
+                description={`${AGENT.displayName} is a REALTOR® specializing in ${AREA.focusLabel}: ${AREA.focus.map((c) => c.name).join(", ")}. Knowledge transfer, consulting, home purchase and sale, investor assistance. Book a no-pressure consultation.`}
                 path="/"
                 faqs={FAQS}
             />
@@ -336,12 +337,13 @@ export default function Home() {
                     }
                 >
                     <Reveal>
-                        <div className="overflow-x-auto border border-navy/12 bg-white">
-                            <table className="w-full min-w-[34rem] border-collapse text-left">
+                        <div className="border border-navy/12 bg-white sm:overflow-x-auto">
+                            {/* Below sm the rows stack into cards — a sideways-scrolling table clips the median mid-figure on a phone. */}
+                            <table className="block w-full border-collapse text-left sm:table sm:min-w-[34rem]">
                                 <caption className="sr-only">
                                     Orange County median home price by source and methodology, {MARKET.asOf}
                                 </caption>
-                                <thead className="bg-navy text-cream">
+                                <thead className="hidden bg-navy text-cream sm:table-header-group">
                                     <tr>
                                         <th scope="col" className="label p-4">
                                             What is counted
@@ -354,19 +356,19 @@ export default function Home() {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="block sm:table-row-group">
                                     {MARKET.medians.map((row) => (
-                                        <tr key={row.label} className="border-t border-navy/10 align-top">
-                                            <th scope="row" className="p-4 text-body-sm font-normal text-ink">
+                                        <tr key={row.label} className="block border-t border-navy/10 py-2 align-top first:border-t-0 sm:table-row sm:py-0 sm:first:border-t">
+                                            <th scope="row" className="block px-4 pb-1 pt-3 text-body-sm sm:table-cell sm:p-4 font-normal text-ink">
                                                 {row.label}
                                                 <span className="mt-1.5 block text-micro font-light text-navy-500">
                                                     {row.basis}
                                                 </span>
                                             </th>
-                                            <td className="tabular p-4 font-display text-d-item text-ink">
+                                            <td className="tabular block px-4 py-1 font-display sm:table-cell sm:p-4 text-d-item text-ink">
                                                 {row.value}
                                             </td>
-                                            <td className="p-4 text-micro font-light text-navy-500">
+                                            <td className="block px-4 pb-3 pt-1 text-micro sm:table-cell sm:p-4 font-light text-navy-500">
                                                 <a
                                                     href={row.sourceUrl}
                                                     target="_blank"
@@ -379,18 +381,18 @@ export default function Home() {
                                             </td>
                                         </tr>
                                     ))}
-                                    <tr className="border-t border-navy/10 bg-cream/60">
-                                        <th scope="row" className="p-4 text-body-sm font-normal text-ink">
+                                    <tr className="block border-t border-navy/10 bg-cream/60 py-2 sm:table-row sm:py-0">
+                                        <th scope="row" className="block px-4 pb-1 pt-3 text-body-sm sm:table-cell sm:p-4 font-normal text-ink">
                                             The gap
                                             <span className="mt-1.5 block text-micro font-light text-navy-500">
                                                 Methodology alone — not a change in the market.
                                             </span>
                                         </th>
-                                        <td className="tabular p-4 font-display text-d-item text-gold-600">
+                                        <td className="tabular block px-4 py-1 font-display sm:table-cell sm:p-4 text-d-item text-gold-600">
                                             {MARKET.medianGap}
                                         </td>
-                                        <td className="p-4 text-micro font-light text-navy-500">
-                                            Calculated by {BRAND.name} from the two rows above
+                                        <td className="block px-4 pb-3 pt-1 text-micro sm:table-cell sm:p-4 font-light text-navy-500">
+                                            Calculated by <BrandName /> from the two rows above
                                         </td>
                                     </tr>
                                 </tbody>
@@ -398,8 +400,8 @@ export default function Home() {
                         </div>
 
                         <p className="mt-5 text-micro font-light text-navy-400">
-                            Figures verified {MARKET.verifiedOn}. Orange County conditions change month to month — cite
-                            the observation date alongside any number taken from this page.
+                            Orange County conditions change month to month — cite the observation date alongside any
+                            number taken from this page.
                         </p>
                     </Reveal>
                 </BandHead>
@@ -408,10 +410,10 @@ export default function Home() {
             {/* Market conditions ride the seam out of the table section. */}
             <Seam
                 tone="cream"
-                items={MARKET.conditions.map((figure) => ({
-                    label: figure.label,
-                    value: figure.value,
-                }))}
+                items={[
+                    ...MARKET.conditions.map((figure) => ({ label: figure.label, value: figure.value })),
+                    { label: "Figures verified", value: MARKET.verifiedOn },
+                ]}
             />
 
             {/* ---------------------------------------------------- Sam */}
@@ -435,6 +437,7 @@ export default function Home() {
                         <p className="mt-4 text-body-sm font-normal text-gold-600">
                             {AGENT.title} · {AGENT.role} · {AREA.focusLabel}
                         </p>
+                        <BrokeredBy tone="navy" className="mt-6 text-[26px]" />
 
                         <div className="mt-9 space-y-6 text-body font-light text-navy-600">
                             <p className="max-w-measure-lg">
@@ -477,7 +480,7 @@ export default function Home() {
                         {SERVICES.map((service, i) => (
                             <Reveal key={service.id} variant="row" index={i}>
                                 <Link
-                                    to={`/services#${service.id}`}
+                                    to={serviceHref(service)}
                                     className={cn(
                                         "group grid grid-cols-1 items-baseline gap-4 py-8 transition-colors duration-view hover:border-gold/50 md:grid-cols-12 md:gap-10",
                                         i > 0 && "border-t border-cream/14"
@@ -555,34 +558,13 @@ export default function Home() {
                         </p>
                     }
                 >
-                    <ol>
-                        {PROCESS.map((step, i) => (
-                            <Reveal
-                                key={step.step}
-                                variant="row"
-                                index={i}
-                                as="li"
-                                className={cn("flex gap-6 py-8 md:gap-8", i > 0 && "border-t border-navy/12")}
-                            >
-                                <span
-                                    className="tabular w-10 flex-shrink-0 pt-1 font-display text-d-item text-gold"
-                                    aria-hidden="true"
-                                >
-                                    {step.step}
-                                </span>
-                                <div className="min-w-0 flex-1">
-                                    <h3 className="font-display text-d-block leading-tight text-ink">{step.title}</h3>
-                                    <p className="mt-3 max-w-measure-lg text-body-sm font-light text-navy-600">
-                                        {step.body}
-                                    </p>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </ol>
+                    <div className="pt-2">
+                        <Timeline steps={PROCESS} orientation="down" />
+                    </div>
                 </BandHead>
             </Band>
 
-            {/* ---------------------------------------------- Neighbourhoods */}
+            {/* ---------------------------------------------- Neighborhoods */}
             <Band tone="white" density="sm">
                 <div className="pt-10 lg:pt-14">
                     <Reveal className="mb-12 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
@@ -591,7 +573,8 @@ export default function Home() {
                         </h2>
                         <p className="max-w-xs text-body-sm font-light leading-[1.8] text-navy-600 md:text-right">
                             Weighted to {AREA.focusLabel}, and available throughout the county — including{" "}
-                            {AREA.alsoServing.slice(0, 3).join(", ")}.
+                            {AREA.alsoServing.slice(0, 3).join(", ")}. Choose a city to see what is for sale there
+                            now.
                         </p>
                     </Reveal>
 
@@ -641,7 +624,24 @@ export default function Home() {
                                     <span className="mt-1.5 block text-micro font-light text-cream/70">
                                         {city.note}
                                     </span>
+                                    <span className="label mt-4 inline-flex items-center gap-2 text-gold-300 transition-colors group-hover:text-cream">
+                                        Search homes
+                                        <ArrowUpRight
+                                            className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                                            strokeWidth={1.25}
+                                        />
+                                    </span>
                                 </span>
+
+                                {/* The whole tile is the link: live listings for this city on Nest's search. */}
+                                <a
+                                    href={nestSearchUrl({ city: city.name })}
+                                    target="_blank"
+                                    rel="noopener"
+                                    onClick={() => trackCtaClick(`Search homes — ${city.name}`, "city-tile")}
+                                    aria-label={`Search homes for sale in ${city.name} (opens Nest Real Estate search)`}
+                                    className="absolute inset-0 z-10"
+                                />
                             </Reveal>
                         ))}
                     </ul>
@@ -680,8 +680,8 @@ export default function Home() {
                                 index={i}
                                 className={cn("py-8", i > 0 && "border-t border-navy/12")}
                             >
-                                <dt className="font-display text-d-block leading-snug text-ink">{faq.q}</dt>
-                                <dd className="mt-4 max-w-measure-lg text-body-sm font-light text-navy-600">{faq.a}</dd>
+                                <dt className="font-display text-d-block leading-snug text-ink">{brandify(faq.q)}</dt>
+                                <dd className="mt-4 max-w-measure-lg text-body-sm font-light text-navy-600">{brandify(faq.a)}</dd>
                             </Reveal>
                         ))}
                     </dl>
@@ -693,238 +693,3 @@ export default function Home() {
         </div>
     );
 }
-
-/* ==========================================================================
-   Proof
-
-   Real reviews when the client supplies them; an honest "not yet" otherwise.
-   Never a fabricated quote, rating, or sale count — see PROOF in
-   src/config/site.ts.
-   ========================================================================== */
-
-const Proof = () => {
-    const [index, setIndex] = useState(0);
-
-    if (!PROOF.hasReviews || REVIEWS.length === 0) {
-        return (
-            <Band tone="navy" density="md" rule={false}>
-                <Reveal className="mx-auto max-w-3xl py-6 text-center">
-                    <h2 className="font-display text-d-section text-cream">
-                        Reviews are being collected, and will appear here{" "}
-                        <em className="italic text-gold-300">in clients’ own words</em>.
-                    </h2>
-                    <p className="mx-auto mt-8 max-w-measure-lg text-body font-light text-cream/55">
-                        Nothing goes on this page until a real client has said it, with a name attached. If you would
-                        like to speak with a past client before you decide, ask {AGENT.firstName} and he will connect
-                        you.
-                    </p>
-                    <div className="mt-12">
-                        <Link
-                            to={PRIMARY_CTA.href}
-                            onClick={() => trackCtaClick("Ask for a reference", "proof-empty")}
-                            className="btn-outline-light"
-                        >
-                            {PRIMARY_CTA.label}
-                            <ArrowRight className="h-4 w-4" strokeWidth={1.25} />
-                        </Link>
-                    </div>
-                </Reveal>
-            </Band>
-        );
-    }
-
-    const review = REVIEWS[index];
-
-    return (
-        <Band tone="navy" density="sm" rule={false}>
-            {/*
-             * Two columns, not one stacked column.
-             *
-             * Run vertically — a display-size pull quote, then a stat row, then
-             * a five-row sale list — this band was about 1,800px of unbroken
-             * navy, and a reader scrolling it had no idea when it would end.
-             * Side by side it is one panel: testimony on the left, the record
-             * on the right, both legible in a single screen. The quote also
-             * drops a size, because at `d-section` a three-line quote sets the
-             * height of everything beside it.
-             */}
-            <div className="grid gap-14 py-10 lg:grid-cols-12 lg:gap-16 lg:py-14">
-                {/* ---------------------------------------- Testimony */}
-                <div className="lg:col-span-5">
-                    <p className="label mb-8 text-cream/35">In clients’ own words</p>
-
-                    {/*
-                     * min-height holds the column while quotes of different
-                     * lengths swap through it. Without it the stat grid beside
-                     * this jumps every time a reader changes the slide.
-                     */}
-                    <div className="flex min-h-[15rem] flex-col justify-start sm:min-h-[13rem]">
-                        <AnimatePresence mode="wait">
-                            <motion.blockquote
-                                key={index}
-                                initial={{ opacity: 0, y: 12 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -12 }}
-                                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                            >
-                                <p className="font-display text-d-block italic leading-[1.4] text-cream">
-                                    “{review.quote}”
-                                </p>
-                                <footer className="mt-7">
-                                    <span className="mb-4 block h-px w-8 bg-gold" aria-hidden="true" />
-                                    <cite className="block text-body-sm font-normal not-italic text-cream">
-                                        {review.name}
-                                    </cite>
-                                    <span className="label mt-1.5 block text-cream/40">{review.detail}</span>
-                                </footer>
-                            </motion.blockquote>
-                        </AnimatePresence>
-                    </div>
-
-                    {REVIEWS.length > 1 && (
-                        <div className="mt-8 flex items-center gap-2">
-                            {REVIEWS.map((_, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => setIndex(i)}
-                                    aria-label={`Show review ${i + 1}`}
-                                    className={cn(
-                                        "h-px transition-all duration-view ease-brand",
-                                        i === index ? "w-10 bg-gold" : "w-4 bg-cream/25 hover:bg-cream/50"
-                                    )}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-                {/* ------------------------------------------- Record */}
-                <div className="lg:col-span-7 lg:border-l lg:border-cream/12 lg:pl-16">
-                    {PROOF.hasStats && STATS.length > 0 && (
-                        <dl className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-4">
-                            {STATS.map((stat) => (
-                                <div key={stat.label}>
-                                    <dd className="tabular font-display text-d-item leading-none text-cream">
-                                        {stat.value}
-                                    </dd>
-                                    <dt className="label mt-2.5 block leading-[1.5] text-cream/40">{stat.label}</dt>
-                                </div>
-                            ))}
-                        </dl>
-                    )}
-
-                    {PROOF.hasSales && CLOSINGS.length > 0 && <Closings />}
-
-                    {/*
-                     * The figures above are only worth anything if a reader can
-                     * go and check them, so the link out is part of the proof,
-                     * not a footnote.
-                     */}
-                    <p className="mt-8 text-micro font-light leading-[1.8] text-cream/45">
-                        Reviews and closings as published on{" "}
-                        <a
-                            href={PROOF_SOURCE.profileUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="border-b border-cream/25 pb-0.5 text-cream/70 transition-colors hover:border-gold hover:text-gold-300"
-                        >
-                            {AGENT.firstName}’s {PROOF_SOURCE.label} profile
-                        </a>
-                        , read {PROOF_SOURCE.verifiedLabel}. Average price and volume are calculated by {BRAND.name}{" "}
-                        from the five closings listed.
-                    </p>
-                </div>
-            </div>
-        </Band>
-    );
-};
-
-/* ==========================================================================
-   Closings
-
-   A sale list is the one proof surface that cannot be written by anyone —
-   each row is an address a reader can put into Zillow or the county recorder
-   and check in under a minute. Three of the five are outside the coastal
-   focus this site leads with; they stay, because editing the record down to
-   the flattering half is the thing this page is arguing against.
-   ========================================================================== */
-
-const Closings = () => (
-    <div className="mt-12">
-        <div className="mb-5 flex items-baseline justify-between gap-6">
-            <h3 className="label text-cream/35">Recent closings</h3>
-            <span className="label text-cream/35">All buyer-side</span>
-        </div>
-
-        <ol className="border-t border-cream/12">
-            {CLOSINGS.map((sale) => (
-                <li
-                    key={sale.address}
-                    className="flex flex-col gap-1 border-b border-cream/12 py-3.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8"
-                >
-                    <span className="min-w-0">
-                        <span className="block text-body-sm font-light text-cream">
-                            {sale.address}, {sale.city}
-                        </span>
-                        <span className="mt-0.5 block text-micro font-light text-cream/45">
-                            {sale.spec} · Closed {sale.closed}
-                        </span>
-                    </span>
-                    <span className="tabular shrink-0 text-body-sm font-light text-gold-300">{sale.price}</span>
-                </li>
-            ))}
-        </ol>
-    </div>
-);
-
-/* ==========================================================================
-   Closing
-   ========================================================================== */
-
-const ClosingCTA = () => (
-    <section className="on-navy relative overflow-hidden bg-navy">
-        <img
-            {...propertyPhoto("cta")}
-            sizes="100vw"
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover opacity-55"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/75 via-navy/55 to-navy/85" />
-
-        <div className="relative z-10 mx-auto max-w-shell px-gutter py-sec-lg">
-            <Reveal className="max-w-3xl">
-                <h2 className="font-display text-d-page text-cream">Start with a conversation.</h2>
-                <p className="mb-12 mt-8 max-w-measure-lg text-lead font-light text-cream/70">
-                    {PRIMARY_CTA.promise} Bring your questions — the harder the better.
-                </p>
-
-                <div className="flex flex-col gap-4 sm:flex-row">
-                    <Link
-                        to={PRIMARY_CTA.href}
-                        onClick={() => trackCtaClick(PRIMARY_CTA.label, "closing-cta")}
-                        className="btn-cream group"
-                    >
-                        {PRIMARY_CTA.label}
-                        <ArrowRight
-                            className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                            strokeWidth={1.25}
-                        />
-                    </Link>
-                    <a
-                        href={`tel:${CONTACT.phoneHref}`}
-                        onClick={() => trackPhoneClick("closing-cta")}
-                        className="btn-outline-light"
-                    >
-                        {CONTACT.phone}
-                    </a>
-                </div>
-
-                <p className="label mt-10 text-cream/35">
-                    {CONTACT.hours} · {CONTACT.hoursNote}
-                </p>
-            </Reveal>
-        </div>
-    </section>
-);

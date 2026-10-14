@@ -6,7 +6,9 @@ import { Band, BandHead, Seam } from "../components/Section";
 import { trackCtaClick, trackPhoneClick } from "../lib/analytics";
 import NotFound from "./NotFound";
 import { getPost, getRelatedPosts, formatDate, type BlogPost as Post } from "@/lib/blog";
-import { AGENT, AREA, BRAND, CONTACT, LICENSE, MARKET, PRIMARY_CTA, dreLine, licenseLine } from "@/config/site";
+import { AGENT, AREA, CONTACT, MARKET, PRIMARY_CTA, dreLine, licenseLine } from "@/config/site";
+import { BrandName, BrokeredBy } from "../components/Brand";
+import { brandify, brandifyHtml } from "../lib/brand";
 
 /**
  * Single article view.
@@ -129,7 +131,7 @@ function splitAtHeading(html: string, nth: number): [string, string] {
 const ArticleBody = ({ post }: { post: Post }) => {
     /* Deep enough that the reader is engaged, early enough that they are still
        here. Articles too short to have four sections get no interruption. */
-    const [bodyBefore, bodyAfter] = splitAtHeading(post.html, 4);
+    const [bodyBefore, bodyAfter] = splitAtHeading(brandifyHtml(post.html), 4);
 
     return (
     <article className="max-w-4xl mx-auto px-6 md:px-12 py-14 md:py-20">
@@ -222,7 +224,7 @@ const InlineCTA = ({ prompt }: { prompt: string }) => (
 /* ==========================================================================
    E-E-A-T signal: a named, verifiable human behind the analysis.
 
-   The licence and brokerage lines render only once confirmed in
+   The license and brokerage lines render only once confirmed in
    src/config/site.ts — an unverified credential is worse than none.
    ========================================================================== */
 
@@ -245,15 +247,16 @@ const AuthorBio = () => (
                         {AGENT.displayName}, {AGENT.title}
                     </h2>
                     <p className="mb-7 mt-5 max-w-measure-lg text-body-sm font-light text-navy-600">
-                        {AGENT.firstName} is an {AREA.primaryFull} {AGENT.title} and founder of {BRAND.name},
-                        specialising in {AREA.focusLabel} — {AREA.focus.map((c) => c.name).join(", ")}. He writes these
+                        {AGENT.firstName} is an {AREA.primaryFull} {AGENT.title} and founder of <BrandName />,
+                        specializing in {AREA.focusLabel} — {AREA.focus.map((c) => c.name).join(", ")}. He writes these
                         reports from live MLS activity and published C.A.R., Freddie Mac, and Redfin data, and labels
                         every figure with the month it was observed.
                     </p>
 
+                    <BrokeredBy tone="navy" className="mb-6 text-[24px]" />
+
                     <div className="label mb-8 flex flex-wrap gap-x-8 gap-y-3 text-navy-400">
                         {dreLine() && <span>{dreLine()}</span>}
-                        {LICENSE.brokerage.confirmed && <span>{LICENSE.brokerage.name}</span>}
                         <span>{AREA.primaryFull}</span>
                     </div>
 
@@ -309,7 +312,7 @@ const RelatedPosts = ({ posts: items }: { posts: Post[] }) => (
                                 {post.title}
                             </h3>
                             <span className="mb-6 mt-4 block flex-1 text-body-sm font-light text-navy-600">
-                                {post.description}
+                                {brandify(post.description)}
                             </span>
                             <span className="label inline-flex items-center gap-3 text-ink">
                                 Read

@@ -67,6 +67,7 @@ const ALLOWED_MARKETS: Record<string, string> = {
     orange: "Orange",
     "santa-ana": "Santa Ana",
     anaheim: "Anaheim",
+    "yorba-linda": "Yorba Linda",
     "elsewhere-oc": "Elsewhere in Orange County",
     undecided: "Not sure yet — needs guidance",
 };
@@ -259,7 +260,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       <div style="font-size:26px;margin:0 0 20px;">Thank you, ${esc(firstName)}.</div>
 
       <p style="font-size:15px;color:#3D5273;line-height:1.85;margin:0 0 18px;">
-        Your request has reached ${esc(AGENT_FIRST)} directly. He reviews every enquiry himself
+        Your request has reached ${esc(AGENT_FIRST)} directly. He reviews every inquiry himself
         and will reach out on the timeline you chose — <strong style="color:${NAVY};">${esc(urgencyLabel.toLowerCase())}</strong>.
       </p>
       <p style="font-size:15px;color:#3D5273;line-height:1.85;margin:0 0 28px;">

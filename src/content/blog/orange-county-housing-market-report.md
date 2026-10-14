@@ -7,7 +7,7 @@ datePublished: "2026-08-09"
 dateModified: "2026-09-02"
 readingTime: "8 min read"
 image: "/neighborhoods/hero/newport-beach-1600.webp"
-imageAlt: "Aerial view of Balboa Pier, the Newport Beach peninsula, and the harbour, Orange County, California"
+imageAlt: "Aerial view of Balboa Pier, the Newport Beach peninsula, and the harbor, Orange County, California"
 ctaPrompt: "Wondering which of these two medians applies to the home you are actually buying or selling?"
 featured: true
 tags:
@@ -74,7 +74,7 @@ What it has not handed buyers is a discount. Prices are up year over year. Anyon
 
 Price to the evidence, not to last year.
 
-The most expensive mistake in a slowing market is anchoring to a number a neighbour got in a faster one. Your first two weeks on market are the only two weeks you get with a fresh, motivated audience. A list price that tests a hopeful number burns those weeks, and the price reduction that follows arrives in front of a smaller, more sceptical pool of buyers.
+The most expensive mistake in a slowing market is anchoring to a number a neighbor got in a faster one. Your first two weeks on market are the only two weeks you get with a fresh, motivated audience. A list price that tests a hopeful number burns those weeks, and the price reduction that follows arrives in front of a smaller, more skeptical pool of buyers.
 
 With inventory at a yearly high, your listing is being compared against more alternatives than at any point this year. Condition and preparation are doing more work than they were in 2023.
 
@@ -82,11 +82,11 @@ With inventory at a yearly high, your listing is being compared against more alt
 
 Yes, and county-wide figures obscure it.
 
-Newport Beach, Laguna Beach, Dana Point, and Laguna Niguel are thin, differentiated markets. A canyon lot in Laguna and a harbour-adjacent property in Dana Point are not interchangeable, and neither is well described by a county median that includes Anaheim condos.
+Newport Beach, Laguna Beach, Dana Point, and Laguna Niguel are thin, differentiated markets. A canyon lot in Laguna and a harbor-adjacent property in Dana Point are not interchangeable, and neither is well described by a county median that includes Anaheim condos.
 
 In practice this means three things for the coast:
 
-1. **Comparable sales matter more than medians.** With fewer transactions per neighbourhood, a single unusual sale moves a local average dramatically. County-level data is context, not a pricing tool.
+1. **Comparable sales matter more than medians.** With fewer transactions per neighborhood, a single unusual sale moves a local average dramatically. County-level data is context, not a pricing tool.
 2. **The range is enormous.** A county median tells you almost nothing about what a specific street commands.
 3. **Time on market runs longer at the top.** Higher price bands have fewer qualified buyers by definition, so the 54-day county median understates how long a distinctive coastal property can reasonably take.
 
@@ -116,7 +116,7 @@ About 54 days at the median as of August 2026, up from roughly 40 days a year ea
 
 ### Should I wait for prices to drop before buying in Orange County?
 
-That is a personal calculation, not a market one, and it depends on your rate, your horizon, and what waiting costs you. Prices are up year over year, so waiting has not paid off recently. What has changed in buyers' favour is choice and negotiating leverage on terms, both of which are better now than they were two years ago.
+That is a personal calculation, not a market one, and it depends on your rate, your horizon, and what waiting costs you. Prices are up year over year, so waiting has not paid off recently. What has changed in buyers' favor is choice and negotiating leverage on terms, both of which are better now than they were two years ago.
 
 ### Why do Zillow, Redfin, and my agent all give different home values?
 
@@ -128,4 +128,4 @@ Because they use different data and different methods. Automated estimates work 
 - [Redfin — Orange County Housing Market](https://www.redfin.com/county/332/CA/Orange-County/housing-market) — median sale price across all property types and median days on market, August 2026.
 - [Orange County weekly housing report](https://www.ocrealestateinc.com/orange-county-housing-report/) — active listing count, late August 2026.
 
-*The $270,000 difference between the two medians is calculated by Base Real Estate Group from the published figures above. Market data describes the county in aggregate and does not predict the outcome for any individual property. Figures verified 2 September 2026.*
+*The $270,000 difference between the two medians is calculated by Base Real Estate Group from the published figures above. Market data describes the county in aggregate and does not predict the outcome for any individual property. Figures verified September 2, 2026.*

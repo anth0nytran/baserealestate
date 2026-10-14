@@ -23,14 +23,15 @@
 
   body {
     @apply bg-white text-ink font-sans text-body;
-    font-weight: 300;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3 {
     @apply font-display;
-    font-weight: 400;
+    /* 500, not 400: at 400 Bodoni's hairlines all but vanish on a phone. */
+    font-weight: 500;
     /* Keeps two-line display headings from dropping one orphaned word. */
     text-wrap: balance;
   }
@@ -103,6 +104,128 @@
 }
 
 @layer components {
+  /* --- Band grounds ------------------------------------------------------
+     Flat white and flat navy read as unfinished. Each ground now carries a
+     quiet layer of its own: on white, a column grid in hairlines and a warm
+     gold light in one corner; on navy, a soft top light and film grain. All
+     of it sits behind content (z-index -1 inside an isolated band) and none
+     of it is ever text.
+  --------------------------------------------------------------------- */
+  .band {
+    isolation: isolate;
+    overflow: clip;
+  }
+  .band::before,
+  .band::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .band-white::before {
+    background-image:
+      radial-gradient(70% 60% at 100% 0%, rgba(176, 141, 87, 0.1), transparent 70%),
+      linear-gradient(90deg, rgba(27, 42, 65, 0.06) 1px, transparent 1px);
+    background-size: 100% 100%, calc(100% / 6) 100%;
+    background-position: 0 0, -1px 0;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  }
+  .band-cream::before {
+    background-image: radial-gradient(60% 55% at 0% 100%, rgba(176, 141, 87, 0.14), transparent 70%);
+  }
+  /*
+   * Navy: depth from light, not from pattern. A smooth vertical fall from a
+   * slightly lifted navy to a deeper one, a soft light from the top centre,
+   * a gold hairline along the top edge, and a fine film grain that keeps the
+   * large dark field from banding and gives it a printed, tactile finish.
+   */
+  .band-navy {
+    background-image: linear-gradient(180deg, #1f3049 0%, #1b2a41 45%, #131f31 100%);
+    box-shadow: inset 0 1px 0 rgba(176, 141, 87, 0.45);
+  }
+  .band-navy::before {
+    background-image:
+      radial-gradient(90% 70% at 50% -10%, rgba(214, 188, 155, 0.11), transparent 65%),
+      radial-gradient(140% 90% at 50% 120%, rgba(9, 15, 26, 0.55), transparent 60%);
+  }
+  .band-navy::after {
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* --- Cell accent: a gold hairline that runs the cell's width on hover. */
+  .cell-accent {
+    position: relative;
+    transition: background-color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cell-accent::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2px;
+    width: 100%;
+    background: #b08d57;
+    /* 2.5rem at rest, scaled rather than resized so hover never reflows. */
+    transform: scaleX(var(--accent-rest, 0.08));
+    transform-origin: left center;
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cell-accent:hover::before {
+    transform: scaleX(1);
+  }
+
+  /* --- Timeline ----------------------------------------------------------
+     Ships fully drawn, like every Reveal: the prerendered page and any
+     visitor without JS see the finished state. Timeline.tsx arms it only
+     when it starts below the fold, then the gold rail draws step by step
+     as it scrolls in — across on wide screens, down on narrow ones.
+  --------------------------------------------------------------------- */
+  .tl-fill {
+    transform-origin: top left;
+    transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i, 0) * 140ms);
+  }
+  .tl-node {
+    transition:
+      background-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i, 0) * 140ms + 260ms);
+  }
+  .tl-body {
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i, 0) * 140ms + 160ms);
+  }
+  .tl[data-armed]:not([data-in]) .tl-fill {
+    transform: scaleY(0);
+  }
+  .tl[data-armed]:not([data-in]) .tl-node {
+    background-color: transparent;
+    color: #b08d57;
+    box-shadow: none;
+  }
+  .tl[data-armed]:not([data-in]) .tl-body {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  @media (min-width: 1024px) {
+    .tl-across[data-armed]:not([data-in]) .tl-fill {
+      transform: scaleX(0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tl-fill,
+    .tl-node,
+    .tl-body {
+      transition: none;
+    }
+  }
+
   /* --- Layout shell ---------------------------------------------------- */
   .shell {
     @apply mx-auto w-full max-w-shell px-gutter;
@@ -217,6 +340,12 @@
 }
 
 @layer utilities {
+  /* The backward S of the BASE logotype — see src/components/Brand.tsx. */
+  .brand-s {
+    display: inline-block;
+    transform: scaleX(-1);
+  }
+
   /* Fine cream weave, for breaking up large flat panels without adding noise. */
   .texture-linen {
     background-image:

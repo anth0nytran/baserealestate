@@ -59,7 +59,12 @@ alternatives in that city were a fairground ferris wheel and a parking lot.
 | `aerial` | Real Estate Consulting | `T38QxgsDQOs` | Dana Point Harbour and headlands from the bluff |
 | `buy` | Home Purchase | `Id7u0EkTjBE` | White modernist villa and pool in daylight |
 | `sell` | Home Sale | `yQvGZRrnk30` | Bright white living room prepared for market |
-| `cta` | Investor Assistance; homepage closing CTA | `ZvP3BACL8bg` | Ocean-view dining room in cream and tan |
+| `cta` | Homepage closing CTA | `ZvP3BACL8bg` | Ocean-view dining room in cream and tan |
+| `buy-hero` | /buy hero | `4ETshgrhbJw` (Zac Cain) | White villa among palms and coastal planting, daylight |
+| `buy-cta` | /buy closing CTA | `soYH4b5Vgew` (Jeffrey Clayton) | Coastline and teal water from the air, cropped 3:2 |
+| `sell-hero` | /sell hero | `s5JnDU-MUfY` (Salvo Media LLC) | Modern glass home around a reflecting pool |
+| `sell-cta` | /sell closing CTA | `FqXYIevdhV4` (Josue Munilla) | Glass house on the rocks above the surf |
+| `invest` | Investor Assistance | `oMbgmVeZ2H8` (Branden Ryba) | A matched pair of beach houses, cropped 4:3 |
 
 ## Editorial photography
 
@@ -78,6 +83,27 @@ captioned with a city name. See `EDITORIAL` in `src/config/site.ts`.
 | `terrace` | `b_79nOqf95I` | Glass-walled house opening onto a pool terrace |
 | `water` | `q3ORuj5Pd1c` | Paddleboarders on deep navy water, from above |
 | `coastline` | `ZvSDIln9yK0` | Coastline curving past a hillside town |
+| `oak-living` | `Aq8ljLz12gk` (Bailey Alexander) | White living room under a pale oak beam — /buy |
+| `marble-kitchen` | `UTsUqb_jPKc` (Zac Gudakov) | White marble kitchen with brass pendants — /buy FAQ |
+| `staged-living` | `SrioT6tdWII` (Collov Home Design) | Staged cream living room, round oak table — /sell |
+| `timber-living` | `4_jQL4JCS98` (Collov Home Design) | Timber ceiling, cognac sofa, glass wall — /sell FAQ |
+
+The `buy-*`, `sell-*`, `invest`, and the four editorial frames above were
+downloaded from Unsplash and converted straight into `public/` (same widths
+and WebP settings as the pipeline) rather than through
+`npm run images:brand`, because the `assets/renders/` originals live only on
+the design machine. Re-running the pipeline does not touch them. Every page
+now carries its own photography; no hero, plate, or closing image repeats
+across /, /services, /buy, and /sell.
+
+## Journal cover photography
+
+`/public/journal/` — 1600×900, used where two posts had shared a city hero.
+
+| Post | Unsplash ID | What it shows |
+| --- | --- | --- |
+| Who pays the commission | `8XddFc6NkBY` (Art Lasovsky) | Gold fountain pen on white |
+| South OC home prices by city | `6GXKxbyJkQQ` (Spencer Bergen) | Headland above a harbor breakwater |
 
 `facade`, `bluff`, `water`, and `coastline` are generated but not yet placed
 in a section. They are a curated bench to draw from as pages grow. They add

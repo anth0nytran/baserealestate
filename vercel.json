@@ -1,5 +1,13 @@
 {
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/buyer", "destination": "/buy", "permanent": true },
+    { "source": "/buyers", "destination": "/buy", "permanent": true },
+    { "source": "/buying", "destination": "/buy", "permanent": true },
+    { "source": "/seller", "destination": "/sell", "permanent": true },
+    { "source": "/sellers", "destination": "/sell", "permanent": true },
+    { "source": "/selling", "destination": "/sell", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

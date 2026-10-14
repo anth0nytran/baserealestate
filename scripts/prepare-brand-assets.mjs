@@ -94,21 +94,94 @@ const mb = (bytes) => `${(bytes / 1048576).toFixed(1)}MB`;
  */
 async function recolorWordmark(srcFile, outFile, ink, { keepGold = true } = {}) {
     const { data, info } = await sharp(srcFile).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    const isGold = (i) => data[i + 3] > 0 && data[i] > data[i + 2] + 25 && data[i] > 120;
 
     for (let i = 0; i < data.length; i += 4) {
         if (data[i + 3] === 0) continue;
-        const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
-        if (keepGold && r > b + 25 && r > 120) continue;
+        if (keepGold && isGold(i)) continue;
         data[i] = ink.r;
         data[i + 1] = ink.g;
         data[i + 2] = ink.b;
     }
+
+    if (keepGold) extendRule(data, info.width, info.height, isGold);
 
     await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
         .png({ compressionLevel: 9 })
         .toFile(outFile);
 
     console.log(`  ${path.basename(outFile)}  ${info.width}x${info.height}`);
+}
+
+/**
+ * Runs the gold rule the full width of the logotype.
+ *
+ * The supplied artwork stops the rule short at both ends (under the S through
+ * the T); the client wants it under the whole word. The rule's own column at
+ * its midpoint is copied outward to the first and last inked columns, which
+ * keeps its anti-aliased top and bottom edges rather than drawing a hard bar.
+ */
+function extendRule(data, width, height, isGold) {
+    const at = (x, y) => (y * width + x) * 4;
+    let gx0 = width, gx1 = -1, gy0 = height, gy1 = -1, ix0 = width, ix1 = -1;
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            const i = at(x, y);
+            if (data[i + 3] === 0) continue;
+            if (isGold(i)) {
+                gx0 = Math.min(gx0, x); gx1 = Math.max(gx1, x);
+                gy0 = Math.min(gy0, y); gy1 = Math.max(gy1, y);
+            } else {
+                ix0 = Math.min(ix0, x); ix1 = Math.max(ix1, x);
+            }
+        }
+    }
+    if (gx1 < 0 || ix1 < 0) return;
+
+    const mid = Math.round((gx0 + gx1) / 2);
+    for (let y = gy0; y <= gy1; y++) {
+        const src = at(mid, y);
+        for (let x = ix0; x <= ix1; x++) {
+            const dst = at(x, y);
+            if (data[dst + 3] >= data[src + 3]) continue;
+            data[dst] = data[src];
+            data[dst + 1] = data[src + 1];
+            data[dst + 2] = data[src + 2];
+            data[dst + 3] = data[src + 3];
+        }
+    }
+}
+
+/**
+ * The responsible brokerage's mark, in both site inks.
+ *
+ * Sam is a salesperson under Nest Real Estate, and "Base Real Estate Group" on
+ * its own reads like a brokerage — so the Nest mark sits beside his name
+ * wherever the site identifies him. Source is Nest's official white artwork,
+ * recolored by alpha so the origami crane's hairlines keep their edges.
+ */
+async function brokerageMark() {
+    for (const [ink, name] of [
+        [NAVY, "navy"],
+        [CREAM, "cream"],
+    ]) {
+        const { data, info } = await sharp(brandSrc("nest_real_estate_white.png"))
+            .trim()
+            .resize({ width: 960 })
+            .ensureAlpha()
+            .raw()
+            .toBuffer({ resolveWithObject: true });
+        for (let i = 0; i < data.length; i += 4) {
+            data[i] = ink.r;
+            data[i + 1] = ink.g;
+            data[i + 2] = ink.b;
+        }
+        const out = path.join(BRAND, `nest-${name}.png`);
+        await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
+            .png({ compressionLevel: 9 })
+            .toFile(out);
+        console.log(`  ${path.basename(out)}  ${info.width}x${info.height}`);
+    }
 }
 
 /**
@@ -446,18 +519,13 @@ async function main() {
     }
 
     /*
-     * Favicons are cut from the cream disc, not the navy one.
+     * Favicons are the navy disc — the circle logo — on a transparent square.
      *
      * The source names describe the disc, not the glyph: *_icon_navy is a navy
-     * disc carrying a cream monogram, *_icon_cream the reverse. At 16 and 32
-     * pixels the navy disc collapses into a solid dot — the monogram is a
-     * hairline didone and the one stroke that identifies it is the first thing
-     * the downscale eats. On the cream disc the same stroke is the darkest
-     * thing in the square, so it is the last thing to go.
-     *
-     * The cream disc then blends into the cream plate by design, which is the
-     * point: what the tab shows is the monogram itself, not a monogram inside
-     * a coin.
+     * disc carrying a cream monogram. These were once cut from the cream disc
+     * flattened onto cream, which showed the bare S with no circle; the client
+     * wants the circle itself in the tab. The 16px size loses most of the
+     * hairline S, which is the accepted cost of that.
      */
     console.log("Favicons");
     for (const [size, out] of [
@@ -467,13 +535,25 @@ async function main() {
         [192, "icon-192.png"],
         [512, "icon-512.png"],
     ]) {
-        await sharp(brandSrc("base_real_estate_icon_cream.png"))
-            .resize(size, size, { fit: "contain", background: "#faf7f0", kernel: sharp.kernel.lanczos3 })
-            .flatten({ background: "#faf7f0" })
+        const icon = sharp(brandSrc("base_real_estate_icon_navy.png")).resize(size, size, {
+            fit: "contain",
+            background: { r: 0, g: 0, b: 0, alpha: 0 },
+            kernel: sharp.kernel.lanczos3,
+        });
+        // iOS fills transparency on a home-screen icon with black, so that one size keeps a cream plate.
+        if (out === "apple-touch-icon.png") icon.flatten({ background: "#faf7f0" });
+        await icon
             .png()
             .toFile(path.join(PUBLIC, out));
         console.log(`  ${out}  ${size}x${size}`);
     }
+
+    console.log("Brokerage mark");
+    await brokerageMark();
+
+    // `--logos` stops here: everything below reads assets/renders, which only
+    // the design machine has.
+    if (process.argv.includes("--logos")) return;
 
     console.log("Headshots");
     /*

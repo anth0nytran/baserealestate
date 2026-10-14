@@ -1,13 +1,13 @@
 ---
 title: "Who Pays the Real Estate Agent Commission in California?"
 description: "Since January 2025, California law requires a signed buyer-broker agreement stating your agent's compensation before you make an offer. Here is who actually pays, what the agreement must contain, and what is still negotiable."
-answer: "Since 1 January 2025, California Civil Code §1670.50 requires a written buyer-broker representation agreement stating the buyer agent's compensation, signed no later than when the buyer makes an offer. The buyer is contractually responsible for that amount, but sellers may still cover some or all of it as a negotiated concession outside the MLS. Rates are not regulated and remain negotiable."
+answer: "Since January 1, 2025, California Civil Code §1670.50 requires a written buyer-broker representation agreement stating the buyer agent's compensation, signed no later than when the buyer makes an offer. The buyer is contractually responsible for that amount, but sellers may still cover some or all of it as a negotiated concession outside the MLS. Rates are not regulated and remain negotiable."
 category: "Buying & Selling"
 datePublished: "2026-08-05"
 dateModified: "2026-09-02"
 readingTime: "8 min read"
-image: "/neighborhoods/hero/newport-beach-1600.webp"
-imageAlt: "Aerial view of Balboa Pier, the Newport Beach peninsula, and the harbour, Orange County, California"
+image: "/journal/who-pays-real-estate-agent-commission-california-1600.webp"
+imageAlt: "A gold fountain pen resting on a white surface"
 ctaPrompt: "Want someone to read your buyer-broker agreement with you before you sign it?"
 featured: false
 tags:
@@ -19,7 +19,7 @@ tags:
 
 This is the question I get asked more than any other, and it is the one where the answer changed most recently. If you last bought a home before 2024, what you remember is no longer how it works.
 
-Two separate changes landed within about five months of each other: the national practice changes from the National Association of REALTORS® settlement in August 2024, and a California statute that took effect on 1 January 2025. Together they moved buyer-agent compensation from something assumed and invisible to something written down and negotiated before you tour a property.
+Two separate changes landed within about five months of each other: the national practice changes from the National Association of REALTORS® settlement in August 2024, and a California statute that took effect on January 1, 2025. Together they moved buyer-agent compensation from something assumed and invisible to something written down and negotiated before you tour a property.
 
 Here is what that actually means.
 
@@ -33,7 +33,7 @@ That is gone. Compensation is now a term you negotiate — first with your own a
 
 ## What does California Civil Code §1670.50 require?
 
-California Assembly Bill 2992 added §1670.50 to the Civil Code, effective 1 January 2025. It requires a written buyer-broker representation agreement, and it specifies what that agreement must contain.
+California Assembly Bill 2992 added §1670.50 to the Civil Code, effective January 1, 2025. It requires a written buyer-broker representation agreement, and it specifies what that agreement must contain.
 
 | Requirement | What the statute says |
 | --- | --- |
@@ -49,7 +49,7 @@ The statute applies broadly across real property — one-to-four units, larger r
 
 ## What changed under the NAR settlement?
 
-Two things, effective 17 August 2024:
+Two things, effective August 17, 2024:
 
 - **Offers of compensation can no longer be published on the MLS.** Listing brokers may still offer to compensate a buyer's broker, but that offer has to be communicated some other way, and it is negotiated rather than broadcast.
 - **Buyers must have a written agreement with their agent before touring a home** when working with an MLS-participating agent.
@@ -102,11 +102,11 @@ If those answers are not straightforward, that is information too.
 
 ### Who pays the buyer's agent commission in California in 2026?
 
-The buyer is contractually responsible under a written buyer-broker representation agreement, which California Civil Code §1670.50 has required since 1 January 2025. In practice, sellers still frequently cover some or all of that amount as a concession negotiated in the purchase agreement, so many buyers pay nothing out of pocket. The difference from the old system is that it is negotiated and written down rather than assumed.
+The buyer is contractually responsible under a written buyer-broker representation agreement, which California Civil Code §1670.50 has required since January 1, 2025. In practice, sellers still frequently cover some or all of that amount as a concession negotiated in the purchase agreement, so many buyers pay nothing out of pocket. The difference from the old system is that it is negotiated and written down rather than assumed.
 
 ### Do I have to sign a buyer-broker agreement before seeing a house in California?
 
-Yes. Under the NAR settlement practice changes effective 17 August 2024, buyers must have a written agreement with an MLS-participating agent before touring a home. California Civil Code §1670.50 additionally requires the agreement to be signed no later than when you execute an offer, and to state the compensation, the services, when payment is due, and the term.
+Yes. Under the NAR settlement practice changes effective August 17, 2024, buyers must have a written agreement with an MLS-participating agent before touring a home. California Civil Code §1670.50 additionally requires the agreement to be signed no later than when you execute an offer, and to state the compensation, the services, when payment is due, and the term.
 
 ### How long does a California buyer-broker agreement last?
 
@@ -126,7 +126,7 @@ Published 2026 averages put total commissions in the mid-five-percent range stat
 
 ## Sources
 
-- [California Civil Code §1670.50 — Buyer-Broker Representation Agreements](https://law.justia.com/codes/california/code-civ/division-3/part-2/title-4-1/section-1670-50/) — statutory requirements effective 1 January 2025.
+- [California Civil Code §1670.50 — Buyer-Broker Representation Agreements](https://law.justia.com/codes/california/code-civ/division-3/part-2/title-4-1/section-1670-50/) — statutory requirements effective January 1, 2025.
 - [California Department of Real Estate — AB 2992 rulemaking materials](https://www.dre.ca.gov/files/pdf/relaw/2025/AB2992_Title_10_CalCodeofRegs29061_29063.pdf) — implementing regulations.
 - [Brownstein — California's New Requirements for Buyer-Broker Representation Agreements](https://www.bhfs.com/insight/california-s-new-requirements-for-buyer-broker-representation-agreements/) — legal analysis of AB 2992 scope and content requirements.
 

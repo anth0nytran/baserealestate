@@ -7,7 +7,6 @@ import { cn } from "../lib/utils";
 import {
     AGENT,
     AREA,
-    BRAND,
     CONTACT,
     LICENSE,
     MARKET_OPTIONS,
@@ -17,6 +16,7 @@ import {
     URGENCY_OPTIONS,
 } from "../config/site";
 import { trackEmailClick, trackLeadFailed, trackLeadSubmitted, trackPhoneClick } from "../lib/analytics";
+import { BrandName, BrokeredBy } from "../components/Brand";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -244,7 +244,8 @@ export default function Contact() {
                             />
                             <div>
                                 <p className="font-display text-[1.15rem] text-cream leading-tight">{AGENT.displayName}</p>
-                                <p className="eyebrow text-cream/45 mt-1.5">{AGENT.title} · {BRAND.name}</p>
+                                <p className="eyebrow text-cream/45 mt-1.5">{AGENT.title} · <BrandName /></p>
+                                <BrokeredBy tone="cream" className="mt-3 text-[20px]" />
                             </div>
                         </div>
 
@@ -304,7 +305,7 @@ export default function Contact() {
                                         Thank you, {form.fullName.trim().split(" ")[0]}.
                                     </h2>
                                     <p className="text-[17px] font-light leading-[1.85] text-navy-600 mb-4">
-                                        Your request is with {AGENT.firstName}. He reviews every enquiry
+                                        Your request is with {AGENT.firstName}. He reviews every inquiry
                                         himself and will reach out on the timeline you selected.
                                     </p>
                                     <p className="text-[15px] font-light leading-[1.85] text-navy-400 mb-10">
@@ -464,7 +465,7 @@ export default function Contact() {
                                     {/* TCPA / SMS consent. Required wherever a phone number is collected. */}
                                     <p className="text-[11px] font-light leading-[1.75] text-navy-400 mt-8">
                                         By submitting this form you consent to receive calls, text messages
-                                        (including via automated technology), and emails from {BRAND.name}
+                                        (including via automated technology), and emails from <BrandName />
                                         {LICENSE.brokerage.confirmed ? ` / ${LICENSE.brokerage.name}` : ""} at the
                                         number and email provided, including for marketing purposes. Consent is
                                         not a condition of any purchase. Message and data rates may apply;

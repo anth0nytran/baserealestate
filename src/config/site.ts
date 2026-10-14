@@ -29,13 +29,6 @@ export const BRAND = {
     shortName: "Base",
     /** Used in <title> suffixes and the footer copyright line. */
     legalName: "Base Real Estate Group",
-    /**
-     * The logotype is set as an image, and the supplied artwork reads
-     * "BASE REAL ESTATE". `descriptor` is locked up beside it in Jost rather
-     * than redrawn in the display face, which nobody has the outlines for.
-     * See the wordmark lockup in components/Layout.tsx.
-     */
-    descriptor: "Group",
     tagline: "Where the right move begins.",
     /** One-line positioning statement. Appears in the footer and llms.txt. */
     positioning:

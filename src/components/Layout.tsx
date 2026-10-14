@@ -23,68 +23,47 @@ const NAV_LINKS = [
 ] as const;
 
 /**
- * The logotype lockup: supplied wordmark artwork + typeset descriptor.
+ * The logotype: the client's full "BASE REAL ESTATE GROUP" lockup, as one
+ * piece of artwork (assets/full_logo.png, cut into navy and cream variants by
+ * scripts/prepare-brand-assets.mjs). "GROUP" is part of the drawing, not set
+ * beside it — and it is not optional: Sam is a salesperson under a broker,
+ * and a mark reading "Base Real Estate" alone would claim a brokerage he does
+ * not hold.
  *
- * The artwork reads "BASE REAL ESTATE" and cannot say "GROUP" — it is a
- * bespoke didone cut and nobody has the outlines, so the word is set in Jost
- * beside it rather than faked in a near-miss serif, which would read as a
- * mistake at every size. That word is not decoration: Sam is a salesperson
- * under a broker, and a mark reading "Base Real Estate" on its own claims a
- * brokerage he does not hold (see BRAND in src/config/site.ts).
- *
- * `size` sets the container's font-size to the artwork's cap height, and both
- * halves are then expressed in `em` — so one responsive value moves the
- * wordmark and the descriptor together instead of two that drift apart at the
- * next breakpoint. Bottom-aligned, because the trimmed artwork's lower edge
- * *is* the cap baseline.
+ * `size` sets the font-size the artwork's cap height is drawn at (1em), so a
+ * single responsive value scales the whole mark.
  */
 function Wordmark({
     src,
     srcSet,
-    tone,
     size,
-    /* Intrinsic size of `src`. Wrong values here reserve the wrong box and
-       shunt the descriptor sideways on first paint — the nav variants are
-       trimmed to roughly 13:1, the full mark with its gold rule is 9.6:1. */
+    /* Intrinsic size of `src`, so the box is right before the image loads:
+       the nav variants are trimmed to about 19:1, the full lockup with its
+       gold rule to about 17:1. */
     width = 600,
-    height = 45,
+    height = 31,
     loading,
 }: {
     src: string;
     srcSet?: string;
-    /** Which ink the surrounding surface calls for. */
-    tone: "navy" | "cream";
-    /** Font-size utilities setting the cap height, e.g. "text-[17px] md:text-[27px]". */
+    /** Font-size utilities setting the cap height, e.g. "text-[14px] md:text-[20px]". */
     size: string;
     width?: number;
     height?: number;
     loading?: "lazy" | "eager";
 }) {
     return (
-        <span className={cn("flex items-end gap-[0.5em] leading-none", size)}>
+        <span className={cn("flex max-w-full leading-none", size)}>
             <img
                 src={src}
                 srcSet={srcSet}
-                sizes="300px"
+                sizes="520px"
                 alt={BRAND.name}
                 width={width}
                 height={height}
                 loading={loading}
-                className="h-[1em] w-auto object-contain transition-all duration-view ease-brand"
+                className="h-[1em] w-auto max-w-full object-contain object-left transition-all duration-view ease-brand"
             />
-            <span
-                aria-hidden="true"
-                className={cn(
-                    "select-none whitespace-nowrap font-sans text-[0.58em] font-medium uppercase leading-none tracking-[0.28em]",
-                    // The trimmed artwork has no descender room, so its box
-                    // bottom is the baseline; a hairline nudge is what stops
-                    // the descriptor floating above it.
-                    "translate-y-[0.05em]",
-                    tone === "cream" ? "text-cream/70" : "text-navy/60"
-                )}
-            >
-                {BRAND.descriptor}
-            </span>
         </span>
     );
 }
@@ -203,13 +182,13 @@ export default function Layout({ children }: LayoutProps) {
                                     ? "/base/wordmark-cream-nav-600.png 600w, /base/wordmark-cream-nav-900.png 900w"
                                     : "/base/wordmark-navy-nav-600.png 600w, /base/wordmark-navy-nav-900.png 900w"
                             }
-                            tone={lightMarks ? "cream" : "navy"}
-                            // The wordmark is 13:1; at full nav height it would
-                            // run into the Menu button on a 390px screen.
+                            // The lockup is about 19:1. 14px keeps it clear of the
+                            // Menu button at 390px; 18px at lg leaves the four
+                            // links room before xl opens up the full size.
                             size={
                                 scrolled
-                                    ? "text-[15px] sm:text-[17px] xl:text-[19px]"
-                                    : "text-[17px] sm:text-[20px] lg:text-[20px] xl:text-[27px]"
+                                    ? "text-[13px] sm:text-[15px] xl:text-[17px]"
+                                    : "text-[14px] sm:text-[17px] lg:text-[18px] xl:text-[24px]"
                             }
                         />
                     </Link>
@@ -289,8 +268,7 @@ export default function Layout({ children }: LayoutProps) {
                             <Link to="/" onClick={() => setMobileMenuOpen(false)}>
                                 <Wordmark
                                     src="/base/wordmark-cream-nav-600.png"
-                                    tone="cream"
-                                    size="text-[17px] sm:text-[20px]"
+                                    size="text-[14px] sm:text-[18px]"
                                 />
                             </Link>
                             <button onClick={() => setMobileMenuOpen(false)} aria-label="Close menu" className="p-1">
@@ -416,18 +394,12 @@ export default function Layout({ children }: LayoutProps) {
                         {/* Brand */}
                         <div className="flex flex-col justify-between border-b border-cream/10 p-8 md:col-span-4 md:border-b-0 md:border-r md:p-14 lg:col-span-3 lg:p-12">
                             <div>
-                                {/*
-                                 * The full-scale mark, which carries the gold
-                                 * rule the nav variants drop — so the artwork
-                                 * box extends below the baseline here and the
-                                 * descriptor rides a touch lower with it.
-                                 */}
+                                {/* The full-scale lockup, which carries the gold rule the nav variants drop. */}
                                 <Wordmark
                                     src="/base/wordmark-cream.png"
-                                    tone="cream"
-                                    size="mb-8 text-[22px]"
-                                    width={3000}
-                                    height={313}
+                                    size="mb-8 text-[17px] sm:text-[20px]"
+                                    width={4091}
+                                    height={239}
                                     loading="lazy"
                                 />
                                 <p className="max-w-measure text-body-sm font-light leading-[1.9] text-cream/55">

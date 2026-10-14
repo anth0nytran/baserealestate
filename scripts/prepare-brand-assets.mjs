@@ -22,6 +22,10 @@ const CREAM = { r: 0xfa, g: 0xf7, b: 0xf0 };
 
 const brandSrc = (name) => path.join(SRC, "base logo and branding", name);
 
+/* Working sources cut from assets/full_logo.png by extractFullLogo(). */
+const FULL_LOCKUP = "base_real_estate_group_lockup.png";
+const FULL_LETTERS = "base_real_estate_group_letters.png";
+
 /**
  * Cities with a licensed photograph of that actual place.
  *
@@ -111,6 +115,60 @@ async function recolorWordmark(srcFile, outFile, ink, { keepGold = true } = {}) 
         .toFile(outFile);
 
     console.log(`  ${path.basename(outFile)}  ${info.width}x${info.height}`);
+}
+
+/**
+ * Lifts the client's full lockup off its navy plate.
+ *
+ * assets/full_logo.png is the approved artwork — "BASE REAL ESTATE GROUP"
+ * as one piece, cream lettering over a full-width gold rule — but it ships
+ * flattened onto navy, with no alpha. Each pixel is unmixed against that
+ * navy: warm pixels are rule, the rest are lettering, and alpha is how far
+ * the pixel has travelled from the plate toward its ink. That keeps the
+ * didone hairlines anti-aliased instead of cutting them out with a hard key.
+ *
+ * Writes the two working sources the rest of this script reads: the lockup
+ * with its rule, and the lettering alone for the nav variants.
+ */
+async function extractFullLogo() {
+    const GOLD = { r: 0xb0, g: 0x8d, b: 0x57 };
+    const lum = (r, g, b) => 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    const bgLum = lum(NAVY.r, NAVY.g, NAVY.b);
+    const creamLum = lum(CREAM.r, CREAM.g, CREAM.b);
+    const goldLum = lum(GOLD.r, GOLD.g, GOLD.b);
+
+    const { data, info } = await sharp(path.join(SRC, "full_logo.png"))
+        .removeAlpha()
+        .raw()
+        .toBuffer({ resolveWithObject: true });
+    const n = info.width * info.height;
+    const full = Buffer.alloc(n * 4);
+    const letters = Buffer.alloc(n * 4);
+
+    for (let i = 0, j = 0; i < n * 3; i += 3, j += 4) {
+        const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
+        const lift = lum(r, g, b) - bgLum;
+        if (lift <= 4) continue;
+        // Warmth gained per unit of brightness: ~0.23 toward cream, ~1.2 toward gold.
+        const gold = (r - b - (NAVY.r - NAVY.b)) / lift > 0.6;
+        const a = Math.round(Math.min(1, lift / ((gold ? goldLum : creamLum) - bgLum)) * 255);
+        const ink = gold ? GOLD : NAVY;
+        full[j] = ink.r;
+        full[j + 1] = ink.g;
+        full[j + 2] = ink.b;
+        full[j + 3] = a;
+        if (!gold) {
+            letters[j] = NAVY.r;
+            letters[j + 1] = NAVY.g;
+            letters[j + 2] = NAVY.b;
+            letters[j + 3] = a;
+        }
+    }
+
+    const raw = { raw: { width: info.width, height: info.height, channels: 4 } };
+    await sharp(full, raw).trim({ threshold: 1 }).png({ compressionLevel: 9 }).toFile(brandSrc(FULL_LOCKUP));
+    await sharp(letters, raw).trim({ threshold: 1 }).png({ compressionLevel: 9 }).toFile(brandSrc(FULL_LETTERS));
+    console.log(`  ${FULL_LOCKUP}, ${FULL_LETTERS}  from full_logo.png ${info.width}x${info.height}`);
 }
 
 /**
@@ -487,9 +545,12 @@ async function ogCard() {
 async function main() {
     await mkdir(BRAND, { recursive: true });
 
+    console.log("Full lockup");
+    await extractFullLogo();
+
     console.log("Wordmarks");
-    await recolorWordmark(brandSrc("base_real_estate_primary_navy.png"), path.join(BRAND, "wordmark-navy.png"), NAVY);
-    await recolorWordmark(brandSrc("base_real_estate_primary_navy.png"), path.join(BRAND, "wordmark-cream.png"), CREAM);
+    await recolorWordmark(brandSrc(FULL_LOCKUP), path.join(BRAND, "wordmark-navy.png"), NAVY);
+    await recolorWordmark(brandSrc(FULL_LOCKUP), path.join(BRAND, "wordmark-cream.png"), CREAM);
 
     console.log("Nav wordmarks (optically corrected)");
     for (const [ink, name] of [
@@ -498,7 +559,7 @@ async function main() {
     ]) {
         for (const width of [600, 900]) {
             await navWordmark(
-                brandSrc("base_real_estate_wordmark_only.png"),
+                brandSrc(FULL_LETTERS),
                 path.join(BRAND, `wordmark-${name}-nav-${width}.png`),
                 ink,
                 width
@@ -551,6 +612,9 @@ async function main() {
     console.log("Brokerage mark");
     await brokerageMark();
 
+    console.log("Social card");
+    await ogCard();
+
     // `--logos` stops here: everything below reads assets/renders, which only
     // the design machine has.
     if (process.argv.includes("--logos")) return;
@@ -576,8 +640,6 @@ async function main() {
     console.log("Editorial photography");
     await editorialPhotos();
 
-    console.log("Social card");
-    await ogCard();
 }
 
 main().catch((error) => {

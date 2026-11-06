@@ -21,7 +21,8 @@ import {
     PROMISES,
     SERVICES,
     serviceHref,
-    nestSearchUrl,
+    homeSearchUrl,
+    HOME_FINDER,
 } from "../config/site";
 import { trackCtaClick, trackPhoneClick } from "../lib/analytics";
 import Proof from "../components/Proof";
@@ -635,16 +636,35 @@ export default function Home() {
 
                                 {/* The whole tile is the link: live listings for this city on Nest's search. */}
                                 <a
-                                    href={nestSearchUrl({ city: city.name })}
+                                    href={homeSearchUrl({ city: city.name })}
                                     target="_blank"
                                     rel="noopener"
                                     onClick={() => trackCtaClick(`Search homes — ${city.name}`, "city-tile")}
-                                    aria-label={`Search homes for sale in ${city.name} (opens Nest Real Estate search)`}
+                                    aria-label={`Search homes for sale in ${city.name} (opens Sam's home search)`}
                                     className="absolute inset-0 z-10"
                                 />
                             </Reveal>
                         ))}
                     </ul>
+
+                    <Reveal className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-body-sm text-navy-600">
+                            Searching somewhere else in the county, or by ZIP or school?
+                        </p>
+                        <a
+                            href={HOME_FINDER}
+                            target="_blank"
+                            rel="noopener"
+                            onClick={() => trackCtaClick("Search every listing", "neighborhoods")}
+                            className="btn-primary group"
+                        >
+                            Search every listing
+                            <ArrowUpRight
+                                className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                                strokeWidth={1.25}
+                            />
+                        </a>
+                    </Reveal>
                 </div>
             </Band>
 

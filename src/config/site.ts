@@ -68,7 +68,7 @@ export const CONTACT = {
 } as const;
 
 /**
- * Sam's pages on his brokerage's site.
+ * Sam's pages on his brokerage's site — his main Nest presence.
  *
  * Labeled by what is actually there, checked 2026-10-13: /buyer is a sign-in
  * and create-account page for his buyer account, and /seller is an instant
@@ -76,32 +76,39 @@ export const CONTACT = {
  * either page changes what it offers, change the copy in Guide.tsx with it.
  */
 export const NEST_PORTAL = {
+    home: "https://samelsherif.nestbrokerage.com",
     buyer: "https://samelsherif.nestbrokerage.com/buyer",
     seller: "https://samelsherif.nestbrokerage.com/seller",
 } as const;
 
 /**
- * Live listings on Nest's search, filtered to one place.
+ * Sam's own home search — every listing, branded to him.
  *
- * Parameter names are Nest's own — s[locations][0][city] for a city (its
- * search header confirms the match: "Homes in Newport Beach, CA (city)") and
- * s[locations][0][county] for the county. Property types mirror the set
- * Nest's own result links use, townhouse included, so a buyer sees every
- * residential listing rather than single-family homes alone.
+ * sam.wererealestatehomefinder.com runs on the same search platform as Nest's
+ * (it lists Nest Brokerage, CA DRE #02174581, as the broker) but carries Sam's
+ * name, email, and phone, so an account or an inquiry made there reaches him
+ * rather than the brokerage at large. That makes it the destination for every
+ * "search homes" link on this site.
+ *
+ * Its search takes the same parameters as Nest's: s[locations][0][city] for a
+ * city, s[locations][0][county] for the county (checked 2026-11-06: Irvine 676
+ * homes, Newport Beach 343, Orange County 4,918). Property types include
+ * townhouse so a buyer sees every residential listing, not detached homes alone.
  */
-const NEST_SEARCH = "https://search.nestbrokerage.com/search";
-const NEST_PROPERTY_TYPES = ["house", "condo", "townhouse", "land", "other"] as const;
+export const HOME_FINDER = "https://sam.wererealestatehomefinder.com";
+const HOME_SEARCH = `${HOME_FINDER}/search/map`;
+const PROPERTY_TYPES = ["house", "condo", "townhouse", "land", "other"] as const;
 
-export const nestSearchUrl = (place: { city: string } | { county: string }): string => {
-    // Built by hand, not with URLSearchParams: Nest's own links keep the
-    // brackets literal and encode spaces as %20, and this matches them.
+export const homeSearchUrl = (place: { city: string } | { county: string }): string => {
+    // Built by hand, not with URLSearchParams: the platform's own links keep
+    // the brackets literal and encode spaces as %20, and this matches them.
     const location = "city" in place ? ["city", place.city] : ["county", place.county];
     const pairs = [
         [`s[locations][0][${location[0]}]`, location[1]],
         ["s[locations][0][state]", "CA"],
-        ...NEST_PROPERTY_TYPES.map((type, i) => [`s[propertyTypes][${i}]`, type]),
+        ...PROPERTY_TYPES.map((type, i) => [`s[propertyTypes][${i}]`, type]),
     ];
-    return `${NEST_SEARCH}?${pairs.map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join("&")}`;
+    return `${HOME_SEARCH}?${pairs.map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join("&")}`;
 };
 
 /**
@@ -117,8 +124,8 @@ const SEARCH_AS_CITY: Record<string, string> = {
 /** Search link for any name the site lists as a service area. */
 export const areaSearchUrl = (name: string): string =>
     name === AREA.primary
-        ? nestSearchUrl({ county: "Orange" })
-        : nestSearchUrl({ city: SEARCH_AS_CITY[name] ?? name });
+        ? homeSearchUrl({ county: "Orange" })
+        : homeSearchUrl({ city: SEARCH_AS_CITY[name] ?? name });
 
 /* -------------------------------------------------------------------------
  * Licensing & brokerage

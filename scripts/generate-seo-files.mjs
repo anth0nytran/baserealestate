@@ -207,6 +207,8 @@ brokerage.
 Contact: sam.elsherif@gmail.com | (949) 945-8225
 Hours: Monday-Friday, 8:00 AM - 8:00 PM Pacific (after-hours by appointment)
 Primary call to action: book a consultation at ${SITE_URL}/contact
+Home search (every Orange County listing, branded to Sam): https://sam.wererealestatehomefinder.com
+Sam's page on Nest Real Estate: https://samelsherif.nestbrokerage.com
 
 ## Services
 

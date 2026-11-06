@@ -9,7 +9,7 @@ import { GuideFaq, GuideHero, GuidePortal, GuideReading, GuideSteps } from "../c
 import Proof from "../components/Proof";
 import CitySearch from "../components/CitySearch";
 import ClosingCTA from "../components/ClosingCTA";
-import { AGENT, AREA, MARKET, NEST_PORTAL, SERVICES } from "../config/site";
+import { AGENT, AREA, HOME_FINDER, MARKET, NEST_PORTAL, SERVICES } from "../config/site";
 
 /* ==========================================================================
    /buy — the buyer's guide
@@ -183,7 +183,7 @@ export default function Buy() {
                 accent="knowing every step."
                 service="buying"
                 source="buy"
-                portal={{ href: NEST_PORTAL.buyer, label: "Or open your buyer account" }}
+                portal={{ href: HOME_FINDER, label: "Or search every listing" }}
             >
                 {AGENT.displayName} represents home buyers across {AREA.focusLabel} — first-time, moving up, relocating,
                 and investing. Every purchase starts with a free consultation that walks through financing,

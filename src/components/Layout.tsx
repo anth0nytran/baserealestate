@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { trackPhoneClick, trackEmailClick, trackCtaClick } from "@/lib/analytics";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, ArrowRight, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { X, ArrowRight, ArrowUpRight, Phone, Mail, MapPin, Clock, Search } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { AGENT, AREA, BRAND, CONTACT, CREDIT, PRIMARY_CTA, SERVICES, dreLine, licenseLine, serviceHref, areaSearchUrl } from "@/config/site";
+import { AGENT, AREA, BRAND, CONTACT, CREDIT, PRIMARY_CTA, SERVICES, dreLine, licenseLine, serviceHref, areaSearchUrl, HOME_FINDER, NEST_PORTAL } from "@/config/site";
 import { BrandName, BrokeredBy } from "./Brand";
 import { brandify } from "../lib/brand";
 
@@ -338,6 +338,15 @@ export default function Layout({ children }: LayoutProps) {
                             <p className="flex items-center gap-3 text-body-sm font-light text-cream/65">
                                 <MapPin className="h-3.5 w-3.5 text-gold" strokeWidth={1.25} /> {AREA.primaryFull}
                             </p>
+                            <a
+                                href={HOME_FINDER}
+                                target="_blank"
+                                rel="noopener"
+                                onClick={() => trackCtaClick("Search every listing", "mobile-menu")}
+                                className="flex items-center gap-3 text-body-sm font-light text-cream"
+                            >
+                                <Search className="h-3.5 w-3.5 text-gold" strokeWidth={1.25} /> Search every listing
+                            </a>
                         </div>
 
                         <div className="mt-auto px-6 pb-8">
@@ -500,6 +509,29 @@ export default function Layout({ children }: LayoutProps) {
                                             {CONTACT.hours}
                                             <span className="mt-1 block italic text-cream/40">{CONTACT.hoursNote}</span>
                                         </p>
+                                    </div>
+                                    {/* Sam's two outside sites: his own home search, and his Nest page. */}
+                                    <div className="space-y-2.5 border-t border-cream/10 pt-5">
+                                        <a
+                                            href={HOME_FINDER}
+                                            target="_blank"
+                                            rel="noopener"
+                                            onClick={() => trackCtaClick("Search every listing", "footer")}
+                                            className="flex items-center gap-2 text-body-sm text-cream/75 transition-colors hover:text-gold-300"
+                                        >
+                                            Search every listing
+                                            <ArrowUpRight className="h-3.5 w-3.5 text-gold-300" strokeWidth={1.25} />
+                                        </a>
+                                        <a
+                                            href={NEST_PORTAL.home}
+                                            target="_blank"
+                                            rel="noopener"
+                                            onClick={() => trackCtaClick("Sam on Nest Real Estate", "footer")}
+                                            className="flex items-center gap-2 text-body-sm text-cream/75 transition-colors hover:text-gold-300"
+                                        >
+                                            {AGENT.firstName} on Nest Real Estate
+                                            <ArrowUpRight className="h-3.5 w-3.5 text-gold-300" strokeWidth={1.25} />
+                                        </a>
                                     </div>
                                 </div>
                             </div>

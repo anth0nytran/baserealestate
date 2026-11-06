@@ -119,7 +119,7 @@ export default function Sell() {
         <div className="w-full overflow-x-clip">
             <SEO
                 title="Selling a Home in Orange County"
-                description={`Sell in ${AREA.focusLabel} with ${AGENT.displayName}, ${AGENT.title}: pricing built from closed comparable sales and shown to you, a plan for your first two weeks on market, and a free, no-obligation pricing analysis.`}
+                description="Selling a home in Orange County: pricing from closed comparable sales, a plan for your first two weeks on market, and a free, no-obligation pricing analysis."
                 path="/sell"
                 breadcrumbs={[{ name: "Sell", path: "/sell" }]}
                 faqs={FAQS}

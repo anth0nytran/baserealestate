@@ -37,6 +37,14 @@ interface SEOProps {
     noindex?: boolean;
 }
 
+const DESCRIPTION_MAX = 160;
+
+function clampDescription(text: string): string {
+    if (text.length <= DESCRIPTION_MAX) return text;
+    const cut = text.slice(0, DESCRIPTION_MAX - 1);
+    return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s,;:—–-]+$/, "")}…`;
+}
+
 export default function SEO({
     title,
     description,
@@ -53,7 +61,16 @@ export default function SEO({
     noindex = false,
 }: SEOProps) {
     const url = `${SITE_URL}${path}`;
-    const fullTitle = path === "/" ? title : `${title} | ${BRAND.name}`;
+    /*
+     * Search results cut titles near 60 characters and descriptions near 160.
+     * The brand suffix rides along only while the whole title still fits; past
+     * that the page's own title is what should survive the cut. Descriptions
+     * over the limit are trimmed at a word boundary rather than mid-word —
+     * a safety net under the hand-written ones, not a substitute for them.
+     */
+    const suffixed = `${title} | ${BRAND.name}`;
+    const fullTitle = path === "/" || suffixed.length > 60 ? title : suffixed;
+    description = clampDescription(description);
     const ogImage = image ? `${SITE_URL}${image}` : DEFAULT_OG_IMAGE;
 
     const graph: Record<string, unknown>[] = [];

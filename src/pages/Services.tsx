@@ -213,7 +213,7 @@ export default function Services() {
         <div className="w-full overflow-x-clip">
             <SEO
                 title="Real Estate Services in Orange County"
-                description={`Knowledge transfer, real estate consulting, home purchase and sale representation, and investor assistance across ${AREA.focusLabel} with ${AGENT.displayName}, ${AGENT.title}. Book a no-pressure consultation.`}
+                description={`Knowledge transfer, consulting, buying, selling, and investor help across South Orange County with ${AGENT.shortDisplayName}, REALTOR®. Free, no-pressure consultation.`}
                 path="/services"
                 breadcrumbs={[{ name: "Services", path: "/services" }]}
                 faqs={FAQS}

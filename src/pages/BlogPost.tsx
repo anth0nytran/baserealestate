@@ -29,7 +29,7 @@ export default function BlogPost() {
     return (
         <div className="bg-white w-full min-h-screen overflow-x-clip">
             <SEO
-                title={post.title}
+                title={post.seoTitle}
                 description={post.description}
                 path={`/blog/${post.slug}`}
                 type="article"

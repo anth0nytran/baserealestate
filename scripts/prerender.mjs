@@ -20,7 +20,9 @@ const root = process.cwd();
 const distDir = path.join(root, "dist");
 const ssrDir = path.join(root, "dist-ssr");
 
-const STATIC_ROUTES = ["/", "/services", "/buy", "/sell", "/contact"];
+// Area guide slugs mirror AREA_GUIDES in src/config/areas.ts — add both together.
+const AREA_SLUGS = ["newport-beach", "laguna-beach", "laguna-niguel"];
+const STATIC_ROUTES = ["/", "/about", "/services", "/buy", "/sell", "/contact", ...AREA_SLUGS.map((s) => `/areas/${s}`)];
 
 async function blogRoutes() {
     const cutoff = publishCutoff();

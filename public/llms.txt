@@ -36,6 +36,23 @@ Sam's page on Nest Real Estate: https://samelsherif.nestbrokerage.com
   cost, and exit modeling before any property tour.
 - [Book a Consultation](https://www.baserealestate.com/contact): No-pressure consultation.
 
+## About Sam Elsherif
+
+- [About Sam Elsherif](https://www.baserealestate.com/about): License (verifiable on the California
+  DRE public register), brokerage, record, areas served, and how he works.
+
+## Area guides
+
+Sourced, dated home prices and what moves value in each city.
+
+- [Newport Beach](https://www.baserealestate.com/areas/newport-beach): Detached and all-closings
+  medians for the six months to August 2026, price-band behavior, and the
+  asking-to-sold gap.
+- [Laguna Beach](https://www.baserealestate.com/areas/laguna-beach): Median for the three months to
+  May 2026 and what moves value on a specific street.
+- [Laguna Niguel](https://www.baserealestate.com/areas/laguna-niguel): Median for the six months to
+  August 2026, HOA and Mello-Roos, and the comparison with Laguna Beach.
+
 ## Market Reports & Guides
 
 - [First-Time Home Buyer Guide: Orange County, California](https://www.baserealestate.com/blog/first-time-home-buyer-orange-county): What a first purchase in Orange County actually involves in 2026 — the written agreement you now sign before touring, the numbers beyond the down payment, and the contingency deadlines that cost people money.

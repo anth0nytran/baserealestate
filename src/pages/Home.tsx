@@ -27,6 +27,7 @@ import {
 import { trackCtaClick, trackPhoneClick } from "../lib/analytics";
 import Proof from "../components/Proof";
 import Timeline from "../components/Timeline";
+import { AREA_GUIDES } from "../config/areas";
 import ClosingCTA from "../components/ClosingCTA";
 import { BrandName, BrokeredBy } from "../components/Brand";
 import { brandify } from "../lib/brand";
@@ -244,8 +245,8 @@ export default function Home() {
     return (
         <div className="w-full overflow-x-clip">
             <SEO
-                title={`Orange County Real Estate Agent — ${AGENT.shortDisplayName}, REALTOR® | ${BRAND.name}`}
-                description={`${AGENT.displayName} is a REALTOR® specializing in ${AREA.focusLabel}: ${AREA.focus.map((c) => c.name).join(", ")}. Knowledge transfer, consulting, home purchase and sale, investor assistance. Book a no-pressure consultation.`}
+                title={`Orange County Real Estate Agent | ${AGENT.shortDisplayName}, REALTOR®`}
+                description={`${AGENT.shortDisplayName}, REALTOR® (CA DRE #02282409), helps buyers and sellers in Newport Beach, Laguna Beach, Dana Point, and Laguna Niguel. Free consultation.`}
                 path="/"
                 faqs={FAQS}
             />
@@ -575,7 +576,16 @@ export default function Home() {
                         <p className="max-w-xs text-body-sm font-light leading-[1.8] text-navy-600 md:text-right">
                             Weighted to {AREA.focusLabel}, and available throughout the county — including{" "}
                             {AREA.alsoServing.slice(0, 3).join(", ")}. Choose a city to see what is for sale there
-                            now.
+                            now, or read the guides to{" "}
+                            {AREA_GUIDES.map((guide, i) => (
+                                <span key={guide.slug}>
+                                    {i > 0 && (i === AREA_GUIDES.length - 1 ? ", and " : ", ")}
+                                    <Link to={`/areas/${guide.slug}`} className="text-ink underline decoration-gold underline-offset-4">
+                                        {guide.name}
+                                    </Link>
+                                </span>
+                            ))}
+                            .
                         </p>
                     </Reveal>
 

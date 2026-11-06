@@ -67,6 +67,8 @@ export async function readAllPosts(cutoff = publishCutoff()) {
         frontmatterField(raw, "datePublished") ||
         cutoff,
       published: isPublished(raw, cutoff),
+      /** Markdown after the frontmatter — the article as written, for llms-full.txt. */
+      body: raw.replace(/^---[\s\S]*?---\s*/, "").trim(),
     });
   }
 

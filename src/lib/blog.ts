@@ -28,6 +28,8 @@ export interface BlogPost {
     readingTime: string;
     image: string;
     imageAlt: string;
+    /** Optional shorter title for search results, when the headline runs past ~60 characters. */
+    seoTitle: string;
     tags: string[];
     featured: boolean;
     /** Rendered article HTML. */
@@ -224,6 +226,7 @@ function toPost(slug: string, raw: string): BlogPost {
         readingTime: str("readingTime", "5 min read"),
         image: str("image", "/og/base-og.jpg"),
         imageAlt: str("imageAlt", title),
+        seoTitle: str("seoTitle", title),
         ctaPrompt: str("ctaPrompt"),
         tags: list("tags"),
         featured: str("featured") === "true",

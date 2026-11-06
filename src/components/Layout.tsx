@@ -7,6 +7,7 @@ import { X, ArrowRight, ArrowUpRight, Phone, Mail, MapPin, Clock, Search } from 
 import { Link, useLocation } from "react-router-dom";
 import { AGENT, AREA, BRAND, CONTACT, CREDIT, PRIMARY_CTA, SERVICES, dreLine, licenseLine, serviceHref, areaSearchUrl, HOME_FINDER, NEST_PORTAL } from "@/config/site";
 import { BrandName, BrokeredBy } from "./Brand";
+import { AREA_GUIDES } from "@/config/areas";
 import { brandify } from "../lib/brand";
 
 interface LayoutProps {
@@ -18,6 +19,7 @@ const NAV_LINKS = [
     { name: "Buy", path: "/buy" },
     { name: "Sell", path: "/sell" },
     { name: "Services", path: "/services" },
+    { name: "About", path: "/about" },
     { name: "Journal", path: "/blog" },
     { name: "Contact", path: "/contact" },
 ] as const;
@@ -91,6 +93,8 @@ export default function Layout({ children }: LayoutProps) {
         route === "/services" ||
         route === "/buy" ||
         route === "/sell" ||
+        route === "/about" ||
+        route.startsWith("/areas/") ||
         route.startsWith("/blog");
     const lightMarks = darkHero && !scrolled;
     const plated = !darkHero || scrolled;
@@ -195,7 +199,8 @@ export default function Layout({ children }: LayoutProps) {
 
                     <div className="hidden items-center gap-6 whitespace-nowrap lg:flex xl:gap-10">
                         {/* The logo is the way home, and Contact is the button. */}
-                        {NAV_LINKS.filter((link) => link.path !== "/" && link.path !== "/contact").map((link) => (
+                        {/* About lives in the footer and the menu; the bar keeps to four links. */}
+                        {NAV_LINKS.filter((link) => !["/", "/contact", "/about"].includes(link.path)).map((link) => (
                             <Link
                                 key={link.path}
                                 to={link.path}
@@ -454,6 +459,20 @@ export default function Layout({ children }: LayoutProps) {
                                             className="text-body-sm font-light text-cream/70 transition-colors hover:text-cream"
                                         >
                                             {service.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <h2 className="label mb-7 mt-12 font-sans text-cream/35">City guides</h2>
+                            <ul className="space-y-4">
+                                {AREA_GUIDES.map((guide) => (
+                                    <li key={guide.slug}>
+                                        <Link
+                                            to={`/areas/${guide.slug}`}
+                                            className="text-body-sm font-light text-cream/70 transition-colors hover:text-cream"
+                                        >
+                                            {guide.name}
                                         </Link>
                                     </li>
                                 ))}

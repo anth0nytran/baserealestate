@@ -83,6 +83,19 @@ const routes = [
     images: AGENT_IMAGES,
   },
   {
+    path: "/about",
+    changefreq: "monthly",
+    priority: "0.9",
+    lastmod: lastCommitDate("src/pages/About.tsx", LAYOUT),
+    images: AGENT_IMAGES,
+  },
+  ...["newport-beach", "laguna-beach", "laguna-niguel"].map((slug) => ({
+    path: `/areas/${slug}`,
+    changefreq: "monthly",
+    priority: "0.8",
+    lastmod: lastCommitDate("src/config/areas.ts", "src/pages/Area.tsx"),
+  })),
+  {
     path: "/buy",
     changefreq: "monthly",
     priority: "0.9",
@@ -153,6 +166,12 @@ ${routes
  * results, and naming them makes the intent unambiguous to anyone auditing
  * the file later.
  */
+/*
+ * Every crawler that feeds an AI answer or an AI model, allowed by name so a
+ * future blanket rule elsewhere cannot silently shut one out. CCBot (Common
+ * Crawl) matters more than its obscurity suggests: its corpus is training data
+ * for most large models, so it is how a name gets into what a model "knows".
+ */
 const AI_CRAWLERS = [
   "GPTBot",
   "OAI-SearchBot",
@@ -168,6 +187,14 @@ const AI_CRAWLERS = [
   "Bingbot",
   "cohere-ai",
   "Meta-ExternalAgent",
+  "CCBot",
+  "Amazonbot",
+  "DuckAssistBot",
+  "MistralAI-User",
+  "GoogleOther",
+  "Google-CloudVertexBot",
+  "YouBot",
+  "anthropic-ai",
 ];
 
 const robots = `User-agent: *
@@ -225,6 +252,23 @@ Sam's page on Nest Real Estate: https://samelsherif.nestbrokerage.com
   cost, and exit modeling before any property tour.
 - [Book a Consultation](${SITE_URL}/contact): No-pressure consultation.
 
+## About Sam Elsherif
+
+- [About Sam Elsherif](${SITE_URL}/about): License (verifiable on the California
+  DRE public register), brokerage, record, areas served, and how he works.
+
+## Area guides
+
+Sourced, dated home prices and what moves value in each city.
+
+- [Newport Beach](${SITE_URL}/areas/newport-beach): Detached and all-closings
+  medians for the six months to August 2026, price-band behavior, and the
+  asking-to-sold gap.
+- [Laguna Beach](${SITE_URL}/areas/laguna-beach): Median for the three months to
+  May 2026 and what moves value on a specific street.
+- [Laguna Niguel](${SITE_URL}/areas/laguna-niguel): Median for the six months to
+  August 2026, HOA and Mello-Roos, and the comparison with Laguna Beach.
+
 ## Market Reports & Guides
 
 ${postLines}
@@ -258,6 +302,29 @@ await mkdir(publicDir, { recursive: true });
 await writeFile(path.join(publicDir, "sitemap.xml"), sitemap, "utf8");
 await writeFile(path.join(publicDir, "robots.txt"), robots, "utf8");
 await writeFile(path.join(publicDir, "llms.txt"), llms, "utf8");
+
+/*
+ * llms-full.txt — the companion convention: the curated index above, then
+ * every published article in full, so a tool that reads one file gets the
+ * substance and not just the links.
+ */
+const llmsFull = `${llms}
+
+---
+
+# Articles in full
+
+${posts
+  .map((post) => `## ${post.title}
+
+URL: ${SITE_URL}/blog/${post.slug}
+Published: ${post.datePublished} · Updated: ${post.dateModified}
+Author: Bassam "Sam" Elsherif, REALTOR(R), CA DRE #02282409
+
+${post.body}`)
+  .join(`${NEWLINE}${NEWLINE}---${NEWLINE}${NEWLINE}`)}
+`;
+await writeFile(path.join(publicDir, "llms-full.txt"), llmsFull, "utf8");
 
 console.log(
   `Generated sitemap.xml (${routes.length} URLs), robots.txt, and llms.txt for ${SITE_URL}`

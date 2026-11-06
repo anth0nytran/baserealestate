@@ -1,5 +1,6 @@
 ---
 title: "Orange County Housing Market Report: What the Data Actually Says"
+seoTitle: "Orange County Housing Market Report: The Data, Sourced"
 description: "Current Orange County housing data — median sale price, inventory, and days on market — with every figure attributed to a named source and a month. Includes why two credible sources report medians nearly $270,000 apart."
 answer: "As of September 2026, the two most-cited Orange County medians disagree by roughly $270,000. The California Association of REALTORS® put the July 2026 median at $1,470,000, counting existing detached single-family homes only. Redfin reported about $1,200,000 for August 2026, counting every property type including condos. Both are correct; they measure different things."
 category: "Market Reports"

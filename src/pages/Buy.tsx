@@ -141,7 +141,7 @@ export default function Buy() {
         <div className="w-full overflow-x-clip">
             <SEO
                 title="Buying a Home in Orange County"
-                description={`Buy in ${AREA.focusLabel} with ${AGENT.displayName}, ${AGENT.title}: real costs beyond the down payment, California's buyer-agreement rules, what is negotiable now, and a free buyer consultation.`}
+                description="Buying a home in Orange County: real costs beyond the down payment, California's buyer-agreement rules, and what's negotiable now. Free buyer consultation."
                 path="/buy"
                 breadcrumbs={[{ name: "Buy", path: "/buy" }]}
                 faqs={FAQS}

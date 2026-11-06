@@ -1,5 +1,6 @@
 ---
 title: "South Orange County Home Prices by City — and Why the Numbers Disagree"
+seoTitle: "South Orange County Home Prices by City, Sourced"
 description: "Newport Beach, Laguna Beach, Laguna Niguel and Dana Point median prices from named sources, with the window each one covers. Includes why two reports on the same city over the same six months differ by more than a million dollars."
 answer: "Coastal South Orange County medians vary enormously by city and by source. Over the six months to August 2026, Newport Beach was reported at $4,470,000 counting detached single-family homes only, and $3,400,000 counting all 381 closings. Laguna Niguel was about $1,395,000; Laguna Beach about $3,100,000. Always check what a median counts before using it."
 category: "Market Reports"

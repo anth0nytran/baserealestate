@@ -24,7 +24,7 @@ export default function Blog() {
         <div className="w-full overflow-x-clip">
             <SEO
                 title="Orange County Market Reports & Buyer Guides"
-                description={`Sourced Orange County housing market reports and buyer and seller guides from ${AGENT.displayName}, ${AGENT.title}. Every figure carries its source and its observation date.`}
+                description={`Orange County housing market reports and buyer and seller guides by ${AGENT.shortDisplayName}, REALTOR®. Every figure carries its source and observation date.`}
                 path="/blog"
                 breadcrumbs={[{ name: "Journal", path: "/blog" }]}
             />

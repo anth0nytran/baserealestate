@@ -3,7 +3,7 @@ import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { publishCutoff, readAllPosts } from "./lib/scheduled-posts.mjs";
 
-const SITE_URL = (process.env.SITE_URL || "https://www.baserealestate.com").replace(/\/+$/, "");
+const SITE_URL = (process.env.SITE_URL || "https://baserealestategroup.com").replace(/\/+$/, "");
 const CUTOFF = publishCutoff();
 const TODAY = CUTOFF;
 

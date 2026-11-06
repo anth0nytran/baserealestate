@@ -1,10 +1,7 @@
 # Production SEO / GEO / AEO Checklist — Base Real Estate
 
-> **The domain is not chosen yet.** Every `www.baserealestate.com` below is a
-> placeholder. When the real domain is registered, update it here, in
-> `SITE_URL` in `src/config/site.ts`, in the `@id` values in `index.html`, and
-> in the Vercel environment — then restore the apex → www redirect in
-> `vercel.json`.
+> **Domain: baserealestategroup.com** (apex canonical), set in `SITE_URL` in
+> `src/config/site.ts` and the `@id` values in `index.html`.
 
 ## 1) Environment Variables (Vercel)
 
@@ -31,21 +28,21 @@ The build **fails loudly** if a route renders empty or without a `<title>`. That
 
 Each of these must return `200`:
 
-- `https://www.baserealestate.com/`
-- `https://www.baserealestate.com/services`
-- `https://www.baserealestate.com/contact`
-- `https://www.baserealestate.com/blog`
-- `https://www.baserealestate.com/blog/orange-county-housing-market-report`
-- `https://www.baserealestate.com/sitemap.xml`
-- `https://www.baserealestate.com/robots.txt`
-- `https://www.baserealestate.com/llms.txt`
+- `https://baserealestategroup.com/`
+- `https://baserealestategroup.com/services`
+- `https://baserealestategroup.com/contact`
+- `https://baserealestategroup.com/blog`
+- `https://baserealestategroup.com/blog/orange-county-housing-market-report`
+- `https://baserealestategroup.com/sitemap.xml`
+- `https://baserealestategroup.com/robots.txt`
+- `https://baserealestategroup.com/llms.txt`
 
-An unknown URL such as `https://www.baserealestate.com/does-not-exist` must return a **404**, not a 200.
+An unknown URL such as `https://baserealestategroup.com/does-not-exist` must return a **404**, not a 200.
 
 **Critical check — content without JavaScript:**
 
 ```bash
-curl -s https://www.baserealestate.com/ | grep -c "Orange County"
+curl -s https://baserealestategroup.com/ | grep -c "Orange County"
 ```
 
 This must return a non-zero count. If it returns 0, prerendering did not run and the site is invisible to GPTBot, PerplexityBot, and ClaudeBot. 
@@ -53,7 +50,7 @@ This must return a non-zero count. If it returns 0, prerendering did not run and
 ## 3) Google Search Console
 
 - Add property; prefer **Domain property** + DNS TXT verification.
-- Submit `https://www.baserealestate.com/sitemap.xml`.
+- Submit `https://baserealestategroup.com/sitemap.xml`.
 - Use URL Inspection on `/` and one blog post; confirm self-referencing canonical, indexable status, and detected structured data.
 - Validate schema with the Rich Results Test — expect `RealEstateAgent`, `Person`, `BlogPosting`, `FAQPage`, and `BreadcrumbList`.
 

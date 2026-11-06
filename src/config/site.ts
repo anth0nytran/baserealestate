@@ -806,12 +806,13 @@ export const MARKET_OPTIONS = [
 /* -------------------------------------------------------------------------
  * Deployment
  *
- * TODO(client): domain not chosen. SITE_URL is referenced by canonical tags,
- * OG tags, sitemap.xml, robots.txt, llms.txt, and the JSON-LD @id graph in
- * index.html. Changing it is one edit here plus one in index.html.
+ * The client's domain, confirmed 2026-11-06. SITE_URL is referenced by
+ * canonical tags, OG tags, sitemap.xml, robots.txt, llms.txt, and the JSON-LD
+ * @id graph in index.html. The apex is canonical; if www is ever made primary
+ * in Vercel instead, change it here, in index.html, and in the SITE_URL env.
  * ---------------------------------------------------------------------- */
 
-export const SITE_URL = "https://www.baserealestate.com";
+export const SITE_URL = "https://baserealestategroup.com";
 
 export const CREDIT = {
     label: "QuickLaunchWeb",

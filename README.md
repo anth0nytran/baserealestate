@@ -10,22 +10,21 @@ run JavaScript.
 
 ## Before this can launch
 
-One thing is unresolved: **the domain.** It is a single edit in
-`src/config/site.ts` — search that file for `TODO(client)`.
+The domain is **baserealestategroup.com** (apex canonical), set in `SITE_URL`
+(`src/config/site.ts`) and the `@id` values in `index.html`. Two steps remain,
+both in the Vercel dashboard:
 
-| What's missing | Where | Why it matters |
-|---|---|---|
-| **The domain** | `SITE_URL` **and** the `@id` values in `index.html` | Drives canonical tags, OG tags, `sitemap.xml`, `robots.txt`, `llms.txt`, and the JSON-LD entity graph. Currently a placeholder: `https://www.baserealestate.com`. Also set `SITE_URL` in the Vercel environment, and restore the apex → www redirect in `vercel.json` (removed because it named a domain that no longer applies). |
+1. **Add the domain** to the project (apex and www, with www redirecting to
+   the apex) and set the `SITE_URL` environment variable to
+   `https://baserealestategroup.com`.
+2. **Turn off Deployment Protection** for Production. While it is on, every
+   crawler — Google and every AI engine — gets a login page instead of the site.
 
-Resolved, for the record: the DRE license (#02282409, verified against the DRE
-public register), the brokerage (Nest Real Estate; `showMark` stays `false`
-until a high-resolution logo arrives), and reviews and stats (reproduced from
-Sam's Zillow profile, with the date read alongside them).
+Then run `SITE_URL=https://baserealestategroup.com npm run indexnow` once to
+ask Bing (and through it Copilot and ChatGPT search) to crawl right away.
 
-After the first deploy, load `/services` and `/contact` directly on the Vercel
-URL and check the console. `vite preview` serves the homepage HTML at those
-paths (it does not resolve `services/index.html` for `/services`), which
-produces a React hydration error locally that Vercel should not reproduce.
+The DRE register may still name WERE Real Estate as Sam's broker until his move
+to Nest Real Estate posts; see the note on `LICENSE` in `src/config/site.ts`.
 
 ### Also worth replacing
 

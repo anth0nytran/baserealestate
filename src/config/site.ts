@@ -84,18 +84,15 @@ export const NEST_PORTAL = {
 /**
  * Sam's own home search — every listing, branded to him.
  *
- * sam.wererealestatehomefinder.com runs on the same search platform as Nest's
- * (it lists Nest Brokerage, CA DRE #02174581, as the broker) but carries Sam's
- * name, email, and phone, so an account or an inquiry made there reaches him
- * rather than the brokerage at large. That makes it the destination for every
- * "search homes" link on this site.
+ * Sam's page on nestbrokerage.com (NEST_PORTAL.home) is the destination for
+ * every "search homes" link on this site.
  *
- * Its search takes the same parameters as Nest's: s[locations][0][city] for a
+ * Its search takes s[locations][0][city] for a
  * city, s[locations][0][county] for the county (checked 2026-11-06: Irvine 676
  * homes, Newport Beach 343, Orange County 4,918). Property types include
  * townhouse so a buyer sees every residential listing, not detached homes alone.
  */
-export const HOME_FINDER = "https://sam.wererealestatehomefinder.com";
+export const HOME_FINDER = NEST_PORTAL.home;
 const HOME_SEARCH = `${HOME_FINDER}/search/map`;
 const PROPERTY_TYPES = ["house", "condo", "townhouse", "land", "other"] as const;
 

@@ -12,7 +12,6 @@ import {
     AGENT,
     AREA,
     CONTACT,
-    HOME_FINDER,
     LICENSE,
     NEST_PORTAL,
     PRIMARY_CTA,
@@ -242,7 +241,7 @@ export default function About() {
                             {[
                                 { href: PROOF_SOURCE.profileUrl, label: `${PROOF_SOURCE.label} profile`, note: "Reviews and closed sales" },
                                 { href: NEST_PORTAL.home, label: "Nest Real Estate", note: "His page with his brokerage" },
-                                { href: HOME_FINDER, label: "Home search", note: "Every Orange County listing" },
+                                { href: areaSearchUrl(AREA.primary), label: "Home search", note: "Every Orange County listing" },
                             ].map((item) => (
                                 <li key={item.href} className="bg-navy">
                                     <a

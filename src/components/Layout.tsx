@@ -529,10 +529,10 @@ export default function Layout({ children }: LayoutProps) {
                                             <span className="mt-1 block italic text-cream/40">{CONTACT.hoursNote}</span>
                                         </p>
                                     </div>
-                                    {/* Sam's two outside sites: his own home search, and his Nest page. */}
+                                    {/* Sam's Nest page: the Orange County search, and his profile. */}
                                     <div className="space-y-2.5 border-t border-cream/10 pt-5">
                                         <a
-                                            href={HOME_FINDER}
+                                            href={areaSearchUrl(AREA.primary)}
                                             target="_blank"
                                             rel="noopener"
                                             onClick={() => trackCtaClick("Search every listing", "footer")}
